@@ -1,0 +1,27 @@
+#cloud-config
+timezone: Europe/Stockholm
+hostname: myhost
+disable_root: False
+ssh_deletekeys: False
+ssh_pwauth: False
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKS013TPwYXCQP/cYnNtAzu8PBj/pzvELa9Gy34fZO81 rallejansson37@gmail.com
+disk_setup:
+  /dev/sdb:
+    table_type: gpt
+    layout: true
+    overwrite: false
+fs_setup:
+  - device: /dev/sdb1
+    filesystem: btrfs
+    label: stuff
+mounts:
+  - [/dev/sdb1, /var/mnt/data, btrfs, defaults, "0", "0"]
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+runcmd:
+  - transactional-update pkg install -y qemu-guest-agent docker docker-buildx docker-compose git nfs-client
+  - transactional-update --continue run systemctl enable qemu-guest-agent docker
+  - transactional-update --continue run bash -c 'mkdir -p /var/mnt/media && echo "192.168.1.113:/volume1/Media /var/mnt/media nfs rw,soft,intr,noatime,x-systemd.automount,x-systemd.idle-timeout=600,retrans=2 0 0" >> /etc/fstab && systemctl enable qemu-guest-agent docker'
+  - reboot
