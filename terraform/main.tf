@@ -16,6 +16,7 @@ module "opensuse_vm" {
   network_dns          = ["192.168.1.21"]
   ip                   = "192.168.0.99"
   cpu_cores            = "4"
+  cpu_type             = "host"
   ram_mb               = "4096"
   system_disk_size_gb  = "50"
   storage_disk_size_gb = "200"

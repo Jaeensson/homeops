@@ -22,9 +22,6 @@ services:
     env_file: 
       - ./compose.env
       - ./secrets.env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${KOMODO_DATABASE_USERNAME:-admin}
-      MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DATABASE_PASSWORD:-admin}
   
   core:
     image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-2}
@@ -67,7 +64,7 @@ services:
       ## Attach the Core / Periphery communication keys
       - keys:/config/keys
       ## Mount external docker socket
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:Z
       ## Allow Periphery to see processes outside of container
       - /proc:/proc
       ## Specify the Periphery agent root directory.
@@ -80,6 +77,8 @@ services:
       # - /path/to/periphery.config.toml:/config/config.toml
       ## Optionally mount custom root CA certificate to trust
       # - /path/to/root_ca.crt:/usr/local/share/ca-certificates/root_ca.crt
+    security_opt:
+      - label:disable
 
 volumes:
   # Mongo
