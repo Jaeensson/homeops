@@ -1,0 +1,86 @@
+#cloud-config
+timezone: Europe/Stockholm
+hostname: ${node_name}
+disable_root: False
+ssh_deletekeys: False
+ssh_pwauth: False
+ssh_authorized_keys:
+  - ${ssh_keys}
+disk_setup:
+  /dev/sdb:
+    table_type: gpt
+    layout: true
+    overwrite: false
+fs_setup:
+  - device: /dev/sdb1
+    filesystem: btrfs
+    label: stuff
+mounts:
+  - [/dev/sdb1, /var/mnt/data, btrfs, defaults, "0", "0"]
+package_reboot_if_required: true
+package_update: true
+package_upgrade: true
+write_files:
+  - path: /etc/systemd/system/homeops-bootstrap.service
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Run HomeOps Bootstrapping
+      After=network-online.target var-mnt-data.mount
+      Requires=var-mnt-data.mount
+
+      [Service]
+      Type=oneshot
+      ExecStart=/bin/bash /etc/bootstrap/bootstrap.sh
+      RemainAfterExit=yes
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  # 1. Add Infisical CLI repo
+  - transactional-update run bash -c "rpm --import https://artifacts-cli.infisical.com/infisical.gpg && zypper addrepo -g https://artifacts-cli.infisical.com/rpm infisical-cli"
+  # 2. Install required packages
+  - transactional-update --continue pkg install -y qemu-guest-agent docker docker-buildx docker-compose git nfs-client infisical
+  # 3. Enable and start services, setup NFS mount, and create bootstrap script
+  - |
+    transactional-update --continue run bash -c '
+    systemctl enable qemu-guest-agent docker homeops-bootstrap
+
+    mkdir -p /var/mnt/media
+    if ! grep -q "/var/mnt/media" /etc/fstab; then
+      echo "192.168.1.113:/volume1/Media /var/mnt/media nfs rw,soft,intr,noatime,x-systemd.automount,x-systemd.idle-timeout=600,retrans=2 0 0" >> /etc/fstab
+    fi
+    
+    mkdir -p /etc/bootstrap
+    cat << EOF > /etc/bootstrap/bootstrap.env
+    INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=${infisical_universal_auth_client_id}
+    INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=${infisical_universal_auth_client_secret}
+    INFISICAL_PROJECT_ID=${infisical_project_id}
+    INFISICAL_API_URL=${infisical_api_url}
+    EOF
+    chmod 600 /etc/bootstrap/bootstrap.env
+
+    cat << "EOF" > /etc/bootstrap/bootstrap.sh
+    #!/usr/bin/env bash
+    set -a
+    source /etc/bootstrap/bootstrap.env
+    set +a
+    git clone https://github.com/Jaeensson/homeops.git /var/mnt/data/homeops
+
+    export INFISICAL_TOKEN=$(infisical login --method universal-auth --client-id $INFISICAL_UNIVERSAL_AUTH_CLIENT_ID --client-secret $INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET --plain)
+    for app_dir in /var/mnt/data/homeops/docker/*/; do
+      app_name=$(basename "$app_dir")
+      echo "Fetching secrets for $app_name..."
+      infisical export --projectId $INFISICAL_PROJECT_ID --env prod --path /$app_name > "$app_dir/secrets.env"
+      chmod 600 "$app_dir/secrets.env"
+    done
+    EOF
+
+    chmod 700 /etc/bootstrap/bootstrap.sh
+    '
+power_state:
+  delay: "now"
+  mode: reboot
+  message: "Cloud-init complete, rebooting into new snapshot"
+  timeout: 30

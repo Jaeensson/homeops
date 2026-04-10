@@ -10,13 +10,21 @@ resource "proxmox_download_file" "opensuse_image" {
 resource "proxmox_virtual_environment_file" "user_data" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name           = var.proxmox_node
-  file_mode = "0600"
+  node_name    = var.proxmox_node
+  file_mode    = "0600"
 
-
-  source_file {
-    path = "${path.module}/user-data.yaml"
+  source_raw {
     file_name = "${var.vm_id}-user-data.yaml"
+    data = templatefile("${path.module}/user-data.yaml.tftpl",
+      {
+        ssh_keys                               = var.ssh_keys
+        node_name                              = var.node_name
+        infisical_universal_auth_client_id     = var.infisical_universal_auth_client_id
+        infisical_universal_auth_client_secret = var.infisical_universal_auth_client_secret
+        infisical_project_id                   = var.infisical_project_id
+        infisical_api_url                      = var.infisical_api_url
+      }
+    )
   }
 }
 
@@ -87,6 +95,6 @@ resource "proxmox_virtual_environment_vm" "vm" {
       servers = var.network_dns
     }
 
-     user_data_file_id = proxmox_virtual_environment_file.user_data.id
+    user_data_file_id = proxmox_virtual_environment_file.user_data.id
   }
 }
