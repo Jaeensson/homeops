@@ -82,7 +82,7 @@ services:
 
 volumes:
   # Mongo
-  mongo-data:
+  mongo-data: 
   mongo-config:
   # Core / Periphery
   keys:
