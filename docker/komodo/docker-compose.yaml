@@ -40,7 +40,7 @@ services:
       ## Attach the Core / Periphery communication keys
       - keys:/config/keys
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
-      - ${COMPOSE_KOMODO_BACKUPS_PATH:-./backups}:/backups
+      - /var/mnt/data/backups/komodo:/backups:rw,Z
       ## Store sync files on server
       # - /path/to/syncs:/syncs
       ## Optionally mount a custom core.config.toml
