@@ -1,4 +1,3 @@
-#test
 name: homelab-infrastructure
 include:
-  - ./komodo/docker-compose.yml
+  - ./komodo/docker-compose.yaml
