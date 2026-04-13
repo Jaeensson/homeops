@@ -18,7 +18,7 @@ module "opensuse_vm" {
   cpu_cores            = "4"
   cpu_type             = "host"
   ram_mb               = "4096"
-  system_disk_size_gb  = "50"
+  system_disk_size_gb  = "100"
   storage_disk_size_gb = "200"
 
   ssh_keys = data.http.ssh_keys.response_body
