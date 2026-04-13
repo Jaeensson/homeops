@@ -8,4 +8,4 @@ services:
       - ENVIRONMENT=prod
       - CRON_SCHEDULE=0 * * * *
     volumes:
-      - ./secrets:/secrets:rw,Z
+      - /var/mnt/data/secrets:/secrets:rw,Z
