@@ -5,6 +5,7 @@ resource "proxmox_download_file" "opensuse_image" {
   url                 = "https://download.opensuse.org/tumbleweed/appliances/openSUSE-MicroOS.x86_64-ContainerHost-OpenStack-Cloud.qcow2"
   file_name           = "openSUSE-MicroOS.x86_64-ContainerHost-kvm-and-xen.qcow2"
   overwrite_unmanaged = true
+  overwrite           = false
 }
 
 resource "proxmox_virtual_environment_file" "user_data" {

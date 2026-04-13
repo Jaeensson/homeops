@@ -38,11 +38,9 @@ write_files:
       WantedBy=multi-user.target
 
 runcmd:
-  # 1. Add Infisical CLI repo
-  - transactional-update run bash -c "rpm --import https://artifacts-cli.infisical.com/infisical.gpg && zypper addrepo -g https://artifacts-cli.infisical.com/rpm infisical-cli"
-  # 2. Install required packages
-  - transactional-update --continue pkg install -y qemu-guest-agent docker docker-buildx docker-compose git nfs-client infisical
-  # 3. Enable and start services, setup NFS mount, and create bootstrap script
+  # 1. Install required packages
+  - transactional-update pkg install -y qemu-guest-agent docker docker-buildx docker-compose git nfs-client
+  # 2. Enable and start services, setup NFS mount, and create bootstrap script
   - |
     transactional-update --continue run bash -c '
     systemctl enable qemu-guest-agent docker homeops-bootstrap
@@ -53,22 +51,20 @@ runcmd:
     fi
     
     mkdir -p /etc/bootstrap
-    cat << EOF > /var/mnt/data/secrets/infisical
+
+    cat << "EOF" > /etc/bootstrap/bootstrap.sh
+    #!/usr/bin/env bash
+    mkdir -p /var/mnt/data/secrets
+    cat << EOF2 > /var/mnt/data/secrets/infisical
     INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=${infisical_universal_auth_client_id}
     INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=${infisical_universal_auth_client_secret}
     INFISICAL_PROJECT_ID=${infisical_project_id}
     INFISICAL_API_URL=${infisical_api_url}
-    EOF
+    EOF2
     chmod 600 /var/mnt/data/secrets/infisical
-
-    cat << "EOF" > /etc/bootstrap/bootstrap.sh
-    #!/usr/bin/env bash
-    set -a
-    source /var/mnt/data/secrets/infisical
-    set +a
+    
     git clone https://github.com/Jaeensson/homeops.git /var/mnt/data/homeops
-    mkdir -p /var/mnt/data/secrets
-    docker compose -f /var/mnt/data/homeops/docker-compose.yaml run --rm -e CRON_SCHEDULE= infisical-secrets
+    docker compose -f /var/mnt/data/homeops/docker/external-secrets-infisical/docker-compose.yaml run --rm -e CRON_SCHEDULE= infisical-secrets
     EOF
 
     chmod 700 /etc/bootstrap/bootstrap.sh
