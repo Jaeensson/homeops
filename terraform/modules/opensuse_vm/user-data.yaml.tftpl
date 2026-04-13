@@ -53,28 +53,22 @@ runcmd:
     fi
     
     mkdir -p /etc/bootstrap
-    cat << EOF > /etc/bootstrap/bootstrap.env
+    cat << EOF > /var/mnt/data/secrets/infisical
     INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=${infisical_universal_auth_client_id}
     INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=${infisical_universal_auth_client_secret}
     INFISICAL_PROJECT_ID=${infisical_project_id}
     INFISICAL_API_URL=${infisical_api_url}
     EOF
-    chmod 600 /etc/bootstrap/bootstrap.env
+    chmod 600 /var/mnt/data/secrets/infisical
 
     cat << "EOF" > /etc/bootstrap/bootstrap.sh
     #!/usr/bin/env bash
     set -a
-    source /etc/bootstrap/bootstrap.env
+    source /var/mnt/data/secrets/infisical
     set +a
     git clone https://github.com/Jaeensson/homeops.git /var/mnt/data/homeops
-
-    export INFISICAL_TOKEN=$(infisical login --method universal-auth --client-id $INFISICAL_UNIVERSAL_AUTH_CLIENT_ID --client-secret $INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET --plain)
-    for app_dir in /var/mnt/data/homeops/docker/*/; do
-      app_name=$(basename "$app_dir")
-      echo "Fetching secrets for $app_name..."
-      infisical export --projectId $INFISICAL_PROJECT_ID --env prod --path /$app_name > "$app_dir/secrets.env"
-      chmod 600 "$app_dir/secrets.env"
-    done
+    mkdir -p /var/mnt/data/secrets
+    docker compose -f /var/mnt/data/homeops/docker-compose.yaml run --rm -e CRON_SCHEDULE= infisical-secrets
     EOF
 
     chmod 700 /etc/bootstrap/bootstrap.sh

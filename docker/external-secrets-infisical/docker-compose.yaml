@@ -1,0 +1,11 @@
+services:
+  infisical-secrets:
+    build: .
+    restart: unless-stopped
+    env_file: 
+      - /var/mnt/data/secrets/infisical
+    environment:
+      - ENVIRONMENT=prod
+      - CRON_SCHEDULE=0 * * * *
+    volumes:
+      - ./secrets:/secrets:rw,Z
