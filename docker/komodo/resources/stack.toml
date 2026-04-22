@@ -1,0 +1,7 @@
+[[stack]]
+name = "homeops"
+[stack.config]
+server = "Local"
+linked_repo = "homeops"
+run_directory = "docker"
+file_paths = ["docker-compose.yaml"]

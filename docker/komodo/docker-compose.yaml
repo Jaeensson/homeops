@@ -42,7 +42,7 @@ services:
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
       - /var/mnt/data/backups/komodo:/backups:rw,Z
       ## Store sync files on server
-      # - /path/to/syncs:/syncs
+      - /var/mnt/data/repos/homeops/docker/komodo/resources:/syncs:ro,Z
       ## Optionally mount a custom core.config.toml
       # - /path/to/core.config.toml:/config/config.toml
       ## Optionally mount custom root CA certificate to trust
