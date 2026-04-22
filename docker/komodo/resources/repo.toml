@@ -1,7 +1,0 @@
-[[repo]]
-name = "homeops"
-[repo.config]
-server = "Local"
-builder = "Local"
-repo = "Jaeensson/homeops"
-webhook_enabled = false

@@ -1,0 +1,21 @@
+[[resource_sync]]
+name = "Resources"
+[resource_sync.config]
+files_on_host = true
+resource_path = ["./"]
+
+[[repo]]
+name = "homeops"
+[repo.config]
+server = "Local"
+builder = "Local"
+repo = "Jaeensson/homeops"
+webhook_enabled = false
+
+[[stack]]
+name = "homeops"
+[stack.config]
+server = "Local"
+linked_repo = "homeops"
+run_directory = "docker"
+file_paths = ["docker-compose.yaml"]

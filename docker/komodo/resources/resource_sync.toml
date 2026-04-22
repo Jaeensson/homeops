@@ -1,5 +1,0 @@
-[[resource_sync]]
-name = "Resources"
-[resource_sync.config]
-files_on_host = true
-resource_path = ["./"]
