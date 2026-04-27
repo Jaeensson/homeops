@@ -63,8 +63,8 @@ runcmd:
     EOF2
     chmod 600 /var/mnt/data/secrets/infisical
     
-    git clone https://github.com/Jaeensson/homeops.git /var/mnt/data/homeops
-    docker compose -f /var/mnt/data/homeops/docker/external-secrets-infisical/docker-compose.yaml run --rm -e CRON_SCHEDULE= infisical-secrets
+    git clone https://github.com/Jaeensson/homeops.git /var/mnt/data/repos/homeops
+    docker compose -f /var/mnt/data/repos/homeops/docker/external-secrets-infisical/docker-compose.yaml run --rm -e CRON_SCHEDULE= infisical-secrets
     EOF
 
     chmod 700 /etc/bootstrap/bootstrap.sh
