@@ -17,8 +17,8 @@ services:
     # ports:
     #   - 27017:27017
     volumes:
-      - ./mongo-data:/data/db
-      - ./mongo-config:/data/configdb
+      - ./mongo-data:/data/db:Z
+      - ./mongo-config:/data/configdb:Z
     env_file: 
       - ./compose.env
       - /var/mnt/data/secrets/komodo
@@ -38,9 +38,9 @@ services:
       KOMODO_DATABASE_ADDRESS: mongo:27017
     volumes:
       ## Attach the Core / Periphery communication keys
-      - ./keys:/config/keys
+      - ./keys:/config/keys:z
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
-      - /var/mnt/data/backups/komodo:/backups:rw,Z
+      - /var/mnt/data/backups/komodo:/backups:rw,z
       ## Store sync files on server
       - /var/mnt/data/repos/homeops/docker/komodo/syncs:/syncs:ro,Z
       ## Optionally mount a custom core.config.toml
@@ -62,7 +62,7 @@ services:
       - /var/mnt/data/secrets/komodo
     volumes:
       ## Attach the Core / Periphery communication keys
-      - ./keys:/config/keys
+      - ./keys:/config/keys:z
       ## Mount external docker socket
       - /var/run/docker.sock:/var/run/docker.sock:Z
       ## Allow Periphery to see processes outside of container
