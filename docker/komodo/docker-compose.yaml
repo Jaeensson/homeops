@@ -17,8 +17,8 @@ services:
     # ports:
     #   - 27017:27017
     volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
+      - ./mongo-data:/data/db
+      - ./mongo-config:/data/configdb
     env_file: 
       - ./compose.env
       - /var/mnt/data/secrets/komodo
@@ -38,7 +38,7 @@ services:
       KOMODO_DATABASE_ADDRESS: mongo:27017
     volumes:
       ## Attach the Core / Periphery communication keys
-      - keys:/config/keys
+      - ./keys:/config/keys
       ## Store dated backups of the database - https://komo.do/docs/setup/backup
       - /var/mnt/data/backups/komodo:/backups:rw,Z
       ## Store sync files on server
@@ -79,10 +79,3 @@ services:
       # - /path/to/root_ca.crt:/usr/local/share/ca-certificates/root_ca.crt
     security_opt:
       - label:disable
-
-volumes:
-  # Mongo
-  mongo-data: 
-  mongo-config:
-  # Core / Periphery
-  keys:
