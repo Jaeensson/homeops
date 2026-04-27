@@ -62,7 +62,7 @@ services:
       - /var/mnt/data/secrets/komodo
     volumes:
       ## Attach the Core / Periphery communication keys
-      - keys:/config/keys
+      - ./keys:/config/keys
       ## Mount external docker socket
       - /var/run/docker.sock:/var/run/docker.sock:Z
       ## Allow Periphery to see processes outside of container
