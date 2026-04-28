@@ -2,8 +2,8 @@ resource "proxmox_download_file" "ubuntu_image" {
   content_type        = "import"
   datastore_id        = "local"
   node_name           = var.proxmox_node
-  url                 = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
-  file_name           = "ubuntu-24.04-noble-server-cloudimg-amd64.qcow2"
+  url                 = "https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img"
+  file_name           = "ubuntu-24.04-resolute-server-cloudimg-amd64.qcow2"
   overwrite_unmanaged = true
   overwrite           = false
 }
@@ -20,6 +20,7 @@ resource "proxmox_virtual_environment_file" "user_data" {
       {
         ssh_keys                               = var.ssh_keys
         node_name                              = var.node_name
+        ip                                     = var.ip
         infisical_universal_auth_client_id     = var.infisical_universal_auth_client_id
         infisical_universal_auth_client_secret = var.infisical_universal_auth_client_secret
         infisical_project_id                   = var.infisical_project_id
@@ -97,5 +98,30 @@ resource "proxmox_virtual_environment_vm" "vm" {
     }
 
     user_data_file_id = proxmox_virtual_environment_file.user_data.id
+  }
+}
+
+resource "null_resource" "kubeconfig" {
+  depends_on = [proxmox_virtual_environment_vm.vm]
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "root"
+      host        = var.ip
+      private_key = file(pathexpand(var.ssh_private_key_path))
+    }
+    inline = [
+      "until systemctl is-active --quiet k3s; do echo 'Waiting for k3s...'; sleep 10; done"
+    ]
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      ssh -o StrictHostKeyChecking=no root@${var.ip} \
+        'cat /etc/rancher/k3s/k3s.yaml' \
+        | sed 's/127.0.0.1/${var.ip}/g' \
+        > ${path.root}/../kubeconfig.yaml
+    EOT
   }
 }

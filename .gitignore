@@ -1,3 +1,9 @@
+# Generated kubeconfig
+kubeconfig.yaml
+
+# Local environment overrides
+.envrc.local
+
 # Local .terraform directories
 .terraform/
 

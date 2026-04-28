@@ -77,6 +77,12 @@ variable "storage_disk_size_gb" {
   type = number
 }
 
+variable "ssh_private_key_path" {
+  description = "Path to the SSH private key used to connect to the VM"
+  type        = string
+  default     = "~/.ssh/id_ed25519"
+}
+
 variable "ssh_keys" {
   type        = string
   description = "SSH keys for VM access"

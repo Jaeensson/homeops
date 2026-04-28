@@ -25,10 +25,6 @@ packages:
   - nfs-common
   - open-iscsi
 runcmd:
+  - pro config set apt_news=false
   - systemctl enable --now qemu-guest-agent
-  - curl -sfL https://get.k3s.io | sh -
-power_state:
-  delay: "now"
-  mode: reboot
-  message: "Cloud-init complete, rebooting"
-  timeout: 30
+  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip}" sh -
