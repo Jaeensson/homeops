@@ -1,3 +1,0 @@
-name: homeops
-include:
-  - ./komodo/docker-compose.yaml
