@@ -15,3 +15,5 @@ mod terraform '.just/terraform.just'
 [private]
 default:
     just --list
+
+deploy: terraform::apply bootstrap::default

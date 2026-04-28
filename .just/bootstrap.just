@@ -23,4 +23,11 @@ flux:
         --namespace flux-system \
         --create-namespace \
         --wait
-    kubectl apply -f "{{kubernetes_dir}}/apps/flux-system/flux-instance/app/fluxinstance.yaml"
+    helm upgrade --install flux-instance oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance \
+        --version 0.48.0 \
+        --namespace flux-system \
+        --wait \
+        --set instance.sync.url="https://github.com/Jaeensson/homeops.git" \
+        --set instance.sync.ref="refs/heads/feat/k3s-migration" \
+        --set instance.sync.path="kubernetes/apps" \
+        --set instance.sync.pullSecret="flux-system"
