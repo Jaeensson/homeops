@@ -1,6 +1,6 @@
-module "opensuse_vm" {
-  source           = "./modules/opensuse_vm"
-  node_name        = "opensuse-vm-01"
+module "k3s_node" {
+  source           = "./modules/k3s_node"
+  node_name        = "k3s-node-01"
   vm_id            = 101
   proxmox_node     = var.proxmox_node
   proxmox_endpoint = var.proxmox_endpoint
