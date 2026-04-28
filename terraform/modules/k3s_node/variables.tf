@@ -77,6 +77,28 @@ variable "storage_disk_size_gb" {
   type = number
 }
 
+variable "github_token" {
+  description = "GitHub PAT used to bootstrap Flux"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_owner" {
+  description = "GitHub repository owner"
+  type        = string
+}
+
+variable "github_repository" {
+  description = "GitHub repository name"
+  type        = string
+}
+
+variable "github_branch" {
+  description = "Git branch Flux will sync from"
+  type        = string
+  default     = "main"
+}
+
 variable "ssh_private_key_path" {
   description = "Path to the SSH private key used to connect to the VM"
   type        = string

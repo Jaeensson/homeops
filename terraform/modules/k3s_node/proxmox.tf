@@ -125,3 +125,22 @@ resource "null_resource" "kubeconfig" {
     EOT
   }
 }
+
+resource "null_resource" "flux_bootstrap" {
+  depends_on = [null_resource.kubeconfig]
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      flux bootstrap github \
+        --owner=${var.github_owner} \
+        --repository=${var.github_repository} \
+        --branch=${var.github_branch} \
+        --path=kubernetes \
+        --personal
+    EOT
+    environment = {
+      KUBECONFIG   = "${path.root}/../kubeconfig.yaml"
+      GITHUB_TOKEN = var.github_token
+    }
+  }
+}
