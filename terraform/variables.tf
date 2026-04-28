@@ -1,9 +1,3 @@
-variable "github_token" {
-  description = "GitHub token used to authenticate Flux against the repository"
-  type        = string
-  sensitive   = true
-}
-
 variable "proxmox_endpoint" {
   description = "Proxmox API endpoint URL"
   type        = string

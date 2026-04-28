@@ -125,22 +125,3 @@ resource "null_resource" "kubeconfig" {
     EOT
   }
 }
-
-resource "null_resource" "flux_bootstrap" {
-  depends_on = [null_resource.kubeconfig]
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      kubectl apply -f ${path.root}/../kubernetes/flux-system/gotk-components.yaml
-      kubectl create secret generic flux-system \
-        -n flux-system \
-        --from-literal=username=git \
-        --from-literal=password=${var.github_token} \
-        --dry-run=client -o yaml | kubectl apply -f -
-      kubectl apply -f ${path.root}/../kubernetes/flux-system/gotk-sync.yaml
-    EOT
-    environment = {
-      KUBECONFIG = "${path.root}/../kubeconfig.yaml"
-    }
-  }
-}

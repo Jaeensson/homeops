@@ -6,8 +6,6 @@ module "k3s_node" {
   proxmox_endpoint = var.proxmox_endpoint
   proxmox_token    = var.proxmox_token
 
-  github_token      = var.github_token
-
   infisical_universal_auth_client_id     = var.infisical_universal_auth_client_id
   infisical_universal_auth_client_secret = var.infisical_universal_auth_client_secret
   infisical_project_id                   = var.infisical_project_id

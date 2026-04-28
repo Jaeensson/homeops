@@ -77,12 +77,6 @@ variable "storage_disk_size_gb" {
   type = number
 }
 
-variable "github_token" {
-  description = "GitHub token used to authenticate Flux against the repository"
-  type        = string
-  sensitive   = true
-}
-
 variable "ssh_private_key_path" {
   description = "Path to the SSH private key used to connect to the VM"
   type        = string
