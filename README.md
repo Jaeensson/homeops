@@ -19,8 +19,8 @@ Create `.envrc.local` in the project root (gitignored) and set the following:
 
 ```bash
 export GITHUB_TOKEN=""              # GitHub PAT — used by just kubernetes::bootstrap for Flux auth
-export INFISICAL_CLIENT_ID=""       # Infisical universal auth client ID
-export INFISICAL_CLIENT_SECRET=""   # Infisical universal auth client secret
+export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=""       # Infisical universal auth client ID
+export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=""   # Infisical universal auth client secret
 export INFISICAL_PROJECT_ID=""      # Infisical project ID
 export INFISICAL_API_URL=""         # Infisical API URL (e.g. https://eu.infisical.com)
 ```

@@ -5,5 +5,5 @@ metadata:
   namespace: external-secrets
 type: Opaque
 stringData:
-  clientId: ${INFISICAL_CLIENT_ID}
-  clientSecret: ${INFISICAL_CLIENT_SECRET}
+  clientId: ${INFISICAL_UNIVERSAL_AUTH_CLIENT_ID}
+  clientSecret: ${INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET}
