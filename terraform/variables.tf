@@ -14,18 +14,3 @@ variable "proxmox_node" {
   type        = string
 }
 
-variable "infisical_universal_auth_client_id" {
-  type = string
-}
-
-variable "infisical_universal_auth_client_secret" {
-  type = string
-}
-
-variable "infisical_project_id" {
-  type = string
-}
-
-variable "infisical_api_url" {
-  type = string
-}

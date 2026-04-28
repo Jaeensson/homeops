@@ -21,10 +21,6 @@ resource "proxmox_virtual_environment_file" "user_data" {
         ssh_keys                               = var.ssh_keys
         node_name                              = var.node_name
         ip                                     = var.ip
-        infisical_universal_auth_client_id     = var.infisical_universal_auth_client_id
-        infisical_universal_auth_client_secret = var.infisical_universal_auth_client_secret
-        infisical_project_id                   = var.infisical_project_id
-        infisical_api_url                      = var.infisical_api_url
       }
     )
   }
