@@ -10,7 +10,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/infrastructure/external-secrets/external-secrets/app
+  path: ./kubernetes/apps/external-secrets/external-secrets/app
   prune: true
-  dependsOn:
-    - name: infrastructure

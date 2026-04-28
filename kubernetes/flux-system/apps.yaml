@@ -10,5 +10,3 @@ spec:
     name: flux-system
   path: ./kubernetes/apps
   prune: true
-  dependsOn:
-    - name: infrastructure
