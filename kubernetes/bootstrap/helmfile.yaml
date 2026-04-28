@@ -1,3 +1,8 @@
+helmDefaults:
+  cleanupOnFail: true
+  wait: true
+  waitForJobs: true
+
 releases:
   - name: flux-operator
     namespace: flux-system
