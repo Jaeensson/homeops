@@ -1,23 +1,7 @@
 variable "github_token" {
-  description = "GitHub PAT used to bootstrap Flux"
+  description = "GitHub token used to authenticate Flux against the repository"
   type        = string
   sensitive   = true
-}
-
-variable "github_owner" {
-  description = "GitHub repository owner"
-  type        = string
-}
-
-variable "github_repository" {
-  description = "GitHub repository name"
-  type        = string
-}
-
-variable "github_branch" {
-  description = "Git branch Flux will sync from"
-  type        = string
-  default     = "main"
 }
 
 variable "proxmox_endpoint" {

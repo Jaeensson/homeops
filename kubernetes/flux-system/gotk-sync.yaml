@@ -11,7 +11,7 @@ spec:
     branch: feat/k3s-migration
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/Jaeensson/homeops
+  url: https://github.com/Jaeensson/homeops
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

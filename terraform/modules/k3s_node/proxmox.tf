@@ -131,16 +131,16 @@ resource "null_resource" "flux_bootstrap" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      flux bootstrap github \
-        --owner=${var.github_owner} \
-        --repository=${var.github_repository} \
-        --branch=${var.github_branch} \
-        --path=kubernetes \
-        --personal
+      kubectl apply -f ${path.root}/../kubernetes/flux-system/gotk-components.yaml
+      kubectl create secret generic flux-system \
+        -n flux-system \
+        --from-literal=username=git \
+        --from-literal=password=${var.github_token} \
+        --dry-run=client -o yaml | kubectl apply -f -
+      kubectl apply -f ${path.root}/../kubernetes/flux-system/gotk-sync.yaml
     EOT
     environment = {
-      KUBECONFIG   = "${path.root}/../kubeconfig.yaml"
-      GITHUB_TOKEN = var.github_token
+      KUBECONFIG = "${path.root}/../kubeconfig.yaml"
     }
   }
 }
