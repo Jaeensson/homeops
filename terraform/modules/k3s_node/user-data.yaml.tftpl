@@ -27,4 +27,4 @@ packages:
 runcmd:
   - pro config set apt_news=false
   - systemctl enable --now qemu-guest-agent
-  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip}" sh -
+  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip} --embedded-registry" sh -
