@@ -4,3 +4,4 @@ namespace: external-secrets
 resources:
   - ocirepository.yaml
   - helmrelease.yaml
+  - clustersecretstore.yaml
