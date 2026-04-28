@@ -1,15 +1,18 @@
 # Initialize Terraform providers and modules
 init:
-    terraform init
+    terraform -chdir="{{justfile_dir()}}/terraform" init
 
 # Show planned infrastructure changes
 plan:
-    terraform plan
+    terraform -chdir="{{justfile_dir()}}/terraform" plan
 
 # Apply infrastructure changes
 apply:
-    terraform apply
+    terraform -chdir="{{justfile_dir()}}/terraform" apply
 
 # Destroy all infrastructure
 destroy:
-    terraform destroy
+    terraform -chdir="{{justfile_dir()}}/terraform" destroy
+
+test:
+    echo "just_dir() = {{justfile_dir()}}"

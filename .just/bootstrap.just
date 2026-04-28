@@ -1,17 +1,20 @@
 set quiet
 set shell := ['bash', '-eu', '-o', 'pipefail', '-c']
 
+kubernetes_dir := justfile_dir() + '/kubernetes'
+bootstrap_dir := kubernetes_dir + '/bootstrap'
+
 default: namespaces secrets flux
 
 # Create namespaces for all apps
 namespaces:
-    for dir in kubernetes/apps/*/; do \
-        kubectl create namespace "$(basename "$dir")" --dry-run=client -o yaml | kubectl apply -f -; \
+    find "{{kubernetes_dir}}/apps" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | while IFS= read -r namespace; do \
+        kubectl create namespace "$namespace" --dry-run=client -o yaml | kubectl apply -f -; \
     done
 
 # Create bootstrap secrets from environment variables
 secrets:
-    envsubst < {{source_directory()}}/../kubernetes/bootstrap/infisical-secret.yaml.tpl | kubectl apply -f -
+    envsubst < {{bootstrap_dir}}/secrets.yaml.tpl | kubectl apply -f -
 
 # Bootstrap Flux onto the cluster
 flux:
@@ -20,9 +23,4 @@ flux:
         --namespace flux-system \
         --create-namespace \
         --wait
-    kubectl create secret generic flux-system \
-        -n flux-system \
-        --from-literal=username=git \
-        --from-literal=password="$GITHUB_TOKEN" \
-        --dry-run=client -o yaml | kubectl apply -f -
-    kubectl apply -f {{source_directory()}}/../kubernetes/apps/flux-system/flux-instance/app/fluxinstance.yaml
+    kubectl apply -f "{{kubernetes_dir}}/apps/flux-system/flux-instance/app/fluxinstance.yaml"
