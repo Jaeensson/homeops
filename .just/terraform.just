@@ -8,7 +8,7 @@ plan:
 
 # Apply infrastructure changes
 apply:
-    terraform -chdir="{{justfile_dir()}}/terraform" apply
+    terraform -chdir="{{justfile_dir()}}/terraform" apply -auto-approve
 
 # Destroy all infrastructure
 destroy:
