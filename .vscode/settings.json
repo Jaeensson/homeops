@@ -2,5 +2,12 @@
   "files.associations": {
     "*.yaml.tpl": "yaml",
     "*.just": "just"
+  },
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "enabled",
+    "vs-kubernetes.knownKubeconfigs": [
+      "kubeconfig.yaml"
+    ],
+    "vs-kubernetes.kubeconfig": "kubeconfig.yaml"
   }
 }
