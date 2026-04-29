@@ -4,7 +4,7 @@ set shell := ['bash', '-eu', '-o', 'pipefail', '-c']
 kubernetes_dir := justfile_dir() + '/kubernetes'
 bootstrap_dir := kubernetes_dir + '/bootstrap'
 
-default: namespaces secrets apps
+default: namespaces secrets crds apps
 
 # Create namespaces for all apps
 namespaces:
@@ -16,6 +16,10 @@ namespaces:
 secrets:
     envsubst < {{bootstrap_dir}}/secrets.yaml.tpl | kubectl apply -f -
 
+# Create CRDs required by apps
+crds:
+    helmfile -f "{{ kubernetes_dir }}/bootstrap/helmfile.crds.yaml" template -q | yq ea -e 'select(.kind == "CustomResourceDefinition")' | kubectl apply --server-side --field-manager bootstrap --force-conflicts -f -
+
 # Bootstrap Flux onto the cluster
 apps:
-    helmfile -f "{{ kubernetes_dir }}/bootstrap/helmfile.yaml" sync --hide-notes
+    helmfile -f "{{ kubernetes_dir }}/bootstrap/helmfile.apps.yaml" sync --hide-notes

@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+helmDefaults:
+  args:
+    - --include-crds
+    - --no-hooks
+repositories:
+  - name: your-private-git-repo-hosted-charts
+    url: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+releases:
+  - name: external-secrets
+    namespace: external-secrets
+    chart: oci://ghcr.io/external-secrets/charts/external-secrets
+    version: 2.4.0
