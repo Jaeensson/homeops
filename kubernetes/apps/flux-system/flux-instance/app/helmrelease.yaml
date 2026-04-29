@@ -15,5 +15,5 @@ spec:
         kind: GitRepository
         url: https://github.com/Jaeensson/homeops.git
         ref: refs/heads/feat/k3s-migration
-        path: kubernetes/apps
+        path: kubernetes/flux
         pullSecret: flux-system
