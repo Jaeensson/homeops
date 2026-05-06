@@ -6,8 +6,8 @@
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "enabled",
     "vs-kubernetes.knownKubeconfigs": [
-      "./kubeconfig.yaml"
+      "${workspaceFolder}/kubeconfig.yaml"
     ],
-    "vs-kubernetes.kubeconfig": "./kubeconfig.yaml"
+    "vs-kubernetes.kubeconfig": "${workspaceFolder}/kubeconfig.yaml"
   }
 }
