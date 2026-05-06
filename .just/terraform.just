@@ -1,3 +1,6 @@
+set quiet
+set shell := ['bash', '-eu', '-o', 'pipefail', '-c']
+
 # Initialize Terraform providers and modules
 init:
     terraform -chdir="{{justfile_dir()}}/terraform" init
