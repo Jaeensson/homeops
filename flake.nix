@@ -32,9 +32,6 @@
             fluxcd
             yq
             just
-            gettext
-            openssh
-            git
             direnv
           ];
 
