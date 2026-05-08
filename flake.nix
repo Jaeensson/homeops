@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
   };
 
   outputs =
@@ -38,8 +39,6 @@
           ];
 
           shellHook = ''
-            direnv allow .envrc
-
             echo "homeops devShell loaded"
             echo "  terraform  $(terraform --version | head -1)"
             echo "  kubectl    $(kubectl version --client --short 2>/dev/null || kubectl version --client 2>&1 | head -1)"
@@ -50,7 +49,7 @@
             echo "  yq         $(yq --version)"
             echo "  direnv     $(direnv version)"
           '';
-          
+
         };
       }
     );
