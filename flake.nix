@@ -38,10 +38,11 @@
             helmfile
             kustomize
             fluxcd
-            yq
+            yq-go
             just
             direnv
             yamlfmt
+            envsubst
           ];
 
           shellHook = ''
