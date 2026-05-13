@@ -6,13 +6,13 @@ metadata:
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: "${VOLSYNC_SCHEDULE}"
+    schedule: "${VOLSYNC_SCHEDULE:-@daily}"
   restic:
     repository: volsync-restic
     copyMethod: Snapshot
     accessModes:
       - ReadWriteOnce
-    capacity: ${VOLSYNC_CAPACITY}
+    capacity: ${VOLSYNC_CAPACITY:-5Gi}
     pruneIntervalDays: 7
     retain:
       daily: 7
