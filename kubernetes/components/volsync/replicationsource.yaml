@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${APP}
+spec:
+  sourcePVC: ${APP}
+  trigger:
+    schedule: "${VOLSYNC_SCHEDULE}"
+  restic:
+    repository: volsync-restic
+    copyMethod: Snapshot
+    accessModes:
+      - ReadWriteOnce
+    capacity: ${VOLSYNC_CAPACITY}
+    pruneIntervalDays: 7
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 3
