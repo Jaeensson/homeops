@@ -27,22 +27,24 @@
             terraform
             tflint
             kubectl
-            kustomize
+            kubernetes-helm
             helmfile
+            kustomize
             fluxcd
             yq
             just
             direnv
+            yamlfmt
           ];
 
           shellHook = ''
             echo "homeops devShell loaded"
             echo "  terraform  $(terraform --version | head -1)"
-            echo "  kubectl    $(kubectl version --client --short 2>/dev/null || kubectl version --client 2>&1 | head -1)"
+            echo "  kubectl    $(kubectl version --client 2>&1 | head -1)"
             echo "  helm       $(helm version --short)"
             echo "  helmfile   $(helmfile version -o short)"
             echo "  flux       $(flux --version)"
-            echo "  just       $(just --version)"
+            echo "  just       $(just --version)" 
             echo "  yq         $(yq --version)"
             echo "  direnv     $(direnv version)"
           '';

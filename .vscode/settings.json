@@ -9,5 +9,10 @@
       "${workspaceFolder}/kubeconfig.yaml"
     ],
     "vs-kubernetes.kubeconfig": "${workspaceFolder}/kubeconfig.yaml"
-  }
+  },
+  "yaml.kubernetesCRDStore.enable": true,
+  "yaml.completion": true,
+  "yaml.format.enable": true,
+  "terraform.languageServer.enable": true,
+  "editor.formatOnSave": true,
 }
