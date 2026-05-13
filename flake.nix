@@ -42,7 +42,7 @@
             echo "  terraform  $(terraform --version | head -1)"
             echo "  kubectl    $(kubectl version --client 2>&1 | head -1)"
             echo "  helm       $(helm version --short)"
-            echo "  helmfile   $(helmfile version -o short)"
+            echo "  helmfile   $(helmfile version -o short 2> /dev/null)"
             echo "  flux       $(flux --version)"
             echo "  just       $(just --version)" 
             echo "  yq         $(yq --version)"
