@@ -15,4 +15,6 @@
   "yaml.format.enable": true,
   "terraform.languageServer.enable": true,
   "editor.formatOnSave": true,
+  "nixEnvSelector.useFlakes": true,
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
 }
