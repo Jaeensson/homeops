@@ -127,7 +127,7 @@ spec:
     operation: copy
   ref:
     tag: <app-template-version>
-  url: oci://ghcr.io/bjw-s/helm-charts/app-template
+  url: oci://ghcr.io/bjw-s-labs/helm/app-template
 ```
 
 ---
