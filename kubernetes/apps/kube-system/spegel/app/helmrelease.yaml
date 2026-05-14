@@ -8,5 +8,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: spegel
-  install:
-    createNamespace: true

@@ -12,5 +12,3 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: volsync
-  install:
-    createNamespace: true

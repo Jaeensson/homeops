@@ -8,8 +8,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: cert-manager
-  install:
-    createNamespace: true
   values:
     crds:
       enabled: true

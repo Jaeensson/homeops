@@ -9,8 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: envoy-gateway
-  install:
-    createNamespace: true
   values:
     config:
       envoyGateway:

@@ -9,5 +9,3 @@ spec:
   chartRef:
     kind: OCIRepository
     name: external-secrets
-  install:
-    createNamespace: true
