@@ -12,7 +12,7 @@ module "k3s_node" {
   ip                   = "192.168.0.99"
   cpu_cores            = "4"
   cpu_type             = "host"
-  ram_mb               = "4096"
+  ram_mb               = "32768"
   system_disk_size_gb  = "100"
   storage_disk_size_gb = "200"
 
