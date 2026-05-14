@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: headlamp
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: headlamp
+  install:
+    createNamespace: true
+  values:
+    controllers:
+      headlamp:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/headlamp-k8s/headlamp
+              tag: v0.42.0
+    service:
+      app:
+        controller: headlamp
+        ports:
+          http:
+            port: 80
+            targetPort: 4466
