@@ -5,21 +5,18 @@ metadata:
   name: headlamp
 spec:
   interval: 1h
-  chartRef:
-    kind: OCIRepository
-    name: headlamp
+  chart:
+    spec:
+      chart: headlamp
+      version: 0.42.0
+      sourceRef:
+        kind: HelmRepository
+        name: headlamp
   values:
-    controllers:
-      headlamp:
-        containers:
-          app:
-            image:
-              repository: ghcr.io/headlamp-k8s/headlamp
-              tag: v0.42.0
-    service:
-      app:
-        controller: headlamp
-        ports:
-          http:
-            port: 80
-            targetPort: 4466
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: envoy-gateway
+          namespace: network
+      hostnames:
+        - headlamp.lab.egenintres.se
