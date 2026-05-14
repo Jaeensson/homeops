@@ -1,9 +1,9 @@
 #cloud-config
 timezone: Europe/Stockholm
 hostname: ${node_name}
-disable_root: False
-ssh_deletekeys: False
-ssh_pwauth: False
+disable_root: false
+ssh_deletekeys: false
+ssh_pwauth: false
 ssh_authorized_keys:
   - ${ssh_keys}
 disk_setup:
@@ -15,7 +15,7 @@ fs_setup:
   - device: /dev/sdb1
     filesystem: ext4
 mounts:
-  - [/dev/sdb1, /var/lib/rancher/k3s/storage, ext4, defaults,noatime, "0", "0"]
+  - [/dev/sdb1, /var/lib/rancher/k3s/storage, ext4, defaults, noatime, "0", "0"]
 package_reboot_if_required: true
 package_update: true
 package_upgrade: true
@@ -27,4 +27,4 @@ packages:
 runcmd:
   - pro config set apt_news=false
   - systemctl enable --now qemu-guest-agent
-  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip} --embedded-registry --disable=traefik" sh -
+  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip} --disable=traefik" sh -
