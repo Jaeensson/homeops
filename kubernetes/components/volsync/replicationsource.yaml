@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: "${VOLSYNC_SCHEDULE:-@daily}"
+    schedule: ${VOLSYNC_SCHEDULE:-0 0 * * *}
   restic:
     repository: volsync-restic
     copyMethod: Snapshot
