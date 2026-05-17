@@ -21,8 +21,14 @@ spec:
         - woodpecker-default-agent-secret
       createAgentSecret: false
       persistentVolume:
-        enabled: true
-        existingClaim: woodpecker-server
+        enabled: false
+      extraVolumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: woodpecker-server
+      extraVolumeMounts:
+        - name: data
+          mountPath: /var/lib/woodpecker
     agent:
       enabled: true
       replicaCount: 1
