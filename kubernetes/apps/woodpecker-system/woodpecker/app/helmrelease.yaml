@@ -40,5 +40,4 @@ spec:
         - woodpecker-default-agent-secret
       persistence:
         enabled: true
-        storageClass: local-path
-        size: 1Gi
+        existingClaim: woodpecker-agent
