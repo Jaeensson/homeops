@@ -31,7 +31,6 @@ spec:
                   name: _
                 spec:
                   install:
-                    createNamespace: true
                     crds: CreateReplace
                     strategy:
                       name: RetryOnFailure
