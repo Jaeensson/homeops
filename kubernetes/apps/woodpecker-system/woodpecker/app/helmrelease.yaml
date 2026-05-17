@@ -21,9 +21,8 @@ spec:
         - woodpecker-default-agent-secret
       createAgentSecret: false
       persistentVolume:
-        enabled: false
-        storageClass: local-path
-        size: 1Gi
+        enabled: true
+        existingClaim: woodpecker-server
     agent:
       enabled: true
       replicaCount: 1
