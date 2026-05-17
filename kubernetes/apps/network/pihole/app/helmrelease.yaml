@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pihole
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: &name pihole
+  values:
+    controllers:
+      pihole:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/pi-hole/pihole
+              tag: 2026.05.0
+            env:
+              TZ: Europe/Stockholm
+              PIHOLE_UID: "0"
+              PIHOLE_GID: "0"
+              DNSMASQ_USER: "root"
+            envFrom:
+              - secret: *name
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              allowPrivilegeEscalation: true
+              readOnlyRootFilesystem: false
+              capabilities:
+                drop:
+                  - ALL
+                add:
+                  - NET_ADMIN
+                  - SYS_TIME
+                  - SYS_NICE
+                  - SETGID
+                  - SETUID
+                  - CHOWN
+    service:
+      app:
+        controller: *name
+        ports:
+          http:
+            port: 80
+      dns:
+        annotations:
+          metallb.io/loadBalancerIPs: 192.168.2.1
+        controller: *name
+        type: LoadBalancer
+        ports:
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+    persistence:
+      config:
+        existingClaim: *name
+        globalMounts:
+          - path: /etc/pihole
