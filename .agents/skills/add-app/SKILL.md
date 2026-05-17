@@ -18,6 +18,22 @@ kubernetes/apps/<namespace>/<app-name>/app/
   helmrelease.yaml        # Helm-based deployments only
 ```
 
+Each namespace directory owns its Namespace resource and wires everything together:
+
+```
+kubernetes/apps/<namespace>/
+  namespace.yaml           # Namespace resource — labels/annotations live here
+  kustomization.yaml       # Kustomize config: includes namespace.yaml + each app's ks.yaml
+  <app-name>/
+    ks.yaml                # Flux Kustomization(s) for this app
+    app/
+      kustomization.yaml
+      ocirepository.yaml
+      helmrelease.yaml
+```
+
+The root `kubernetes/apps/kustomization.yaml` lists all namespace directories as resources.
+
 - `<namespace>` is the Kubernetes namespace the app will be deployed into.
 - `<app-name>` is a short, lowercase, hyphenated name for the app (e.g. `cert-manager`, `prometheus`).
 - Additional component directories (e.g. `store/`, `config/`, `gateway/`) follow the same pattern when the user explicitly asks for extra resources beyond the main app.
@@ -58,7 +74,7 @@ Before writing any files, ask the user for (or infer from context):
 **Mode C — Raw manifests:**
 4. The list of Kubernetes resource files to create
 
-If the namespace does not yet exist as a directory under `kubernetes/apps/`, a new namespace-level `ks.yaml` must also be created (see Step 5b).
+Check whether `kubernetes/apps/<namespace>/` already exists to determine whether Step 6b is needed.
 
 ---
 
@@ -150,8 +166,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: <app-name>
-  install:
-    createNamespace: true
 ```
 
 **Mode B — app-template** (the `values:` block is the full workload definition):
@@ -166,8 +180,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: <app-name>
-  install:
-    createNamespace: true
   values:
     controllers:
       <app-name>:
@@ -220,15 +232,11 @@ If the user provided additional `values:` overrides for Mode A, add them as a `v
 
 ---
 
-## Step 5 — Update the namespace-level `ks.yaml`
+## Step 5 — Create `<app-name>/ks.yaml`
 
-Path: `kubernetes/apps/<namespace>/ks.yaml`
+Path: `kubernetes/apps/<namespace>/<app-name>/ks.yaml`
 
-This file contains one Flux `Kustomization` per component in the namespace. Each entry is a CRD — add the `yaml-language-server` schema comment at the top of the file if it is not already there (one comment for the whole file is sufficient).
-
-### 5a — Namespace `ks.yaml` already exists
-
-Append a new `Kustomization` document to the existing file (YAML multi-document, separated by `---`):
+This is a Flux CRD — add the `yaml-language-server` schema comment.
 
 ```yaml
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
@@ -254,13 +262,59 @@ Add `dependsOn` only when the user explicitly asks for ordering:
     - name: <other-app-name>
 ```
 
-### 5b — Namespace does not exist yet
-
-Create `kubernetes/apps/<namespace>/ks.yaml` with the single entry above. The `flux/ks.yaml` root Kustomization discovers all namespaces automatically via `path: ./kubernetes/apps` — no changes are needed there.
+If the app has additional component directories (e.g. `store/`, `config/`), add them as separate `Kustomization` documents in the same file (YAML multi-document, separated by `---`).
 
 ---
 
-## Step 6 — Verify
+## Step 6 — Wire into the namespace
+
+### 6a — Namespace already exists
+
+Add the new app's `ks.yaml` to the namespace's `kustomization.yaml`:
+
+```yaml
+# kubernetes/apps/<namespace>/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - existing-app/ks.yaml
+  - <app-name>/ks.yaml   # ← add this line
+```
+
+### 6b — Namespace does not exist yet
+
+Create three files and update the root kustomization.
+
+**`kubernetes/apps/<namespace>/namespace.yaml`** — no schema comment (native resource):
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: <namespace>
+```
+
+**`kubernetes/apps/<namespace>/kustomization.yaml`** — no schema comment (native Kustomize):
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - <app-name>/ks.yaml
+```
+
+**`kubernetes/apps/kustomization.yaml`** — add the new namespace to the resources list:
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ...existing namespaces...
+  - <namespace>
+```
+
+---
+
+## Step 7 — Verify
 
 After writing all files, confirm the complete list of files created/modified and their paths. Do not run `kubectl apply` or `flux reconcile` unless the user explicitly asks.
 
@@ -282,8 +336,10 @@ After writing all files, confirm the complete list of files created/modified and
 
 ```
 kubernetes/apps/external-secrets/
-  ks.yaml                          ← Flux Kustomizations for the namespace
+  namespace.yaml
+  kustomization.yaml               ← resources: [namespace.yaml, external-secrets/ks.yaml]
   external-secrets/
+    ks.yaml                        ← Flux Kustomizations for app + store
     app/
       kustomization.yaml
       ocirepository.yaml           ← oci://ghcr.io/external-secrets/charts/external-secrets, tag: 2.4.0
@@ -299,8 +355,10 @@ The `store` Kustomization in `ks.yaml` uses `dependsOn: [external-secrets]` beca
 
 ```
 kubernetes/apps/network/
-  ks.yaml
+  namespace.yaml
+  kustomization.yaml               ← resources: [namespace.yaml, envoy-gateway/ks.yaml, certificates/ks.yaml]
   envoy-gateway/
+    ks.yaml                        ← Flux Kustomizations for app + gateway
     app/
       kustomization.yaml
       ocirepository.yaml           ← oci://docker.io/envoyproxy/gateway-helm, tag: 1.7.2
@@ -309,14 +367,21 @@ kubernetes/apps/network/
       kustomization.yaml
       gatewayclass.yaml
       gateway.yaml
+  certificates/
+    ks.yaml
+    app/
+      kustomization.yaml
+      certificate.yaml
 ```
 
 ### `myapp` (namespace: `default`) — Mode B (app-template)
 
 ```
 kubernetes/apps/default/
-  ks.yaml
+  namespace.yaml
+  kustomization.yaml               ← resources: [namespace.yaml, myapp/ks.yaml]
   myapp/
+    ks.yaml
     app/
       kustomization.yaml
       ocirepository.yaml           ← oci://ghcr.io/bjw-s/helm-charts/app-template, tag: <version>

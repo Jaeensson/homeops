@@ -13,9 +13,12 @@
 ```
 kubernetes/
   apps/
+    kustomization.yaml         # Root Kustomize config, lists all namespace dirs
     <namespace>/
-      ks.yaml                  # Flux Kustomization(s) for all resources in this namespace
-      <resource>/
+      namespace.yaml           # Namespace resource (labels/annotations live here)
+      kustomization.yaml       # Kustomize config, includes namespace.yaml + each app's ks.yaml
+      <app>/
+        ks.yaml                # Flux Kustomization(s) for this app
         app/
           kustomization.yaml   # Kustomize config (sets namespace, lists resources)
           ocirepository.yaml   # OCI chart source
