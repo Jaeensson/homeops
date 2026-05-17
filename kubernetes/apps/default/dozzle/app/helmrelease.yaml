@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: dozzle
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: dozzle
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: true
+    controllers:
+      dozzle:
+        serviceAccount:
+          name: pod-viewer
+        containers:
+          app:
+            image:
+              repository: amir20/dozzle
+              tag: v10.5.3
+            env:
+              DOZZLE_MODE: k8s
+    service:
+      app:
+        controller: dozzle
+        ports:
+          http:
+            port: 8080
