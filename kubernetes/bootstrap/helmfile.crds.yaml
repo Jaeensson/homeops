@@ -19,6 +19,10 @@ releases:
     namespace: network
     chart: oci://docker.io/envoyproxy/gateway-helm
     version: 1.7.2
+  - name: metallb
+    namespace: metallb-system
+    chart: oci://quay.io/metallb/chart/metallb
+    version: 0.15.3
   - name: snapshot-controller
     namespace: storage
     chart: piraeus/snapshot-controller
