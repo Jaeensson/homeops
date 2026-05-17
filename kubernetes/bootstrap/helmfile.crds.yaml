@@ -7,6 +7,10 @@ repositories:
   - name: piraeus
     url: https://piraeus.io/helm-charts/
 releases:
+  - name: cert-manager
+    namespace: cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
+    version: v1.17.2
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
