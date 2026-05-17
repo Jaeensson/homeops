@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: woodpecker
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: woodpecker
+  values:
+    server:
+      env:
+        WOODPECKER_HOST: "https://woodpecker.lab.egenintres.se"
+        WOODPECKER_FORGEJO: "true"
+        WOODPECKER_FORGEJO_URL: "https://codeberg.org"
+        WOODPECKER_OPEN: "false"
+        WOODPECKER_ADMIN: "Jaeensson"
+        WOODPECKER_FORCE_IGNORE_SERVICE_FAILURE: "false"
+      extraSecretNamesForEnvFrom:
+        - woodpecker-default-agent-secret
+      createAgentSecret: false
+      persistentVolume:
+        enabled: false
+        storageClass: local-path
+        size: 1Gi
+    agent:
+      enabled: true
+      replicaCount: 1
+      env:
+        WOODPECKER_SERVER: "woodpecker-server.woodpecker-system.svc.cluster.local:9000"
+        WOODPECKER_CONNECT_RETRY_COUNT: "10"
+      extraSecretNamesForEnvFrom:
+        - woodpecker-default-agent-secret
+      persistence:
+        enabled: true
+        storageClass: local-path
+        size: 1Gi

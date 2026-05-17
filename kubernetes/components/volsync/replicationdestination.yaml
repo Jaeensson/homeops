@@ -9,7 +9,9 @@ spec:
   restic:
     repository: volsync-restic
     destinationPVC: ${APP}
+    cleanupCachePVC: true
+    cleanupTempPVC: true
     copyMethod: Direct
     accessModes:
       - ReadWriteOnce
-    capacity: ${VOLSYNC_CAPACITY:-5Gi}
+    capacity: ${VOLSYNC_CAPACITY:=5Gi}
