@@ -3,5 +3,39 @@
   "extends": [
     "config:best-practices",
     ":timezone(Europe/Stockholm)"
+  ],
+  "flux": {
+    "managerFilePatterns": [
+      "(^|/)kubernetes/.+\\.ya?ml$"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/controlplaneio-fluxcd/charts/**"
+      ],
+      "groupName": "Flux"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Container image versions in HelmRelease values",
+      "managerFilePatterns": [
+        "/(^|/)kubernetes/apps/.+/helmrelease\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "repository: (?<depName>[^\\s]+)\\n\\s+tag: (?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
   ]
 }
