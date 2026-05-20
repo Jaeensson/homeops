@@ -11,4 +11,6 @@ steps:
       RENOVATE_REPOSITORIES: Jaeensson/homeops
       RENOVATE_TOKEN:
         from_secret: renovate_token
+      GITHUB_TOKEN:
+        from_secret: github_token
       LOG_LEVEL: info
