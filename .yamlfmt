@@ -1,0 +1,15 @@
+---
+formatter:
+  type: basic
+  indent: 2
+  retain_line_breaks: true
+  eof_newline: true
+  trim_trailing_whitespace: true
+  include_document_start: true
+
+continue_on_error: false
+line_ending: lf
+extensions:
+  - .yaml
+  - .yml
+  - .yaml.tftpl

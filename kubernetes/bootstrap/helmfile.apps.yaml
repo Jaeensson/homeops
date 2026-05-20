@@ -1,3 +1,4 @@
+---
 helmDefaults:
   cleanupOnFail: true
   wait: true
