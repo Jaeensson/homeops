@@ -20,7 +20,7 @@ spec:
           app:
             image:
               repository: amir20/dozzle
-              tag: v10.5.3
+              tag: v10.6.0
             env:
               DOZZLE_MODE: k8s
     service:
