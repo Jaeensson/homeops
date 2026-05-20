@@ -1,13 +1,11 @@
----
 when:
   - event: cron
     cron: renovate
-
 steps:
   - name: renovate
     image: ghcr.io/renovatebot/renovate:latest
     environment:
-      RENOVATE_PLATFORM: codeberg
+      RENOVATE_PLATFORM: forgejo
       RENOVATE_ENDPOINT: https://codeberg.org
       RENOVATE_REPOSITORIES: Jaeensson/homeops
       RENOVATE_TOKEN:
