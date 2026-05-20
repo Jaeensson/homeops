@@ -1,0 +1,19 @@
+---
+when:
+  - event: pull_request
+
+steps:
+  - name: validate-renovate-config
+    image: ghcr.io/renovatebot/renovate:latest
+    commands:
+      - renovate-config-validator renovate.json
+
+  - name: check-yaml-format
+    image: ghcr.io/google/yamlfmt:latest
+    commands:
+      - yamlfmt -lint kubernetes/
+
+  - name: flux-local-test
+    image: ghcr.io/allenporter/flux-local:latest
+    commands:
+      - flux-local test --path kubernetes/flux/ --all-namespaces -v
