@@ -43,6 +43,7 @@
             direnv
             yamlfmt
             envsubst
+            renovate
           ];
 
           shellHook = ''
@@ -55,6 +56,7 @@
             echo "  just       $(just --version)" 
             echo "  yq         $(yq --version)"
             echo "  direnv     $(direnv version)"
+            echo "  renovate   $(renovate --version)"
           '';
 
         };
