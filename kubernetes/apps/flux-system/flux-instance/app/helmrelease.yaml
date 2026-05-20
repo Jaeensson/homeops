@@ -16,3 +16,4 @@ spec:
         ref: refs/heads/main
         path: kubernetes/flux
         pullSecret: flux-system
+        interval: 10m
