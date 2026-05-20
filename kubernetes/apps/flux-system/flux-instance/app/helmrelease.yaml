@@ -13,6 +13,6 @@ spec:
       sync:
         kind: GitRepository
         url: ssh://git@codeberg.org/Jaeensson/homeops.git
-        ref: refs/heads/feat/k3s-migration
+        ref: refs/heads/main
         path: kubernetes/flux
         pullSecret: flux-system
