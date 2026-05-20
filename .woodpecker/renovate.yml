@@ -7,7 +7,7 @@ steps:
     image: ghcr.io/renovatebot/renovate:latest
     environment:
       RENOVATE_PLATFORM: forgejo
-      RENOVATE_ENDPOINT: https://codeberg.org
+      RENOVATE_ENDPOINT: https://codeberg.org/api/v1
       RENOVATE_REPOSITORIES: Jaeensson/homeops
       RENOVATE_TOKEN:
         from_secret: renovate_token
