@@ -5,7 +5,7 @@ when:
   - event: manual
 steps:
   - name: renovate
-    image: ghcr.io/renovatebot/renovate:latest@sha256:8017d963be4b849afc9503471c836d44c4953e6049b7ce55187855bfe570bf96
+    image: ghcr.io/renovatebot/renovate:latest@sha256:539b0ce5f22bcd4b0a42681c0c984afd1c293e2ce5bb12bcb4c01e0f608d60c9
     environment:
       RENOVATE_PLATFORM: forgejo
       RENOVATE_ENDPOINT: https://codeberg.org/api/v1
