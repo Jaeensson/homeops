@@ -4,16 +4,16 @@ when:
 
 steps:
   - name: validate-renovate-config
-    image: ghcr.io/renovatebot/renovate:latest
+    image: ghcr.io/renovatebot/renovate:latest@sha256:539b0ce5f22bcd4b0a42681c0c984afd1c293e2ce5bb12bcb4c01e0f608d60c9
     commands:
       - renovate-config-validator renovate.json
 
   - name: check-yaml-format
-    image: ghcr.io/google/yamlfmt:latest
+    image: ghcr.io/google/yamlfmt:latest@sha256:015f4f1e818b38cb72bec2d4baa5d312d3a5f40c6c22ff3fef35a5415095b7f2
     commands:
       - yamlfmt -lint kubernetes/
 
   - name: flux-local-test
-    image: ghcr.io/allenporter/flux-local:latest
+    image: ghcr.io/allenporter/flux-local:latest@sha256:9c77739d8d7c71b808311693ea52d603d1ddb5190d3d4f23e47f6f33d5254602
     commands:
       - flux-local test --path kubernetes/flux/ --all-namespaces -v

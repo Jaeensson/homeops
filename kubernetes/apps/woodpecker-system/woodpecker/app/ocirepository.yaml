@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 3.6.2
+    tag: 3.6.2@sha256:73e0e5362d51289fd8842f70dbb8c5bbc88448ec2075056ffe54ed677827cc5e
   url: oci://ghcr.io/woodpecker-ci/helm/woodpecker

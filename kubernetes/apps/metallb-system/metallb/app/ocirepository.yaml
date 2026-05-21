@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.15.3
+    tag: 0.15.3@sha256:81d00af37289801a847bfeb28bfcb0e5255a097b586948c27b900387fcdb449e
   url: oci://quay.io/metallb/chart/metallb
