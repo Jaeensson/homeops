@@ -16,5 +16,12 @@
   "terraform.languageServer.enable": true,
   "editor.formatOnSave": true,
   "nixEnvSelector.useFlakes": true,
-  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix"
+  "nixEnvSelector.nixFile": "${workspaceFolder}/flake.nix",
+  "json5.schemaDownload.trustedDomains": {
+    "json.schemastore.org": true,
+    "*.github.com": true,
+    "*.json-schema.org": true,
+    "*.developer.microsoft.com": true,
+    "docs.renovatebot.com": true
+  }
 }

@@ -8,6 +8,9 @@
     ":automergeDigest",
     ":timezone(Europe/Stockholm)"
   ],
+  "automergeStrategy": "fast-forward",
+  "automergeType": "pr",
+  "pruneBranchAfterAutomerge": true,
   "packageRules": [
     {
       "description": "Flux Operator Group",
