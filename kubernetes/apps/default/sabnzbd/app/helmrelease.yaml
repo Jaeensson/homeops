@@ -52,9 +52,6 @@ spec:
         globalMounts:
           - path: /config
       downloads:
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 50Gi
-        storageClass: local-path
+        existingClaim: downloads
         globalMounts:
           - path: /download

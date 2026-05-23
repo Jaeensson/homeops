@@ -3,8 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
+  - downloads/ks.yaml
   - headlamp/ks.yaml
   - dozzle/ks.yaml
   - authentik/ks.yaml
   - jellyfin/ks.yaml
   - sabnzbd/ks.yaml
+  - sonarr/ks.yaml

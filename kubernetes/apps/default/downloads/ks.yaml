@@ -3,22 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sabnzbd
+  name: downloads
   namespace: default
 spec:
   dependsOn:
-    - name: downloads
+    - name: network
+      namespace: network
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  path: ./kubernetes/apps/default/sabnzbd/app
+  path: ./kubernetes/apps/default/downloads/storage
   prune: true
-  components:
-    - ../../../../components/volsync
-  postBuild:
-    substitute:
-      APP: sabnzbd
-      VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_RUNASUSER: "1000"
