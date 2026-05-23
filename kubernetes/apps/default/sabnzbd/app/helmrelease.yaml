@@ -1,0 +1,60 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sabnzbd
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: sabnzbd
+  values:
+    controllers:
+      sabnzbd:
+        pod:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
+        containers:
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.41.1
+            envFrom:
+              - secretRef:
+                  name: gluetun
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+          app:
+            image:
+              repository: lscr.io/linuxserver/sabnzbd
+              tag: 5.0.3
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+              - name: PUID
+                value: "1000"
+              - name: PGID
+                value: "1000"
+    service:
+      app:
+        controller: sabnzbd
+        ports:
+          http:
+            port: 8080
+    persistence:
+      config:
+        existingClaim: sabnzbd
+        globalMounts:
+          - path: /config
+      downloads:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 50Gi
+        storageClass: local-path
+        globalMounts:
+          - path: /download
