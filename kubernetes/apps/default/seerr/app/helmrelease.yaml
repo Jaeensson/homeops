@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seerr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: seerr
+  values:
+    config:
+      persistence:
+        existingClaim: seerr
+    route:
+      main:
+        enabled: true
+        parentRefs:
+          - name: envoy-gateway
+            namespace: network
+            sectionName: https
+        hostnames:
+          - seerr.lab.egenintres.se
