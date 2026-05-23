@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app profilarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      profilarr:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dictionarry-hub/profilarr
+              tag: 2.0.4
+            env:
+              - name: ORIGIN
+                value: https://profilarr.lab.egenintres.se
+              - name: PUID
+                value: "1000"
+              - name: PGID
+                value: "1000"
+              - name: TZ
+                value: Europe/Stockholm
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 6868
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config
