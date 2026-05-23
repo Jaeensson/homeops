@@ -7,3 +7,4 @@ resources:
   - certificates/ks.yaml
   - pihole/ks.yaml
   - external-dns/ks.yaml
+  - crowdsec/ks.yaml
