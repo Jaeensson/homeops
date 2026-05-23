@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app prowlarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      prowlarr:
+        pod:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
+        containers:
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.41.1
+            envFrom:
+              - secretRef:
+                  name: gluetun
+            env:
+              - name: FIREWALL_OUTBOUND_SUBNETS
+                value: 10.42.0.0/24,10.43.0.0/16
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+          app:
+            image:
+              repository: ghcr.io/linuxserver/prowlarr
+              tag: 2.3.5.5327-ls147
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+              - name: PUID
+                value: "1000"
+              - name: PGID
+                value: "1000"
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 9696
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config
