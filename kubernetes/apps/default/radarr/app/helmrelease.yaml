@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app radarr
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      radarr:
+        pod:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "1"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/linuxserver/radarr
+              tag: 6.1.1.10360-ls303
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+              - name: PUID
+                value: "1000"
+              - name: PGID
+                value: "1000"
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 7878
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config
+      downloads:
+        existingClaim: downloads
+        globalMounts:
+          - path: /downloads
+      media:
+        existingClaim: media
+        globalMounts:
+          - path: /media
