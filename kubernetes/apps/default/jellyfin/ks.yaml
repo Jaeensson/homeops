@@ -6,6 +6,8 @@ metadata:
   name: jellyfin
   namespace: default
 spec:
+  dependsOn:
+    - name: media
   interval: 10m
   sourceRef:
     kind: GitRepository

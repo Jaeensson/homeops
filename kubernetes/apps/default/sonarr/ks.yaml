@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: downloads
+    - name: media
   interval: 10m
   sourceRef:
     kind: GitRepository

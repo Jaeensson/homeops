@@ -44,3 +44,7 @@ spec:
         existingClaim: downloads
         globalMounts:
           - path: /downloads
+      media:
+        existingClaim: media
+        globalMounts:
+          - path: /media
