@@ -1,0 +1,63 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: immich
+  values:
+    # Root-level controllers apply to all components (server, machine-learning)
+    controllers:
+      main:
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          main:
+            image:
+              tag: v2.7.5
+            env:
+              # List format to support valueFrom for secrets
+              - name: REDIS_HOSTNAME
+                value: immich-valkey
+              - name: IMMICH_MACHINE_LEARNING_URL
+                value: http://immich-machine-learning:3003
+              - name: DB_HOSTNAME
+                value: immich-database
+              - name: DB_PORT
+                value: "5432"
+              - name: DB_USERNAME
+                value: immich
+              - name: DB_DATABASE_NAME
+                value: immich
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_PASSWORD
+              - name: IMMICH_SECRET_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: IMMICH_SECRET_KEY
+
+    immich:
+      persistence:
+        library:
+          existingClaim: immich-library
+      configurationKind: ConfigMap
+
+    server:
+      enabled: true
+
+    valkey:
+      enabled: true
+
+    machine-learning:
+      enabled: true

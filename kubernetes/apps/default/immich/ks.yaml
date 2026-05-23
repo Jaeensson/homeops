@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich-database
+  namespace: default
+spec:
+  dependsOn:
+    - name: media
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./kubernetes/apps/default/immich/database
+  prune: true
+  components:
+    - ../../../../components/volsync
+  postBuild:
+    substitute:
+      APP: immich-database
+      VOLSYNC_CAPACITY: 10Gi
+      VOLSYNC_RUNASUSER: "999"
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: immich
+  namespace: default
+spec:
+  dependsOn:
+    - name: immich-database
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./kubernetes/apps/default/immich/app
+  prune: true
