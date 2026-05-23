@@ -6,3 +6,4 @@ resources:
   - headlamp/ks.yaml
   - dozzle/ks.yaml
   - authentik/ks.yaml
+  - jellyfin/ks.yaml
