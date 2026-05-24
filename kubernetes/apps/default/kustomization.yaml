@@ -15,3 +15,4 @@ resources:
   - prowlarr/ks.yaml
   - seerr/ks.yaml
   - immich/ks.yaml
+  - securitypolicy.yaml

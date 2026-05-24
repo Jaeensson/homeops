@@ -8,3 +8,4 @@ resources:
   - pihole/ks.yaml
   - external-dns/ks.yaml
   - crowdsec/ks.yaml
+  - securitypolicy.yaml
