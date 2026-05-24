@@ -24,6 +24,7 @@ Each namespace directory owns its Namespace resource and wires everything togeth
 kubernetes/apps/<namespace>/
   namespace.yaml           # Namespace resource — labels/annotations live here
   kustomization.yaml       # Kustomize config: includes namespace.yaml + each app's ks.yaml
+  securitypolicy.yaml      # CrowdSec bouncer SecurityPolicy — lists all HTTPRoutes (mandatory if any app has an HTTPRoute)
   <app-name>/
     ks.yaml                # Flux Kustomization(s) for this app
     app/
@@ -33,6 +34,8 @@ kubernetes/apps/<namespace>/
 ```
 
 The root `kubernetes/apps/kustomization.yaml` lists all namespace directories as resources.
+
+> **SecurityPolicy rule:** Every app that creates an HTTPRoute **must** have its route name listed in the namespace's `securitypolicy.yaml`. See [Step 6 — SecurityPolicy](#step-6--securitypolicy).
 
 - `<namespace>` is the Kubernetes namespace the app will be deployed into.
 - `<app-name>` is a short, lowercase, hyphenated name for the app (e.g. `cert-manager`, `prometheus`).
@@ -266,9 +269,62 @@ If the app has additional component directories (e.g. `store/`, `config/`), add 
 
 ---
 
-## Step 6 — Wire into the namespace
+## Step 6 — Add to the SecurityPolicy (mandatory when the app creates an HTTPRoute)
 
-### 6a — Namespace already exists
+Every app that exposes an HTTPRoute **must** be listed in the namespace's `securitypolicy.yaml` so the CrowdSec bouncer enforces IP bans on its traffic.
+
+**If the namespace already has a `securitypolicy.yaml`:**
+
+Add the HTTPRoute's `metadata.name` to the `targetRefs` list:
+
+```yaml
+# kubernetes/apps/<namespace>/securitypolicy.yaml
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/securitypolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: crowdsec-bouncer
+  namespace: <namespace>
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: existing-app
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: <app-name>          # ← add this entry
+  extAuth:
+    grpc:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: envoy-proxy-bouncer
+          port: 8080
+          namespace: network
+```
+
+**If the namespace does not have a `securitypolicy.yaml` yet:**
+
+Create it with the same structure above (listing only the new app), then add `securitypolicy.yaml` to the namespace's `kustomization.yaml`:
+
+```yaml
+# kubernetes/apps/<namespace>/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - <app-name>/ks.yaml
+  - securitypolicy.yaml        # ← add this line
+```
+
+> The SecurityPolicy references the `envoy-proxy-bouncer` service in the `network` namespace. A `ReferenceGrant` in the `network` namespace already allows cross-namespace references from `default` and `woodpecker-system`. If the new app is in a different namespace, add the namespace to the bouncer HelmRelease's `referenceGrant.fromNamespaces` list.
+
+---
+
+## Step 7 — Wire into the namespace
+
+### 7a — Namespace already exists
 
 Add the new app's `ks.yaml` to the namespace's `kustomization.yaml`:
 
@@ -282,7 +338,7 @@ resources:
   - <app-name>/ks.yaml   # ← add this line
 ```
 
-### 6b — Namespace does not exist yet
+### 7b — Namespace does not exist yet
 
 Create three files and update the root kustomization.
 
@@ -301,6 +357,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - <app-name>/ks.yaml
+  - securitypolicy.yaml    # include after creating it in Step 6
 ```
 
 **`kubernetes/apps/kustomization.yaml`** — add the new namespace to the resources list:
@@ -314,7 +371,7 @@ resources:
 
 ---
 
-## Step 7 — Verify
+## Step 8 — Verify
 
 After writing all files, confirm the complete list of files created/modified and their paths. Do not run `kubectl apply` or `flux reconcile` unless the user explicitly asks.
 
@@ -351,22 +408,28 @@ kubernetes/apps/external-secrets/
 
 The `store` Kustomization in `ks.yaml` uses `dependsOn: [external-secrets]` because the CRDs must exist before the store can be applied.
 
-### `network` / `envoy-gateway` (namespace: `network`) — Mode A
+### `network` (namespace: `network`) — Mode A
 
 ```
 kubernetes/apps/network/
   namespace.yaml
-  kustomization.yaml               ← resources: [namespace.yaml, envoy-gateway/ks.yaml, certificates/ks.yaml]
+  kustomization.yaml               ← resources: [namespace.yaml, envoy-gateway/ks.yaml, certificates/ks.yaml, ...]
+  securitypolicy.yaml              ← CrowdSec bouncer: pihole, http-to-https-redirect
   envoy-gateway/
-    ks.yaml                        ← Flux Kustomizations for app + gateway
+    ks.yaml                        ← Flux Kustomizations for app + gateway + bouncer
     app/
       kustomization.yaml
-      ocirepository.yaml           ← oci://docker.io/envoyproxy/gateway-helm, tag: 1.7.2
+      ocirepository.yaml           ← oci://docker.io/envoyproxy/gateway-helm, tag: 1.8.0
       helmrelease.yaml
     gateway/
       kustomization.yaml
       gatewayclass.yaml
       gateway.yaml
+    bouncer/
+      kustomization.yaml
+      ocirepository.yaml           ← oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer, tag: 0.6.1
+      externalsecret.yaml
+      helmrelease.yaml
   certificates/
     ks.yaml
     app/
@@ -376,10 +439,13 @@ kubernetes/apps/network/
 
 ### `myapp` (namespace: `default`) — Mode B (app-template)
 
+If the app exposes an HTTPRoute, its name must be added to the namespace's SecurityPolicy:
+
 ```
 kubernetes/apps/default/
   namespace.yaml
-  kustomization.yaml               ← resources: [namespace.yaml, myapp/ks.yaml]
+  kustomization.yaml               ← resources: [namespace.yaml, securitypolicy.yaml, myapp/ks.yaml]
+  securitypolicy.yaml              ← CrowdSec bouncer: lists all HTTPRoutes in the namespace
   myapp/
     ks.yaml
     app/
@@ -387,3 +453,5 @@ kubernetes/apps/default/
       ocirepository.yaml           ← oci://ghcr.io/bjw-s/helm-charts/app-template, tag: <version>
       helmrelease.yaml             ← values: defines containers, service, ingress, persistence
 ```
+
+For namespaces that do not expose HTTPRoutes (e.g. `external-secrets`), the `securitypolicy.yaml` is omitted.
