@@ -6,6 +6,7 @@ resources:
   - envoy-gateway/ks.yaml
   - certificates/ks.yaml
   - pihole/ks.yaml
-  - external-dns/ks.yaml
+  - external-dns-local/ks.yaml
+  - external-dns-remote/ks.yaml
   - crowdsec/ks.yaml
   - securitypolicy.yaml
