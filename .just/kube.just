@@ -16,3 +16,7 @@ delete-ks ns ks:
 
 render-local-ks ns ks:
     flux-local build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux" "{{ ks }}"
+
+test-local:
+    cd {{ justfile_dir() }} && \
+    flux-local test --path "{{ kubernetes_dir }}/flux/" --all-namespaces -v

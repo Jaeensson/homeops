@@ -17,3 +17,8 @@ default:
     just --list
 
 deploy: terraform::apply bootstrap::default
+
+test: 
+    yamlfmt . -lint && \
+    renovate-config-validator .renovaterc.json5 && \
+    just kube::test-local
