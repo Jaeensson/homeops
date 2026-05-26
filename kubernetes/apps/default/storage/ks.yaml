@@ -7,8 +7,6 @@ metadata:
   namespace: default
 spec:
   dependsOn:
-    - name: network
-      namespace: network
   interval: 10m
   sourceRef:
     kind: GitRepository
@@ -24,9 +22,6 @@ metadata:
   name: media
   namespace: default
 spec:
-  dependsOn:
-    - name: network
-      namespace: network
   interval: 10m
   sourceRef:
     kind: GitRepository
