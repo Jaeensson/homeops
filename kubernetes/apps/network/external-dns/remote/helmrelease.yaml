@@ -18,8 +18,10 @@ spec:
       name: cloudflare
     sources:
       - gateway-httproute
-    # Only sync HTTPRoutes annotated with external-dns.alpha.kubernetes.io/remote-enabled: "true"
-    annotationFilter: external-dns.alpha.kubernetes.io/remote-enabled=true
+    extraArgs:
+      #gateway-name: envoy-gateway-public
+      - --gateway-name=envoy-gateway-public
+      - --cloudflare-proxied
     policy: upsert-only
     registry: noop
     domainFilters:

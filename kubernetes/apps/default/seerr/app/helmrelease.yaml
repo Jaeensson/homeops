@@ -17,7 +17,7 @@ spec:
       main:
         enabled: true
         parentRefs:
-          - name: envoy-gateway
+          - name: envoy-gateway-local
             namespace: network
             sectionName: https
         hostnames:

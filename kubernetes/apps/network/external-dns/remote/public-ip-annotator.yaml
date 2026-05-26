@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/v1/ServiceAccount.json
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: public-ip-annotator
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/rbac.authorization.k8s.io/Role_v1.json
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: public-ip-annotator
+rules:
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["gateways"]
+    verbs: ["get", "patch"]
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/rbac.authorization.k8s.io/RoleBinding_v1.json
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: public-ip-annotator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: public-ip-annotator
+subjects:
+  - kind: ServiceAccount
+    name: public-ip-annotator
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/batch/CronJob_v1.json
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: public-ip-annotator
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: public-ip-annotator
+          containers:
+            - name: annotator
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -euo pipefail
+
+                  PUBLIC_IP=$(curl -sf https://ifconfig.me)
+                  CURRENT=$(kubectl get gateway -n network envoy-gateway-public -o json \
+                    | jq -r '.metadata.annotations["external-dns.alpha.kubernetes.io/target"] // empty')
+
+                  if [ "$CURRENT" = "$PUBLIC_IP" ]; then
+                    echo "Public gateway target already set to $PUBLIC_IP, skipping"
+                    exit 0
+                  fi
+
+                  echo "Updating public gateway target from ${CURRENT:-unset} to $PUBLIC_IP"
+                  kubectl patch gateway -n network envoy-gateway-public --type=merge \
+                    -p "{\"metadata\":{\"annotations\":{\"external-dns.alpha.kubernetes.io/target\":\"$PUBLIC_IP\"}}}"
+                  echo "Done"
+          restartPolicy: OnFailure

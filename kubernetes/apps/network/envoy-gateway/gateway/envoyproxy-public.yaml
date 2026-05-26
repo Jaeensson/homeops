@@ -3,11 +3,11 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
-  name: envoy-gateway-local
+  name: envoy-gateway-public
   namespace: network
 spec:
   provider:
     type: Kubernetes
     kubernetes:
       envoyService:
-        loadBalancerIP: "192.168.2.100"
+        loadBalancerIP: "192.168.2.101"

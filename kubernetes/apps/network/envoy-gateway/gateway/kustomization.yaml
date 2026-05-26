@@ -3,6 +3,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - envoyproxy.yaml
+  - envoyproxy-public.yaml
   - gatewayclass.yaml
   - gateway.yaml
+  - gateway-public.yaml
   - httproute-redirect.yaml

@@ -14,7 +14,7 @@ spec:
     agent:
       acquisition:
         - namespace: network
-          podName: envoy-network-envoy-gateway-*
+          podName: envoy-network-envoy-gateway-local-*
           program: yanis-kouidri/envoy-logs
           poll_without_inotify: true
       env:

@@ -6,7 +6,7 @@ metadata:
   name: prowlarr
 spec:
   parentRefs:
-    - name: envoy-gateway
+    - name: envoy-gateway-local
       namespace: network
       sectionName: https
   hostnames:
