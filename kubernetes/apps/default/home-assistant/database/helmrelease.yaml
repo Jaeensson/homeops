@@ -1,0 +1,45 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: home-assistant-database
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: home-assistant-database
+  values:
+    controllers:
+      home-assistant-database:
+        containers:
+          app:
+            image:
+              repository: mariadb
+              tag: "12"
+            env:
+              - name: MARIADB_ROOT_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-database-secret
+                    key: DB_ROOT_PASSWORD
+              - name: MARIADB_DATABASE
+                value: home-assistant
+              - name: MARIADB_USER
+                value: home-assistant
+              - name: MARIADB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: home-assistant-database-secret
+                    key: DB_PASSWORD
+    service:
+      app:
+        controller: home-assistant-database
+        ports:
+          mariadb:
+            port: 3306
+    persistence:
+      data:
+        existingClaim: home-assistant-database
+        globalMounts:
+          - path: /var/lib/mysql

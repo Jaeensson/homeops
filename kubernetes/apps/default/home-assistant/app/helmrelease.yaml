@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app home-assistant
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      home-assistant:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/home-assistant/home-assistant
+              tag: 2026.5.4
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 8123
+    persistence:
+      config:
+        existingClaim: *app
+        globalMounts:
+          - path: /config

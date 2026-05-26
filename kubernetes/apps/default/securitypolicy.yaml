@@ -31,6 +31,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: sonarr
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: home-assistant
   extAuth:
     grpc:
       backendRefs:

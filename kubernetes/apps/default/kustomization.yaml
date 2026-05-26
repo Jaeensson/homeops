@@ -15,4 +15,5 @@ resources:
   - prowlarr/ks.yaml
   - seerr/ks.yaml
   - immich/ks.yaml
+  - home-assistant/ks.yaml
   - securitypolicy.yaml
