@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/dictionarry-hub/profilarr
-              tag: 2.0.4
+              tag: 2.0.6
             env:
               - name: ORIGIN
                 value: https://profilarr.lab.egenintres.se
