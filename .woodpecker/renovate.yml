@@ -7,7 +7,7 @@ variables:
   log_level: info
 steps:
   - name: renovate
-    image: ghcr.io/renovatebot/renovate:latest@sha256:8079b1b65950bed71562469f28777b523b97895aa64ced5b0d0a69878124cd7f
+    image: ghcr.io/renovatebot/renovate:latest@sha256:d1b1aea93ec23c76023c34a77d5ea5dc2f8e531891ee9cef29c13fdbedf69dc2
     environment:
       RENOVATE_PLATFORM: forgejo
       RENOVATE_ENDPOINT: https://codeberg.org/api/v1
