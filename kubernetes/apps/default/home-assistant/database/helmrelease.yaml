@@ -24,7 +24,7 @@ spec:
                     name: home-assistant-database-secret
                     key: MARIADB_ROOT_PASSWORD
               - name: MARIADB_DATABASE
-                valuefrom:
+                valueFrom:
                   secretKeyRef:
                     name: home-assistant-database-secret
                     key: MARIADB_DATABASE
