@@ -50,3 +50,4 @@ terraform.rc
 # planout
 .direnv/
 .firecrawl/
+.pytest_cache/
