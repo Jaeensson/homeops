@@ -26,7 +26,14 @@ packages:
   - curl
   - nfs-common
   - open-iscsi
+write_files:
+  - path: /etc/sysctl.d/90-inotify.conf
+    content: |
+      fs.inotify.max_user_instances=512
+      fs.inotify.max_user_watches=524288
+    permissions: '0644'
 runcmd:
   - pro config set apt_news=false
   - systemctl enable --now qemu-guest-agent
+  - sysctl -p /etc/sysctl.d/90-inotify.conf
   - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip} --disable=traefik --disable=servicelb" sh -
