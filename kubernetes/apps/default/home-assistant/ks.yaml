@@ -45,7 +45,7 @@ spec:
     substitute:
       APP: home-assistant
       VOLSYNC_CAPACITY: 10Gi
-      VOLSYNC_RUNASUSER: "1000"
+      VOLSYNC_RUNASUSER: "0"
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
