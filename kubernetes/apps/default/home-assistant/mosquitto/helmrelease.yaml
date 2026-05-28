@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mosquitto
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      mosquitto:
+        containers:
+          app:
+            image:
+              repository: eclipse-mosquitto
+              tag: 2.1.2-alpine
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+    service:
+      app:
+        controller: *app
+        ports:
+          mqtt:
+            port: 1883
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /mosquitto/data
