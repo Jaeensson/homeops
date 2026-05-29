@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app dbackup
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      dbackup:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/skyfay/dbackup
+              tag: v2.4.1
+            env:
+              - name: DISABLE_HTTPS
+                value: "true"
+              - name: TZ
+                value: Europe/Stockholm
+              - name: TRUSTED_ORIGINS
+                value: "https://dbackup.lab.egenintres.se"
+              - name: PUID
+                value: "1001"
+              - name: PGID
+                value: "1001"
+            envFrom:
+              - secretRef:
+                  name: dbackup-secret
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 3000
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /data

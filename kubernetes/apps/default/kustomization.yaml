@@ -16,4 +16,5 @@ resources:
   - seerr/ks.yaml
   - immich/ks.yaml
   - home-assistant/ks.yaml
+  - dbackup/ks.yaml
   - securitypolicy.yaml
