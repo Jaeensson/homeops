@@ -6,6 +6,8 @@ metadata:
   name: external-dns-local
   namespace: network
 spec:
+  dependsOn:
+    - name: pihole
   interval: 10m
   sourceRef:
     kind: GitRepository
