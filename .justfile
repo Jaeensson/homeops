@@ -20,5 +20,6 @@ deploy: terraform::apply bootstrap::default
 
 test: 
     yamlfmt . -lint && \
+    just terraform::lint && \
     renovate-config-validator .renovaterc.json5 && \
     just kube::test-local

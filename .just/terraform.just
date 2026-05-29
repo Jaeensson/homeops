@@ -17,5 +17,5 @@ apply:
 destroy:
     terraform -chdir="{{justfile_dir()}}/terraform" destroy
 
-test:
-    echo "just_dir() = {{justfile_dir()}}"
+lint:
+    tflint --chdir "{{justfile_dir()}}/terraform" --recursive
