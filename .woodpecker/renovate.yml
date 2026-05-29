@@ -11,9 +11,9 @@ steps:
     environment:
       RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
-      RENOVATE_APP_ID:
+      GITHUB_APP_ID:
         from_secret: renovate_app_id
-      RENOVATE_PRIVATE_KEY:
+      GITHUB_APP_PRIVATE_KEY:
         from_secret: renovate_private_key
       RENOVATE_USERNAME:
         from_secret: renovate_username
