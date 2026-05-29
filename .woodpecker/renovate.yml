@@ -18,7 +18,7 @@ steps:
         from_secret: renovate_installation_id
       PLUGIN_OUTPUT_FILE: .github_token
   - name: renovate
-    image: ghcr.io/renovatebot/renovate:latest@sha256:d1b1aea93ec23c76023c34a77d5ea5dc2f8e531891ee9cef29c13fdbedf69dc2
+    image: ghcr.io/renovatebot/renovate:latest@sha256:955e3a58fac254a144acadf6e20edf9526e0c6701baed0aa41f94135c2ba3aba
     environment:
       RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
