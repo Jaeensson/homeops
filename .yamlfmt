@@ -12,4 +12,3 @@ line_ending: lf
 extensions:
   - .yaml
   - .yml
-  - .yaml.tftpl
