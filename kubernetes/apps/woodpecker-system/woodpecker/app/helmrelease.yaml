@@ -13,8 +13,7 @@ spec:
     server:
       env:
         WOODPECKER_HOST: "https://woodpecker.lab.egenintres.se"
-        WOODPECKER_FORGEJO: "true"
-        WOODPECKER_FORGEJO_URL: "https://codeberg.org"
+        WOODPECKER_GITHUB: "true"
         WOODPECKER_OPEN: "false"
         WOODPECKER_ADMIN: "Jaeensson"
         WOODPECKER_FORCE_IGNORE_SERVICE_FAILURE: "false"
