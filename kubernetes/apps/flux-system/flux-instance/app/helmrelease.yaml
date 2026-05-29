@@ -13,8 +13,9 @@ spec:
     instance:
       sync:
         kind: GitRepository
-        url: ssh://git@github.com/Jaeensson/Jaeensson-homeops.git
+        url: https://github.com/Jaeensson/homeops.git
         ref: refs/heads/main
         path: kubernetes/flux
         pullSecret: flux-system
+        provider: github
         interval: 30m
