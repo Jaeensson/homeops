@@ -17,4 +17,5 @@ resources:
   - immich/ks.yaml
   - home-assistant/ks.yaml
   - dbackup/ks.yaml
+  - vaultwarden/ks.yaml
   - securitypolicy.yaml

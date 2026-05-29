@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app vaultwarden
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      vaultwarden:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dani-garcia/vaultwarden
+              tag: 1.36.0
+            env:
+              - name: DOMAIN
+                value: https://vw.lab.egenintres.se
+              - name: TZ
+                value: Europe/Stockholm
+              - name: DATABASE_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-secret
+                    key: DATABASE_URL
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 80
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /data

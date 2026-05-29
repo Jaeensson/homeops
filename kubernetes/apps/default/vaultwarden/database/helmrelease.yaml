@@ -1,0 +1,51 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vaultwarden-database
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: vaultwarden-database
+  values:
+    controllers:
+      vaultwarden-database:
+        containers:
+          app:
+            image:
+              repository: mariadb
+              tag: "12"
+            env:
+              - name: MARIADB_ROOT_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-secret
+                    key: MARIADB_ROOT_PASSWORD
+              - name: MARIADB_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-secret
+                    key: MARIADB_DATABASE
+              - name: MARIADB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-secret
+                    key: MARIADB_USER
+              - name: MARIADB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-secret
+                    key: MARIADB_PASSWORD
+    service:
+      app:
+        controller: vaultwarden-database
+        ports:
+          mariadb:
+            port: 3306
+    persistence:
+      data:
+        existingClaim: vaultwarden-database
+        globalMounts:
+          - path: /var/lib/mysql
