@@ -12,7 +12,7 @@ steps:
     environment:
       PLUGIN_GITHUB_APP_ID:
         from_secret: renovate_app_id
-      PLUGIN_GITHUB_APP_PRIVATE_KEY:
+      PLUGIN_GITHUB_PRIVATE_KEY_PEM:
         from_secret: renovate_private_key
       PLUGIN_GITHUB_INSTALLATION_ID:
         from_secret: renovate_installation_id
