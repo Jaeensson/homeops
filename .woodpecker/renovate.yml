@@ -3,18 +3,25 @@ when:
   - event: cron
     cron: renovate
   - event: manual
+
 variables:
   log_level: info
 steps:
+  - name: generate-token
+    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:latest
+    environment:
+      github_app_id:
+        from_secret: renovate_app_id
+      github_app_private_key:
+        from_secret: renovate_private_key
+      github_installation_id:
+        from_secret: renovate_installation_id
+      output_file: .github_token
   - name: renovate
     image: ghcr.io/renovatebot/renovate:latest@sha256:d1b1aea93ec23c76023c34a77d5ea5dc2f8e531891ee9cef29c13fdbedf69dc2
     environment:
       RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
-      GITHUB_APP_ID:
-        from_secret: renovate_app_id
-      GITHUB_APP_PRIVATE_KEY:
-        from_secret: renovate_private_key
       RENOVATE_USERNAME:
         from_secret: renovate_username
       RENOVATE_GIT_AUTHOR:
@@ -22,3 +29,6 @@ steps:
       RENOVATE_GITHUB_COM_TOKEN:
         from_secret: github_token
       LOG_LEVEL: ${log_level}
+    commands:
+      - export RENOVATE_TOKEN=$(cat .github_token)
+      - renovate
