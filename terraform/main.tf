@@ -10,7 +10,7 @@ module "k3s_node" {
   network_netmask      = "/22"
   network_dns          = ["192.168.1.21"]
   ip                   = "192.168.0.99"
-  cpu_cores            = "4"
+  cpu_cores            = "8"
   cpu_type             = "host"
   ram_mb               = "32768"
   system_disk_size_gb  = "100"
