@@ -9,8 +9,7 @@ steps:
   - name: renovate
     image: ghcr.io/renovatebot/renovate:latest@sha256:d1b1aea93ec23c76023c34a77d5ea5dc2f8e531891ee9cef29c13fdbedf69dc2
     environment:
-      RENOVATE_PLATFORM: forgejo
-      RENOVATE_ENDPOINT: https://codeberg.org/api/v1
+      RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
       RENOVATE_APP_ID:
         from_secret: renovate_app_id
