@@ -5,6 +5,8 @@ helmDefaults:
     - --include-crds
     - --no-hooks
 repositories:
+  - name: backube
+    url: https://backube.github.io/helm-charts/
   - name: piraeus
     url: https://piraeus.io/helm-charts/
 releases:
@@ -28,3 +30,7 @@ releases:
     namespace: storage
     chart: piraeus/snapshot-controller
     version: 5.0.4
+  - name: volsync
+    namespace: volsync-system
+    chart: backube/volsync
+    version: 0.15.0
