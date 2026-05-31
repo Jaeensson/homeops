@@ -18,4 +18,5 @@ resources:
   - home-assistant/ks.yaml
   - dbackup/ks.yaml
   - vaultwarden/ks.yaml
+  - mealie/ks.yaml
   - securitypolicy.yaml

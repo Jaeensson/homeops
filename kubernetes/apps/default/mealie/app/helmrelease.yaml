@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app mealie
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      mealie:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/mealie-recipes/mealie
+              tag: v3.19.2
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+              - name: BASE_URL
+                value: https://mealie.lab.egenintres.se
+              - name: PUID
+                value: "1000"
+              - name: PGID
+                value: "1000"
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 9000
+    persistence:
+      data:
+        existingClaim: *app
+        globalMounts:
+          - path: /app/data

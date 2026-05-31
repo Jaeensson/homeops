@@ -46,6 +46,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: zwavejs
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: mealie
   extAuth:
     grpc:
       backendRefs:
