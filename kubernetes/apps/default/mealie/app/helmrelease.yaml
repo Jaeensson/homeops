@@ -30,8 +30,6 @@ spec:
                 value: Default
               - name: DEFAULT_HOUSEHOLD
                 value: Family
-              - name: TZ
-                value: Europe/Stockholm
               - name: ALLOW_SIGNUP
                 value: "false"
               - name: MAX_WORKERS
