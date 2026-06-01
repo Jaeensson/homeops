@@ -15,7 +15,7 @@ spec:
       acquisition:
         - namespace: network
           podName: envoy-network-envoy-gateway-local-*
-          program: yanis-kouidri/envoy-logs
+          program: envoy
           poll_without_inotify: true
       env:
         - name: COLLECTIONS
