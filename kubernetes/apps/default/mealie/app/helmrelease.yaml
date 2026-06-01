@@ -26,6 +26,46 @@ spec:
                 value: "1000"
               - name: PGID
                 value: "1000"
+              - name: DEFAULT_GROUP
+                value: Default
+              - name: DEFAULT_HOUSEHOLD
+                value: Family
+              - name: TZ
+                value: Europe/Stockholm
+              - name: ALLOW_SIGNUP
+                value: "false"
+              - name: MAX_WORKERS
+                value: "1"
+              - name: WEB_CONCURRENCY
+                value: "1"
+              - name: OIDC_AUTH_ENABLED
+                value: "true"
+              - name: OIDC_SIGNUP_ENABLED
+                value: "true"
+              - name: OIDC_CONFIGURATION_URL
+                value: "https://auth.lab.egenintres.se/application/o/mealie/.well-known/openid-configuration"
+              - name: OIDC_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie-secret
+                    key: OIDC_CLIENT_SECRET
+              - name: OIDC_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie-secret
+                    key: OIDC_CLIENT_ID
+              - name: OIDC_PROVIDER_NAME
+                value: "Authentik"
+              - name: OIDC_REMEMBER_ME
+                value: "true"
+              - name: OIDC_AUTO_REDIRECT
+                value: "true"
+              - name: OIDC_USER_CLAIM
+                value: "preferred_username"
+              - name: OIDC_ADMIN_GROUP
+                value: "Mealie Admins"
+              - name: OIDC_USER_GROUP
+                value: "Mealie Users"
     service:
       app:
         controller: *app
