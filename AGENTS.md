@@ -6,7 +6,7 @@
 - Do not commit changes to git before the user has reviewed them
 - Use Conventional Commits for commit messages (e.g. `feat: ...`, `fix: ...`, `docs: ...`, `chore: ...`)
 - Run `just test` before proposing any changes to verify nothing is broken.
-- Run `yamllint` on any .yaml files you create or modify to ensure proper formatting.
+- Run `yamlfmt` on any .yaml files you create or modify to ensure proper formatting.
 - Always add a `yaml-language-server` schema comment to custom CRD manifests (e.g. Flux, ESO), but not to native Kubernetes resources (Namespace, Secret, Deployment, etc.), e.g.:
   `# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/<group>/<kind>_<version>.json`
 
@@ -14,8 +14,9 @@
 
 ```
 kubernetes/
+  flux/
+    ks.yaml                    # Root Flux Kustomization (points to ./kubernetes/apps)
   apps/
-    kustomization.yaml         # Root Kustomize config, lists all namespace dirs
     <namespace>/
       namespace.yaml           # Namespace resource (labels/annotations live here)
       kustomization.yaml       # Kustomize config, includes namespace.yaml + each app's ks.yaml
@@ -25,6 +26,20 @@ kubernetes/
           kustomization.yaml   # Kustomize config (sets namespace, lists resources)
           ocirepository.yaml   # OCI chart source
           helmrelease.yaml     # Helm chart deployment
+          httproute.yaml       # (optional) Envoy Gateway routing
+          externalsecret.yaml  # (optional) Infisical secrets via ESO
+        database/              # (optional) database sub-app (e.g. PostgreSQL)
+          kustomization.yaml
+          ocirepository.yaml
+          helmrelease.yaml
+          externalsecret.yaml
+  components/
+    volsync/                   # Kustomize Component for backup/restore
+      kustomization.yaml       # kind: Component (not Kustomization)
+      ...
   bootstrap/
-    secrets.yaml.tpl           # envsubst template for all bootstrap secrets
+    helmfile.crds.yaml         # Bootstrap Helmfile for CRDs
+    helmfile.apps.yaml         # Bootstrap Helmfile for apps
+    secrets.yaml.tpl           # envsubst template for bootstrap secrets
+    values.yaml.gotmpl         # Helmfile values template
 ```
