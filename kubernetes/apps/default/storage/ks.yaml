@@ -6,7 +6,6 @@ metadata:
   name: downloads
   namespace: default
 spec:
-  dependsOn:
   interval: 10m
   sourceRef:
     kind: GitRepository
