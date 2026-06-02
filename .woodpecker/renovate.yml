@@ -22,8 +22,6 @@ steps:
     environment:
       RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
-      RENOVATE_USERNAME:
-        from_secret: renovate_username
       RENOVATE_GIT_AUTHOR:
         from_secret: renovate_git_author
       RENOVATE_GITHUB_COM_TOKEN:
