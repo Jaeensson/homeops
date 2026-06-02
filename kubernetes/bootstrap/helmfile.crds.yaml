@@ -9,6 +9,8 @@ repositories:
     url: https://backube.github.io/helm-charts/
   - name: piraeus
     url: https://piraeus.io/helm-charts/
+  - name: rancher-charts
+    url: https://charts.rancher.io
 releases:
   - name: cert-manager
     namespace: cert-manager
@@ -34,3 +36,8 @@ releases:
     namespace: volsync-system
     chart: backube/volsync
     version: 0.15.0
+  - name: system-upgrade-controller
+    namespace: system-upgrade
+    chart: rancher-charts/system-upgrade-controller
+    version: 109.0.1
+    createNamespace: true
