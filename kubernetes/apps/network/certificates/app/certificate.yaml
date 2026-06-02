@@ -6,9 +6,16 @@ metadata:
   name: lab-egenintres-se
 spec:
   secretName: lab-egenintres-se-tls
+  duration: 160h
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    rotationPolicy: Always
   dnsNames:
     - lab.egenintres.se
     - "*.lab.egenintres.se"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
+  usages:
+    - digital signature
