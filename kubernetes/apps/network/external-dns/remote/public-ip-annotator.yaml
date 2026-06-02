@@ -44,7 +44,7 @@ spec:
           serviceAccountName: public-ip-annotator
           containers:
             - name: annotator
-              image: bitnami/kubectl:latest
+              image: bitnami/kubectl:1.36.1
               command:
                 - /bin/bash
                 - -c
