@@ -13,3 +13,20 @@ spec:
     namespace: flux-system
   path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/app
   prune: true
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: system-upgrade-controller-upgrade
+  namespace: system-upgrade
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  path: ./kubernetes/apps/system-upgrade/system-upgrade-controller/upgrade
+  prune: true
+  dependsOn:
+    - name: system-upgrade-controller
