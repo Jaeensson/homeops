@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nix-flux-local.url = "github:Jaeensson/nix-flux-local";
+    npm-package.url = "github:netbrain/npm-package";
   };
 
   outputs =
@@ -12,6 +13,7 @@
       nixpkgs,
       flake-utils,
       nix-flux-local,
+      npm-package,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -29,6 +31,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
+
           packages = with pkgs; [
             flux-local
             terraform
@@ -44,6 +47,11 @@
             yamlfmt
             envsubst
             renovate
+            nodejs
+            (npm-package.lib.${system}.npmPackage {
+              name = "pi";
+              packageName = "@earendil-works/pi-coding-agent";
+            })
           ];
 
           shellHook = ''
@@ -57,6 +65,7 @@
             echo "  yq         $(yq --version)"
             echo "  direnv     $(direnv version)"
             echo "  renovate   $(renovate --version)"
+            echo "  pi         $(pi --version)"
           '';
 
         };
