@@ -6,7 +6,7 @@ metadata:
 spec:
   # renovate: datasource=github-releases depName=k3s-io/k3s
   version: "v1.36.1+k3s1"
-  serviceAccountName: system-upgrade
+  serviceAccountName: system-upgrade-controller
   concurrency: 1
   nodeSelector:
     matchExpressions:
@@ -21,4 +21,3 @@ spec:
       effect: "NoExecute"
   upgrade:
     image: rancher/k3s-upgrade
-
