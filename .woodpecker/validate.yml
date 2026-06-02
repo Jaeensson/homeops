@@ -6,12 +6,12 @@ steps:
   - name: validate-renovate-config
     image: ghcr.io/renovatebot/renovate:latest@sha256:087bab575172b1926bbc57124d988015d899b0a82d45028514377b10a392f69d
     commands:
-      - renovate-config-validator renovate.json
+      - renovate-config-validator --strict .renovaterc.json5
 
   - name: check-yaml-format
     image: ghcr.io/google/yamlfmt:latest@sha256:015f4f1e818b38cb72bec2d4baa5d312d3a5f40c6c22ff3fef35a5415095b7f2
     commands:
-      - yamlfmt -lint kubernetes/
+      - yamlfmt -verbose -lint kubernetes/
 
   - name: flux-local-test
     image: ghcr.io/allenporter/flux-local:latest@sha256:9c77739d8d7c71b808311693ea52d603d1ddb5190d3d4f23e47f6f33d5254602
