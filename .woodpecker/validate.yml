@@ -4,7 +4,7 @@ when:
 
 steps:
   - name: validate-renovate-config
-    image: ghcr.io/renovatebot/renovate:latest@sha256:c730b3432b186a6e6b7b916bf6b70dded55e082569e27fa5f6a84810f67aa593
+    image: ghcr.io/renovatebot/renovate:latest@sha256:d18fd34cb125662aa78647053e9a45240582002f469dc5def7f7576baea12af9
     commands:
       - renovate-config-validator --strict .renovaterc.json5
 
