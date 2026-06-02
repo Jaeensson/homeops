@@ -18,10 +18,14 @@ spec:
               repository: ghcr.io/pi-hole/pihole
               tag: 2026.05.0@sha256:70a9c11171ded2eee735d88c127996da209284a329d50f5ae59c06b861d401b3
             env:
-              TZ: Europe/Stockholm
-              PIHOLE_UID: "0"
-              PIHOLE_GID: "0"
-              DNSMASQ_USER: "root"
+              - name: TZ
+                value: Europe/Stockholm
+              - name: PIHOLE_UID
+                value: "0"
+              - name: PIHOLE_GID
+                value: "0"
+              - name: DNSMASQ_USER
+                value: root
             envFrom:
               - secret: *name
             securityContext:
