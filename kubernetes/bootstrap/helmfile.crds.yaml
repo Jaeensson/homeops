@@ -34,4 +34,8 @@ releases:
     namespace: volsync-system
     chart: backube/volsync
     version: 0.15.0
+  - name: grafana-operator
+    namespace: monitoring
+    chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
+    version: 5.23.0
 
