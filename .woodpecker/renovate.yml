@@ -8,7 +8,7 @@ variables:
   log_level: info
 steps:
   - name: generate-token
-    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:latest
+    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:latest@sha256:60911352fdd062b35fe757c40b5de52b7180ad68af230210a2b3e667f60adb0c
     environment:
       PLUGIN_GITHUB_APP_ID:
         from_secret: renovate_app_id
