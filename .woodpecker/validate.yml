@@ -13,6 +13,11 @@ steps:
     commands:
       - yamlfmt -verbose -lint kubernetes/
 
+  - name: terraform-lint
+    image: ghcr.io/terraform-linters/tflint:latest@sha256:890e37827d7b5e400f26137c5189c7efa581365fe9299b5b9814e5148d5978b9
+    commands:
+      - tflint --chdir terraform --recursive
+
   - name: flux-local-test
     image: ghcr.io/allenporter/flux-local:latest@sha256:9c77739d8d7c71b808311693ea52d603d1ddb5190d3d4f23e47f6f33d5254602
     commands:
