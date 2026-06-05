@@ -173,7 +173,7 @@ spec:
 
 **Mode B — app-template** (the `values:` block is the full workload definition):
 ```yaml
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -381,7 +381,8 @@ After writing all files, confirm the complete list of files created/modified and
 
 - **Add** `yaml-language-server` schema comments to Flux and ESO custom CRD manifests:
   - `OCIRepository` → `https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json`
-  - `HelmRelease` → `https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json`
+  - `HelmRelease` (Mode A — upstream chart) → `https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json`
+  - `HelmRelease` (Mode B — app-template) → `https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json`
   - `Kustomization` (Flux) → `https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json`
 - **Do NOT add** schema comments to native Kubernetes resources (`Namespace`, `Secret`, `Deployment`, etc.) or to Kustomize `kustomization.yaml` files.
 
