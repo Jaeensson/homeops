@@ -5,7 +5,9 @@
     ":timezone(Europe/Stockholm)"
   ],
   helmfile: {
-    managerFilePatterns: ["/helmfile\\.(?:apps|crds)\\.yaml$/"],
+    managerFilePatterns: [
+      "/helmfile\\.(?:apps|crds)\\.yaml$/"
+    ],
   },
   packageRules: [
     // Auto-merge rules
@@ -27,6 +29,19 @@
       schedule: [
         "before 6am on Monday"
       ],
+    },
+    {
+      description: "Auto-merge Helm & container patch+minor updates",
+      matchDatasources: [
+        "docker",
+        "helm"
+      ],
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      automerge: true,
+      automergeType: "pr"
     },
     {
       description: "Flux Operator Group",
