@@ -47,7 +47,7 @@ spec:
                 - |
                   set -euo pipefail
 
-                  PUBLIC_IP=$(curl -sf https://ifconfig.me)
+                  PUBLIC_IP=$(curl -sf https://ifconfig.me || curl -sf https://api.ipify.org)
                   CURRENT=$(kubectl get gateway -n network envoy-gateway-public -o json \
                     | jq -r '.metadata.annotations["external-dns.alpha.kubernetes.io/target"] // empty')
 
