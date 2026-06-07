@@ -18,6 +18,9 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 44
+              - 990
         containers:
           app:
             image:
@@ -45,3 +48,8 @@ spec:
         existingClaim: media
         globalMounts:
           - path: /media
+      dri:
+        type: hostPath
+        hostPath: /dev/dri
+        globalMounts:
+          - path: /dev/dri
