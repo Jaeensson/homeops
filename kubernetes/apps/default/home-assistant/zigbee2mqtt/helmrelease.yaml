@@ -20,16 +20,9 @@ spec:
             env:
               - name: TZ
                 value: Europe/Stockholm
-                # TODO: Add serial device passthrough for Zigbee coordinator
-                # pod:
-                #   securityContext:
-                #     privileged: true
-                # persistence:
-                #   serial:
-                #     type: hostPath
-                #     hostPath: /dev/serial/by-id/USB_DEVICE_ID
-                #     globalMounts:
-                #       - path: /dev/ttyACM0
+            securityContext:
+              privileged: true
+
     service:
       app:
         controller: *app
@@ -41,3 +34,8 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /app/data
+      serial:
+        type: hostPath
+        hostPath: /dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_6130242C-if01-port0
+        globalMounts:
+          - path: /dev/ttyACM1
