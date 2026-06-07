@@ -20,7 +20,7 @@ spec:
         - name: envoy-gateway-local
           namespace: network
       hostnames:
-        - headlamp.lab.egenintres.se
+        - headlamp.egenintres.se
     config:
       pluginsDir: /build/plugins
       sessionTTL: 604800

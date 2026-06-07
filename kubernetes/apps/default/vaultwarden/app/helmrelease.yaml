@@ -19,7 +19,7 @@ spec:
               tag: 1.36.0
             env:
               - name: DOMAIN
-                value: https://vw.lab.egenintres.se
+                value: https://vw.egenintres.se
               - name: TZ
                 value: Europe/Stockholm
               - name: DATABASE_URL

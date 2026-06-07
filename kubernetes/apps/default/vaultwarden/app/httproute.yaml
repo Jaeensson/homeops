@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - vw.lab.egenintres.se
+    - vw.egenintres.se
   rules:
     - backendRefs:
         - name: vaultwarden

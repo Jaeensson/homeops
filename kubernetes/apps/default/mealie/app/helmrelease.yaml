@@ -21,7 +21,7 @@ spec:
               - name: TZ
                 value: Europe/Stockholm
               - name: BASE_URL
-                value: https://mealie.lab.egenintres.se
+                value: https://mealie.egenintres.se
               - name: PUID
                 value: "1000"
               - name: PGID
@@ -41,7 +41,7 @@ spec:
               - name: OIDC_SIGNUP_ENABLED
                 value: "true"
               - name: OIDC_CONFIGURATION_URL
-                value: "https://auth.lab.egenintres.se/application/o/mealie/.well-known/openid-configuration"
+                value: "https://auth.egenintres.se/application/o/mealie/.well-known/openid-configuration"
               - name: OIDC_CLIENT_SECRET
                 valueFrom:
                   secretKeyRef:

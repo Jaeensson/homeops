@@ -3,17 +3,17 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: lab-egenintres-se
+  name: egenintres-se
 spec:
-  secretName: lab-egenintres-se-tls
+  secretName: egenintres-se-tls
   duration: 160h
   privateKey:
     algorithm: ECDSA
     size: 256
     rotationPolicy: Always
   dnsNames:
-    - lab.egenintres.se
-    - "*.lab.egenintres.se"
+    - egenintres.se
+    - "*.egenintres.se"
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer

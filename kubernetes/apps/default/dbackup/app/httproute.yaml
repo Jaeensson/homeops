@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - dbackup.lab.egenintres.se
+    - dbackup.egenintres.se
   rules:
     - backendRefs:
         - name: dbackup

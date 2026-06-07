@@ -12,7 +12,7 @@ spec:
   values:
     server:
       env:
-        WOODPECKER_HOST: "https://woodpecker.lab.egenintres.se"
+        WOODPECKER_HOST: "https://woodpecker.egenintres.se"
         WOODPECKER_GITHUB: "true"
         WOODPECKER_OPEN: "false"
         WOODPECKER_ADMIN: "Jaeensson"

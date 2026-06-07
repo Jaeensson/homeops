@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - mealie.lab.egenintres.se
+    - mealie.egenintres.se
   rules:
     - backendRefs:
         - name: mealie

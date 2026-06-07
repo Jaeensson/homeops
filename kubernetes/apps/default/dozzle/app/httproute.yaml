@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - dozzle.lab.egenintres.se
+    - dozzle.egenintres.se
   rules:
     - backendRefs:
         - name: dozzle

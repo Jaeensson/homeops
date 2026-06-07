@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - zwavejs.lab.egenintres.se
+    - zwavejs.egenintres.se
   rules:
     - backendRefs:
         - name: zwavejs

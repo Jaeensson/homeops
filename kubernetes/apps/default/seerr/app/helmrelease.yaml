@@ -21,4 +21,4 @@ spec:
             namespace: network
             sectionName: https
         hostnames:
-          - seerr.lab.egenintres.se
+          - seerr.egenintres.se

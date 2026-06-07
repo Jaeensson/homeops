@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - jf.lab.egenintres.se
+    - jf.egenintres.se
   rules:
     - backendRefs:
         - name: jellyfin

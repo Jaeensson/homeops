@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - pihole.lab.egenintres.se
+    - pihole.egenintres.se
   rules:
     - backendRefs:
         - name: pihole-app

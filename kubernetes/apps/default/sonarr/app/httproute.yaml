@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - sonarr.lab.egenintres.se
+    - sonarr.egenintres.se
   rules:
     - backendRefs:
         - name: sonarr

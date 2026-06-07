@@ -23,7 +23,7 @@ spec:
               - name: TZ
                 value: Europe/Stockholm
               - name: TRUSTED_ORIGINS
-                value: "https://dbackup.lab.egenintres.se"
+                value: "https://dbackup.egenintres.se"
               - name: PUID
                 value: "1001"
               - name: PGID

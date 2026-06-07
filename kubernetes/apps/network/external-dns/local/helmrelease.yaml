@@ -21,7 +21,7 @@ spec:
     policy: sync
     registry: noop
     domainFilters:
-      - lab.egenintres.se
+      - egenintres.se
     extraArgs:
       pihole-server: http://pihole-app.network.svc.cluster.local
       pihole-api-version: "6"

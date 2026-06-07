@@ -10,8 +10,8 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - www.lab.egenintres.se
-    - lab.egenintres.se
+    - www.egenintres.se
+    - egenintres.se
   rules:
     - backendRefs:
         - name: home-assistant

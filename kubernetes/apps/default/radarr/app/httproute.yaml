@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - radarr.lab.egenintres.se
+    - radarr.egenintres.se
   rules:
     - backendRefs:
         - name: radarr

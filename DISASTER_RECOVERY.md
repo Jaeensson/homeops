@@ -396,7 +396,7 @@ gives two layers of protection for database contents:
 2. **VolSync** — Restic snapshots of the entire dbackup PVC on S3
 
 The set of databases and their connection details are configured through
-[dbackup's web UI](https://dbackup.lab.egenintres.se), not in Git. This
+[dbackup's web UI](https://dbackup.egenintres.se), not in Git. This
 configuration lives inside the dbackup PVC, so on a full cluster restore the
 UI will reflect the last-backed-up configuration once the dbackup PVC is
 restored via VolSync.

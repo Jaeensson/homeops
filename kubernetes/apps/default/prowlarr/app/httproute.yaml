@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - prowlarr.lab.egenintres.se
+    - prowlarr.egenintres.se
   rules:
     - backendRefs:
         - name: prowlarr

@@ -10,7 +10,7 @@ spec:
       namespace: network
       sectionName: https
   hostnames:
-    - zigbee2mqtt.lab.egenintres.se
+    - zigbee2mqtt.egenintres.se
   rules:
     - backendRefs:
         - name: zigbee2mqtt

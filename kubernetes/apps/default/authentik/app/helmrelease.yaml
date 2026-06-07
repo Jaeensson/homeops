@@ -23,7 +23,7 @@ spec:
               namespace: network
               sectionName: https
           hostnames:
-            - "auth.lab.egenintres.se"
+            - "auth.egenintres.se"
     postgresql:
       enabled: true
       auth:
