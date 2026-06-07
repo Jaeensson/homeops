@@ -26,6 +26,23 @@ spec:
                 value: "1000"
               - name: TZ
                 value: Europe/Stockholm
+              - name: AUTH
+                value: "oidc"
+              - name: OIDC_DISCOVERY_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: profilarr
+                    key: OIDC_DISCOVERY_URL
+              - name: OIDC_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: profilarr
+                    key: OIDC_CLIENT_ID
+              - name: OIDC_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: profilarr
+                    key: OIDC_CLIENT_SECRET
     service:
       app:
         controller: *app
