@@ -15,8 +15,8 @@ spec:
         containers:
           app:
             image:
-              repository: pgvector/pgvector
-              tag: 0.8.2-pg17-trixie
+              repository: ghcr.io/immich-app/postgres
+              tag: 14-vectorchord0.4.3-pgvectors0.2.0
             env:
               - name: POSTGRES_USER
                 value: immich
