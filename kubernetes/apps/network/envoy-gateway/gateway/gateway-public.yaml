@@ -5,6 +5,8 @@ kind: Gateway
 metadata:
   name: envoy-gateway-public
   namespace: network
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: merge
 spec:
   gatewayClassName: envoy-gateway
   infrastructure:
