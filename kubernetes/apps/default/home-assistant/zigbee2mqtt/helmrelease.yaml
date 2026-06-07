@@ -38,4 +38,4 @@ spec:
         type: hostPath
         hostPath: /dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_6130242C-if01-port0
         globalMounts:
-          - path: /dev/ttyACM1
+          - path: /dev/ttyUSB1
