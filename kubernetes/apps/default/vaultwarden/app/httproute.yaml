@@ -6,7 +6,7 @@ metadata:
   name: vaultwarden
 spec:
   parentRefs:
-    - name: envoy-gateway-local
+    - name: envoy-gateway-remote
       namespace: network
       sectionName: https
   hostnames:
