@@ -28,5 +28,4 @@ steps:
       GIT_CONFIG_KEY_0: safe.directory
       GIT_CONFIG_VALUE_0: "*"
     commands:
-      - git config --global --add safe.directory "$(pwd)"
       - flux-local test --path kubernetes/flux/ --all-namespaces -v
