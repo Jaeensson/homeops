@@ -20,16 +20,8 @@ spec:
             env:
               - name: TZ
                 value: Europe/Stockholm
-                # TODO: Add serial device passthrough for Z-Wave controller
-                # pod:
-                #   securityContext:
-                #     privileged: true
-                # persistence:
-                #   serial:
-                #     type: hostPath
-                #     hostPath: /dev/serial/by-id/USB_DEVICE_ID
-                #     globalMounts:
-                #       - path: /dev/ttyACM0
+            securityContext:
+              privileged: true
     service:
       app:
         controller: *app
@@ -41,3 +33,8 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /usr/src/app/store
+      serial:
+        type: hostPath
+        hostPath: /dev/serial/by-id/usb-0658_0200-if00
+        globalMounts:
+          - path: /dev/ttyACM0
