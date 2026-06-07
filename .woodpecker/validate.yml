@@ -23,6 +23,9 @@ steps:
 
   - name: flux-local-test
     image: ghcr.io/allenporter/flux-local:latest@sha256:9c77739d8d7c71b808311693ea52d603d1ddb5190d3d4f23e47f6f33d5254602
+    environment:
+      GIT_CONFIG_COUNT: 1
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: "*"
     commands:
-      - git config --global --add safe.directory "$(pwd)"
       - flux-local test --path kubernetes/flux/ --all-namespaces -v
