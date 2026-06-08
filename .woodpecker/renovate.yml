@@ -1,7 +1,13 @@
 ---
+depends_on:
+  - validate
+
 when:
   - event: cron
     cron: renovate
+  - event: push
+    branch:
+      - renovate/**
   - event: manual
 
 variables:

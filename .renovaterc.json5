@@ -25,6 +25,7 @@
       ],
       automerge: true,
       automergeType: "pr",
+      prCreation: "status-success",
       ignoreTests: false,
       schedule: [
         "before 6am on Monday"
@@ -41,7 +42,8 @@
         "patch"
       ],
       automerge: true,
-      automergeType: "pr"
+      automergeType: "pr",
+      prCreation: "status-success",
     },
     {
       description: "Auto-merge Woodpecker CI image digest updates",
@@ -54,6 +56,7 @@
       ],
       automerge: true,
       automergeType: "pr",
+      prCreation: "status-success",
     },
     {
       description: "Flux Operator Group",
