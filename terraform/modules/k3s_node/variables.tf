@@ -88,4 +88,28 @@ variable "ssh_keys" {
   description = "SSH keys for VM access"
 }
 
+variable "usb_devices" {
+  type = list(object({
+    host = string
+    usb3 = bool
+  }))
+  default = []
+}
+
+variable "pci_device" {
+  type = object({
+    device = string
+    id     = string
+    pcie   = bool
+    rombar = bool
+    xvga   = bool
+  })
+  default = {
+    device = ""
+    id     = ""
+    pcie   = false
+    rombar = false
+    xvga   = false
+  }
+}
 

@@ -17,6 +17,25 @@ module "k3s_node" {
   storage_disk_size_gb = "200"
 
   ssh_keys = data.http.ssh_keys.response_body
+
+  usb_devices = [
+    {
+      host = "0658:0200"
+      usb3 = false
+    },
+    {
+      host = "10c4:8a2a"
+      usb3 = false
+    }
+  ]
+
+  pci_device = {
+    device = "hostpci0"
+    id     = "0000:00:02"
+    pcie   = false
+    rombar = true
+    xvga   = false
+  }
 }
 
 data "http" "ssh_keys" {

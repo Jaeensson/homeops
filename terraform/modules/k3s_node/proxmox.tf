@@ -18,9 +18,9 @@ resource "proxmox_virtual_environment_file" "user_data" {
     file_name = "${var.vm_id}-user-data.yaml"
     data = templatefile("${path.module}/user-data.yaml.tftpl",
       {
-        ssh_keys                               = var.ssh_keys
-        node_name                              = var.node_name
-        ip                                     = var.ip
+        ssh_keys  = var.ssh_keys
+        node_name = var.node_name
+        ip        = var.ip
       }
     )
   }
@@ -72,6 +72,29 @@ resource "proxmox_virtual_environment_vm" "vm" {
   network_device {
     bridge = var.network_bridge
 
+  }
+
+  lifecycle {
+    ignore_changes = [
+      tags,
+      initialization
+    ]
+  }
+
+  dynamic "usb" {
+    for_each = var.usb_devices
+    content {
+      host = usb.value.host
+      usb3 = usb.value.usb3
+    }
+  }
+
+  hostpci {
+    device = var.pci_device.device
+    id     = var.pci_device.id
+    pcie   = var.pci_device.pcie
+    rombar = var.pci_device.rombar
+    xvga   = var.pci_device.xvga
   }
 
   boot_order = [
