@@ -22,6 +22,8 @@ spec:
                 value: https://vw.egenintres.se
               - name: TZ
                 value: Europe/Stockholm
+              - name: SIGNUPS_ALLOWED
+                value: "false"
               - name: DATABASE_URL
                 valueFrom:
                   secretKeyRef:
