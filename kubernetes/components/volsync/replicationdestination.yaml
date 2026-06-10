@@ -12,9 +12,11 @@ spec:
     destinationPVC: ${APP}
     cleanupCachePVC: true
     cleanupTempPVC: true
-    copyMethod: Direct
+    copyMethod: Snapshot
     accessModes:
       - ReadWriteOnce
     capacity: ${VOLSYNC_CAPACITY:=5Gi}
+    storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn}
+    volumeSnapshotClassName: ${VOLSYNC_VOLUMESNAPSHOTCLASS:=longhorn}
     moverSecurityContext:
       runAsUser: ${VOLSYNC_RUNASUSER:=0}

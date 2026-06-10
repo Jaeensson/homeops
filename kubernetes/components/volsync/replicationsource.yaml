@@ -14,9 +14,11 @@ spec:
     accessModes:
       - ReadWriteOnce
     capacity: ${VOLSYNC_CAPACITY:=5Gi}
+    storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn}
     moverSecurityContext:
       runAsUser: ${VOLSYNC_RUNASUSER:=0}
     pruneIntervalDays: 7
+    volumeSnapshotClassName: ${VOLSYNC_VOLUMESNAPSHOTCLASS:=longhorn}
     retain:
       daily: 7
       weekly: 4
