@@ -29,6 +29,9 @@ spec:
             env:
               - name: TZ
                 value: Europe/Stockholm
+            resources:
+              limits:
+                memory: 6Gi
     service:
       app:
         controller: jellyfin
