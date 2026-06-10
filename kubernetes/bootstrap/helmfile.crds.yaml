@@ -29,7 +29,7 @@ releases:
   - name: snapshot-controller
     namespace: storage
     chart: piraeus/snapshot-controller
-    version: 5.0.4
+    version: 5.1.0
   - name: volsync
     namespace: volsync-system
     chart: backube/volsync
