@@ -8,6 +8,7 @@ when:
 
 variables:
   log_level: info
+  renovate_args: ''
 steps:
   - name: generate-token
     image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:latest@sha256:60911352fdd062b35fe757c40b5de52b7180ad68af230210a2b3e667f60adb0c
@@ -31,4 +32,4 @@ steps:
       LOG_LEVEL: ${log_level}
     commands:
       - export RENOVATE_TOKEN=$(cat .github_token)
-      - renovate
+      - renovate ${renovate_args}
