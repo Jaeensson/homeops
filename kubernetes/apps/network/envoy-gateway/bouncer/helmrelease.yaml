@@ -36,3 +36,4 @@ spec:
         - default
         - monitoring
         - woodpecker-system
+        - longhorn-system

@@ -4,18 +4,19 @@ helmDefaults:
   wait: true
   waitForJobs: true
 releases:
+  - name: longhorn
+    namespace: longhorn-system
+    chart: oci://ghcr.io/home-operations/charts-mirror/longhorn
+    version: 1.12.0
   - name: flux-operator
     namespace: flux-system
-    createNamespace: true
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
     version: 0.50.0
-    wait: true
+    needs:
+      - longhorn-system/longhorn
   - name: flux-instance
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
     version: 0.50.0
-    wait: true
     needs:
       - flux-system/flux-operator
-    values:
-      - ./values.yaml.gotmpl

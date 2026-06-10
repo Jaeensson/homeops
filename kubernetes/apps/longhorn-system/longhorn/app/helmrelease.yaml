@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: longhorn
+  values:
+    persistence:
+      defaultClass: false
+      defaultClassReplicaCount: 1
+      defaultFsType: ext4
+    defaultSettings:
+      defaultReplicaCount: 1
+      nodeDrainPolicy: allow-if-replica-is-stopped
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
+    ingress:
+      enabled: false
