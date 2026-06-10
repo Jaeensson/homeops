@@ -22,4 +22,4 @@ spec:
     substitute:
       APP: radarr
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_RUNASUSER: "1000"
+      VOLSYNC_RUNASUSER: "0"
