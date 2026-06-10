@@ -2,6 +2,8 @@
 when:
   - event: cron
     cron: renovate
+  - event: push
+    branch: main
   - event: manual
 
 variables:
