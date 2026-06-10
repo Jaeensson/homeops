@@ -45,6 +45,7 @@ spec:
         - ReadWriteOnce
       enabled: true
       size: 1Gi
+      storageClassName: longhorn
     volumeMounts:
       - mountPath: /build/plugins
         name: headlamp-plugins
