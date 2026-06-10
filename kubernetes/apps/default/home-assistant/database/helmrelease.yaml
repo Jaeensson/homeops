@@ -18,6 +18,8 @@ spec:
               repository: mariadb
               tag: "12"
             env:
+              - name: MARIADB_AUTO_UPGRADE
+                value: "1"
               - name: MARIADB_ROOT_PASSWORD
                 valueFrom:
                   secretKeyRef:
