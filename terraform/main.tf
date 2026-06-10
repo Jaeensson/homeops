@@ -13,7 +13,7 @@ module "k3s_node" {
   cpu_cores            = "8"
   cpu_type             = "host"
   ram_mb               = "49152"
-  system_disk_size_gb  = "100"
+  system_disk_size_gb  = "200"
   storage_disk_size_gb = "200"
 
   ssh_keys = data.http.ssh_keys.response_body
