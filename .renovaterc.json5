@@ -46,19 +46,6 @@
       prCreation: "status-success",
     },
     {
-      description: "Auto-merge Woodpecker CI image digest updates",
-      matchFileNames: [
-        ".woodpecker/*.yaml",
-        ".woodpecker/*.yml"
-      ],
-      matchDatasources: [
-        "docker"
-      ],
-      automerge: true,
-      automergeType: "pr",
-      prCreation: "status-success",
-    },
-    {
       description: "Flux Operator Group",
       groupName: "flux-operator",
       matchDatasources: [

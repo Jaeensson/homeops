@@ -6,22 +6,22 @@ when:
 
 steps:
   - name: validate-renovate-config
-    image: ghcr.io/renovatebot/renovate:latest@sha256:459b7e28aa54fa2fa7db83df6a2d6ad26de416a054ee554e7833203adf3d9a47
+    image: ghcr.io/renovatebot/renovate:43.220.0
     commands:
       - renovate-config-validator --strict .renovaterc.json5
 
   - name: check-yaml-format
-    image: ghcr.io/google/yamlfmt:latest@sha256:015f4f1e818b38cb72bec2d4baa5d312d3a5f40c6c22ff3fef35a5415095b7f2
+    image: ghcr.io/google/yamlfmt:0.21.0
     commands:
       - yamlfmt -verbose -lint kubernetes/
 
   - name: terraform-lint
-    image: ghcr.io/terraform-linters/tflint:latest@sha256:890e37827d7b5e400f26137c5189c7efa581365fe9299b5b9814e5148d5978b9
+    image: ghcr.io/terraform-linters/tflint:v0.63.1
     commands:
       - tflint --chdir terraform --recursive
 
   - name: flux-local-test
-    image: ghcr.io/allenporter/flux-local:latest@sha256:dca65e5bcd71cb904216774ebfbc5d1f30a36d0b304293b851dfed2385c01b0c
+    image: ghcr.io/allenporter/flux-local:v8.3.0
     environment:
       GIT_CONFIG_COUNT: 1
       GIT_CONFIG_KEY_0: safe.directory

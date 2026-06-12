@@ -11,7 +11,7 @@ variables:
   renovate_args: ''
 steps:
   - name: generate-token
-    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:latest@sha256:60911352fdd062b35fe757c40b5de52b7180ad68af230210a2b3e667f60adb0c
+    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:1.2.3
     environment:
       PLUGIN_GITHUB_APP_ID:
         from_secret: renovate_app_id
@@ -21,7 +21,7 @@ steps:
         from_secret: renovate_installation_id
       PLUGIN_OUTPUT_FILE: .github_token
   - name: renovate
-    image: ghcr.io/renovatebot/renovate:latest@sha256:459b7e28aa54fa2fa7db83df6a2d6ad26de416a054ee554e7833203adf3d9a47
+    image: ghcr.io/renovatebot/renovate:43.220.0
     environment:
       RENOVATE_PLATFORM: github
       RENOVATE_REPOSITORIES: Jaeensson/homeops
