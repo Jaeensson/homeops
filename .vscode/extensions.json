@@ -1,0 +1,12 @@
+{
+	"recommendations": [
+		"ms-kubernetes-tools.vscode-kubernetes-tools",
+		"skellock.just",
+		"bluebrown.yamlfmt",
+		"blueglassblock.better-json5",
+		"arrterian.nix-env-selector",
+		"hashicorp.terraform",
+		"redhat.vscode-yaml"
+	],
+	"unwantedRecommendations": []
+}
