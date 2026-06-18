@@ -42,8 +42,7 @@ cluster):
 - All tools listed in the [README](./README.md#required-local-software):
   `terraform`, `just`, `kubectl`, `helmfile`, `yq`, `flux`, `direnv`
 - `.envrc.local` with the following secrets populated (see README):
-  - `GIT_PRIVATE_KEY` / `GITHUB_APP_ID`, `GITHUB_APP_INSTALLATION_ID`,
-    `GITHUB_APP_PRIVATE_KEY` — Flux needs these to authenticate to GitHub
+  - `GITHUB_APP_PRIVATE_KEY` / `GITHUB_APP_ID`, `GITHUB_APP_INSTALLATION_ID`
   - `INFISICAL_UNIVERSAL_AUTH_CLIENT_ID`,
     `INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET` — External Secrets uses these
     to pull secrets from Infisical
