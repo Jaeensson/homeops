@@ -1,0 +1,414 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app searxng
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: *app
+  values:
+    controllers:
+      searxng:
+        pod:
+          securityContext:
+            runAsUser: 977
+            runAsGroup: 977
+            fsGroup: 977
+            fsGroupChangePolicy: OnRootMismatch
+        initContainers:
+          init-permissions:
+            image:
+              repository: docker.io/busybox
+              tag: 1.37.0
+            command:
+              - sh
+              - -c
+              - chown -R 977:977 /etc/searxng /var/cache/searxng
+            securityContext:
+              runAsUser: 0
+        containers:
+          app:
+            image:
+              repository: docker.io/searxng/searxng
+              tag: 2026.6.19-5c38d2fea
+            env:
+              - name: TZ
+                value: Europe/Stockholm
+              - name: SEARXNG_VALKEY_URL
+                value: valkey://localhost:6379/0
+              - name: SEARXNG_BASE_URL
+                value: https://search.egenintres.se
+              - name: SEARXNG_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: searxng-secret
+                    key: SEARXNG_SECRET
+              - name: SEARXNG_SETTINGS_PATH
+                value: /etc/searxng/settings.yml
+              - name: FORCE_OWNERSHIP
+                value: "false"
+          valkey:
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 9-alpine
+            command:
+              - valkey-server
+              - --save
+              - "30"
+              - "1"
+              - --loglevel
+              - warning
+    service:
+      app:
+        controller: *app
+        ports:
+          http:
+            port: 8080
+    configMaps:
+      settings:
+        data:
+          settings.yml: |
+            server:
+              limiter: false
+              public_instance: false
+              method: "POST"
+              default_http_headers:
+                X-Content-Type-Options: nosniff
+                X-Download-Options: noopen
+                X-Robots-Tag: noindex, nofollow
+                Referrer-Policy: no-referrer
+
+            general:
+              instance_name: "Träsksök"
+
+            ui:
+              default_locale: en
+              query_in_title: true
+              cache_url: https://web.archive.org/web/
+              default_theme: simple
+              theme_args:
+                simple_style: auto
+              search_on_category_select: true
+              hotkeys: default
+              url_formatting: pretty
+
+            doi_resolvers:
+              oadoi.org: 'https://oadoi.org/'
+              doi.org: 'https://doi.org/'
+              sci-hub.se: 'https://sci-hub.se/'
+              sci-hub.st: 'https://sci-hub.st/'
+              sci-hub.ru: 'https://sci-hub.ru/'
+            default_doi_resolver: 'oadoi.org'
+
+            plugins:
+              searx.plugins.calculator.SXNGPlugin:
+                active: true
+              searx.plugins.infinite_scroll.SXNGPlugin:
+                active: false
+              searx.plugins.hash_plugin.SXNGPlugin:
+                active: true
+              searx.plugins.self_info.SXNGPlugin:
+                active: true
+              searx.plugins.unit_converter.SXNGPlugin:
+                active: true
+              searx.plugins.ahmia_filter.SXNGPlugin:
+                active: true
+              searx.plugins.hostnames.SXNGPlugin:
+                active: true
+              searx.plugins.time_zone.SXNGPlugin:
+                active: true
+              searx.plugins.oa_doi_rewrite.SXNGPlugin:
+                active: false
+              searx.plugins.tor_check.SXNGPlugin:
+                active: false
+              searx.plugins.tracker_url_remover.SXNGPlugin:
+                active: true
+
+            engines:
+              - name: arch linux wiki
+                engine: archlinux
+                shortcut: al
+              - name: artic
+                engine: artic
+                shortcut: arc
+                timeout: 4.0
+              - name: arxiv
+                engine: arxiv
+                shortcut: arx
+              - name: bandcamp
+                engine: bandcamp
+                shortcut: bc
+                categories: music
+              - name: wikipedia
+                engine: wikipedia
+                shortcut: wp
+                display_type: ["infobox"]
+                categories: [general]
+              - name: bing images
+                engine: bing_images
+                shortcut: bii
+              - name: bing news
+                engine: bing_news
+                shortcut: bin
+              - name: bing videos
+                engine: bing_videos
+                shortcut: biv
+              - name: openverse
+                engine: openverse
+                categories: images
+                shortcut: opv
+              - name: chefkoch
+                engine: chefkoch
+                shortcut: chef
+              - name: currency
+                engine: currency_convert
+                shortcut: cc
+              - name: deviantart
+                engine: deviantart
+                shortcut: da
+                timeout: 3.0
+              - name: devicons
+                engine: devicons
+                shortcut: di
+                timeout: 3.0
+              - name: docker hub
+                engine: docker_hub
+                shortcut: dh
+                categories: [it, packages]
+              - name: wikidata
+                engine: wikidata
+                shortcut: wd
+                timeout: 3.0
+                weight: 2
+                display_type: ["infobox"]
+                categories: [general]
+              - name: duckduckgo
+                engine: duckduckgo
+                shortcut: ddg
+              - name: duckduckgo images
+                engine: duckduckgo_extra
+                categories: [images]
+                ddg_category: images
+                shortcut: ddi
+              - name: duckduckgo videos
+                engine: duckduckgo_extra
+                categories: [videos]
+                ddg_category: videos
+                shortcut: ddv
+              - name: duckduckgo news
+                engine: duckduckgo_extra
+                categories: [news]
+                ddg_category: news
+                shortcut: ddn
+              - name: flickr
+                categories: images
+                shortcut: fl
+                engine: flickr_noapi
+              - name: genius
+                engine: genius
+                shortcut: gen
+              - name: gentoo
+                engine: mediawiki
+                shortcut: ge
+                categories: ["it", "software wikis"]
+                base_url: "https://wiki.gentoo.org/"
+                api_path: "api.php"
+                search_type: text
+                timeout: 10
+              - name: github
+                engine: github
+                shortcut: gh
+              - name: hoogle
+                engine: xpath
+                search_url: https://hoogle.haskell.org/?hoogle={query}
+                results_xpath: '//div[@class="result"]'
+                title_xpath: './/div[@class="ans"]//a'
+                url_xpath: './/div[@class="ans"]//a/@href'
+                content_xpath: './/div[@class="from"]'
+                page_size: 20
+                categories: [it, packages]
+                shortcut: ho
+                about:
+                  website: https://hoogle.haskell.org/
+                  wikidata_id: Q34010
+                  official_api_documentation: https://hackage.haskell.org/api
+                  use_official_api: false
+                  require_api_key: false
+                  results: JSON
+              - name: lemmy communities
+                engine: lemmy
+                lemmy_type: Communities
+                shortcut: leco
+              - name: lemmy users
+                engine: lemmy
+                network: lemmy communities
+                lemmy_type: Users
+                shortcut: leus
+              - name: lemmy posts
+                engine: lemmy
+                network: lemmy communities
+                lemmy_type: Posts
+                shortcut: lepo
+              - name: lemmy comments
+                engine: lemmy
+                network: lemmy communities
+                lemmy_type: Comments
+                shortcut: lecom
+              - name: mastodon users
+                engine: mastodon
+                mastodon_type: accounts
+                base_url: https://mastodon.social
+                shortcut: mau
+              - name: mastodon hashtags
+                engine: mastodon
+                mastodon_type: hashtags
+                base_url: https://mastodon.social
+              - name: openstreetmap
+                engine: openstreetmap
+                shortcut: osm
+              - name: pdbe
+                engine: pdbe
+                shortcut: pdb
+              - name: pexels
+                engine: pexels
+                shortcut: pe
+              - name: photon
+                engine: photon
+                shortcut: ph
+              - name: pinterest
+                engine: pinterest
+                shortcut: pin
+              - name: pypi
+                shortcut: pypi
+                engine: pypi
+              - name: radio browser
+                engine: radio_browser
+                shortcut: rb
+              - name: reuters
+                engine: reuters
+                shortcut: reu
+              - name: sepiasearch
+                engine: sepiasearch
+                shortcut: sep
+              - name: soundcloud
+                engine: soundcloud
+                shortcut: sc
+              - name: stackoverflow
+                engine: stackexchange
+                shortcut: st
+                api_site: 'stackoverflow'
+                categories: [it, q&a]
+              - name: askubuntu
+                engine: stackexchange
+                shortcut: ubuntu
+                api_site: 'askubuntu'
+                categories: [it, q&a]
+              - name: superuser
+                engine: stackexchange
+                shortcut: su
+                api_site: 'superuser'
+                categories: [it, q&a]
+              - name: semantic scholar
+                engine: semantic_scholar
+                shortcut: se
+              - name: startpage
+                engine: startpage
+                shortcut: sp
+                startpage_categ: web
+                categories: [general, web]
+              - name: startpage news
+                engine: startpage
+                startpage_categ: news
+                categories: [news, web]
+                shortcut: spn
+              - name: startpage images
+                engine: startpage
+                startpage_categ: images
+                categories: [images, web]
+                shortcut: spi
+              - name: unsplash
+                engine: unsplash
+                shortcut: us
+              - name: youtube
+                shortcut: yt
+                engine: youtube_noapi
+              - name: dailymotion
+                engine: dailymotion
+                shortcut: dm
+              - name: vimeo
+                engine: vimeo
+                shortcut: vm
+              - name: wikinews
+                engine: mediawiki
+                shortcut: wn
+                categories: [news, wikimedia]
+                base_url: "https://{language}.wikinews.org/"
+                search_type: text
+                srsort: create_timestamp_desc
+                about:
+                  website: https://www.wikinews.org/
+                  wikidata_id: Q964
+              - name: wiktionary
+                engine: mediawiki
+                shortcut: wt
+                categories: [dictionaries, wikimedia]
+                base_url: "https://{language}.wiktionary.org/"
+                search_type: text
+                about:
+                  website: https://www.wiktionary.org/
+                  wikidata_id: Q151
+          limiter.toml: |
+            [botdetection]
+            ipv4_prefix = 32
+            ipv6_prefix = 48
+            trusted_proxies = [
+              '127.0.0.0/8',
+              '::1',
+              '10.43.0.0/16',
+              '10.42.0.0/24'
+            ]
+
+            [botdetection.ip_limit]
+            filter_link_local = false
+            link_token = false
+
+            [botdetection.ip_lists]
+            block_ip = []
+            pass_ip = []
+            pass_searxng_org = true
+    persistence:
+      config:
+        existingClaim: *app
+        advancedMounts:
+          searxng:
+            app:
+              - path: /etc/searxng
+            init-permissions:
+              - path: /etc/searxng
+      settings:
+        type: configMap
+        name: searxng
+        advancedMounts:
+          searxng:
+            app:
+              - path: /etc/searxng/settings.yml
+                subPath: settings.yml
+      limiter:
+        type: configMap
+        name: searxng
+        advancedMounts:
+          searxng:
+            app:
+              - path: /etc/searxng/limiter.toml
+                subPath: limiter.toml
+      cache:
+        existingClaim: searxng-cache
+        advancedMounts:
+          searxng:
+            app:
+              - path: /var/cache/searxng
+            init-permissions:
+              - path: /var/cache/searxng

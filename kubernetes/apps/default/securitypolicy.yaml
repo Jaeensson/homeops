@@ -45,6 +45,9 @@ spec:
       name: sabnzbd
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
+      name: searxng
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
       name: seerr
     - group: gateway.networking.k8s.io
       kind: HTTPRoute

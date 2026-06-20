@@ -19,4 +19,5 @@ resources:
   - dbackup/ks.yaml
   - vaultwarden/ks.yaml
   - mealie/ks.yaml
+  - searxng/ks.yaml
   - securitypolicy.yaml
