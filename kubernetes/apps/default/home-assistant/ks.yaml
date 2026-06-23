@@ -118,5 +118,5 @@ spec:
       APP: zwavejs
       VOLSYNC_SCHEDULE: "23 3 * * *"
       VOLSYNC_CAPACITY: 1Gi
-      VOLSYNC_RUNASUSER: "1000"
+      VOLSYNC_RUNASUSER: "0"
 
