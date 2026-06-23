@@ -10,6 +10,9 @@ spec:
     kind: OCIRepository
     name: *app
   values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
     controllers:
       zwavejs:
         containers:
