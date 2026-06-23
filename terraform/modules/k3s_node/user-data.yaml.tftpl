@@ -1,3 +1,4 @@
+---
 #cloud-config
 timezone: Europe/Stockholm
 hostname: ${node_name}
@@ -25,14 +26,23 @@ packages:
   - curl
   - nfs-common
   - open-iscsi
+  - avahi-daemon
+  - libnss-mdns
 write_files:
   - path: /etc/sysctl.d/90-inotify.conf
     content: |
       fs.inotify.max_user_instances=512
       fs.inotify.max_user_watches=524288
     permissions: '0644'
+  - path: /etc/avahi/avahi-daemon.conf
+    content: |
+      [reflector]
+      enable-reflector=yes
+      reflect-ipv=no
+    permissions: '0644'
 runcmd:
   - pro config set apt_news=false
   - systemctl enable --now qemu-guest-agent
+  - systemctl enable --now avahi-daemon
   - sysctl -p /etc/sysctl.d/90-inotify.conf
   - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --tls-san ${ip} --disable=traefik --disable=servicelb" sh -
