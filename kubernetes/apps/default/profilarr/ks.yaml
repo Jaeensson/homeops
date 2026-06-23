@@ -18,5 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: profilarr
+      VOLSYNC_SCHEDULE: "25 2 * * *"
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_RUNASUSER: "1000"
+

@@ -21,5 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: radarr
+      VOLSYNC_SCHEDULE: "22 1 * * *"
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_RUNASUSER: "1000"
+

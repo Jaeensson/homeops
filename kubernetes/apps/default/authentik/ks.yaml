@@ -18,5 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: authentik
+      VOLSYNC_SCHEDULE: "48 0 * * *"
       VOLSYNC_CAPACITY: 8Gi
       VOLSYNC_RUNASUSER: "1001"
+

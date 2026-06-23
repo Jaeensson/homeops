@@ -18,4 +18,6 @@ spec:
   postBuild:
     substitute:
       APP: woodpecker-server
+      VOLSYNC_SCHEDULE: "27 3 * * *"
       VOLSYNC_CAPACITY: 2Gi
+

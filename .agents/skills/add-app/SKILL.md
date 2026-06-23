@@ -371,7 +371,30 @@ resources:
 
 ---
 
-## Step 8 — Verify
+## Step 8 — Add volsync jitter (if volsync component is used)
+
+If the app includes the volsync component (`components: [../../../../components/volsync]`) with an `APP:` substitute, add a `VOLSYNC_SCHEDULE` with a deterministic jitter so backups don't all hit MinIO at midnight.
+
+Run the jitter script:
+
+```bash
+python3 scripts/add-volsync-jitter.py
+```
+
+This computes `VOLSYNC_SCHEDULE = "MM 0 * * *"` where `MM = md5(APP_NAME) % 60`, giving each app a unique minute offset.
+
+If you prefer to set it manually, add it to the `postBuild.substitute` block:
+
+```yaml
+  postBuild:
+    substitute:
+      APP: <app-name>
+      VOLSYNC_SCHEDULE: "<minute> 0 * * *"
+```
+
+---
+
+## Step 9 — Verify
 
 After writing all files, confirm the complete list of files created/modified and their paths. Do not run `kubectl apply` or `flux reconcile` unless the user explicitly asks.
 

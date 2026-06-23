@@ -18,5 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: searxng
+      VOLSYNC_SCHEDULE: "05 0 * * *"
       VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_RUNASUSER: "977"
+

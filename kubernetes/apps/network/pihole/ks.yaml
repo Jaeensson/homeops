@@ -18,4 +18,6 @@ spec:
   postBuild:
     substitute:
       APP: pihole
+      VOLSYNC_SCHEDULE: "50 2 * * *"
       VOLSYNC_CAPACITY: 2Gi
+

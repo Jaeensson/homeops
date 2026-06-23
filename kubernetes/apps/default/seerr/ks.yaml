@@ -20,5 +20,7 @@ spec:
   postBuild:
     substitute:
       APP: seerr
+      VOLSYNC_SCHEDULE: "23 1 * * *"
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_RUNASUSER: "1000"
+

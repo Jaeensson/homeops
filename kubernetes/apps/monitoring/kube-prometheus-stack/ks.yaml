@@ -18,5 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: prometheus-kube-prometheus-stack-data-0
+      VOLSYNC_SCHEDULE: "27 1 * * *"
       VOLSYNC_CAPACITY: 50Gi
       VOLSYNC_RUNASUSER: "1000"
+

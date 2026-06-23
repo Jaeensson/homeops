@@ -18,5 +18,7 @@ spec:
   postBuild:
     substitute:
       APP: prowlarr
+      VOLSYNC_SCHEDULE: "17 2 * * *"
       VOLSYNC_CAPACITY: 5Gi
       VOLSYNC_RUNASUSER: "1000"
+

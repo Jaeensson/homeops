@@ -20,5 +20,7 @@ spec:
   postBuild:
     substitute:
       APP: jellyfin
+      VOLSYNC_SCHEDULE: "49 0 * * *"
       VOLSYNC_CAPACITY: 20Gi
       VOLSYNC_RUNASUSER: "1000"
+

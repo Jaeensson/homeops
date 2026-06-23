@@ -20,6 +20,7 @@ spec:
   postBuild:
     substitute:
       APP: immich-database
+      VOLSYNC_SCHEDULE: "34 3 * * *"
       VOLSYNC_CAPACITY: 10Gi
       VOLSYNC_RUNASUSER: "999"
 ---
@@ -39,3 +40,4 @@ spec:
     namespace: flux-system
   path: ./kubernetes/apps/default/immich/app
   prune: true
+
