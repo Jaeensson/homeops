@@ -27,7 +27,7 @@ terraform {
     use_path_style              = true
 
     endpoints = {
-      s3 = "http://192.168.1.113:9000"
+      s3 = "http://nas.local:9000"
     }
   }
 }
