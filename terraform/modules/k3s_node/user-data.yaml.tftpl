@@ -1,12 +1,10 @@
----
 #cloud-config
 timezone: Europe/Stockholm
 hostname: ${node_name}
 disable_root: false
 ssh_deletekeys: false
 ssh_pwauth: false
-ssh_authorized_keys:
-  - ${ssh_keys}
+ssh_import_id: ['gh:Jaeensson']
 disk_setup:
   /dev/sdb:
     table_type: gpt
@@ -16,7 +14,7 @@ fs_setup:
   - device: /dev/sdb1
     filesystem: ext4
 mounts:
-  - [/dev/sdb1, /var/lib/rancher/k3s/storage, ext4, defaults, noatime, "0", "0"]
+  - [/dev/sdb1, /var/lib/rancher/k3s/storage, ext4, "defaults,noatime", "0", "0"]
 package_reboot_if_required: true
 package_update: true
 package_upgrade: true
@@ -28,6 +26,7 @@ packages:
   - open-iscsi
   - avahi-daemon
   - libnss-mdns
+  - ssh-import-id
 write_files:
   - path: /etc/sysctl.d/90-inotify.conf
     content: |
@@ -39,6 +38,10 @@ write_files:
       [reflector]
       enable-reflector=yes
       reflect-ipv=no
+    permissions: '0644'
+  - path: /etc/cron.d/import_authorized_keys
+    owner: root:root
+    content: 33 2 * * * ssh-import-id gh:Jaeensson
     permissions: '0644'
 runcmd:
   - pro config set apt_news=false
