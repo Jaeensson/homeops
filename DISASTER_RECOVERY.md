@@ -54,8 +54,8 @@ cluster):
 - SSH key that matches the public key in the Terraform cloud-init user-data
   (the agent-forwarded key or the one pointed at by `~/.ssh/id_ed25519`)
 
-> **Note**: The S3 server (192.168.1.113:9000) and the NFS NAS
-> (192.168.1.113) are external infrastructure. If those are also lost you
+> **Note**: The S3 server (nas.local:9000) and the NFS NAS
+> (nas.local) are external infrastructure. If those are also lost you
 > need to restore them from their own backups before proceeding.
 
 #### Step-by-step recovery
@@ -245,7 +245,7 @@ What happens:
 4. After the VM boots, a null_resource waits for k3s to become active, then
    fetches `kubeconfig.yaml` via SSH and writes it to the project root.
 
-**State**: Stored in the `terraform` bucket on S3 (192.168.1.113:9000).
+**State**: Stored in the `terraform` bucket on S3 (nas.local:9000).
 The backend configuration is hard-coded in `providers.tf`. If S3 is
 down, Terraform cannot plan or apply. Consider exporting a local state copy
 periodically as a safety net.
@@ -360,15 +360,15 @@ using [VolSync](https://volsync.backube/) with the Restic mover.
 │             │ restic backup           │              │
 │             ▼                         │              │
 │  ┌─────────────────────┐     ┌────────┴───────┐      │
-│  │ ReplicationDest.    │     │ ExternalSecret  │      │
-│  │ (manual restore)    │     │ (Infisical)     │      │
+│  │ ReplicationDest.    │     │ ExternalSecret │      │
+│  │ (manual restore)    │     │ (Infisical)    │      │
 │  └─────────────────────┘     └────────────────┘      │
 └──────────────────────┬───────────────────────────────┘
                        │
                        ▼
               ┌─────────────────────┐
               │  S3                 │
-              │  192.168.1.113:9000 │
+              │  nas.local:9000     │
               │  bucket: volsync    │
               └─────────────────────┘
 ```
@@ -388,7 +388,7 @@ scheduled logical backups of all PostgreSQL databases running inside the
 cluster. It connects to each database over the network, performs `pg_dump`,
 and stores the resulting dumps on its own PVC (`/data`), which in turn is
 backed up daily by VolSync to the same S3 instance
-(192.168.1.113:9000) used by all other VolSync Restic repositories. This
+(nas.local:9000) used by all other VolSync Restic repositories. This
 gives two layers of protection for database contents:
 
 1. **dbackup's own export schedule** — logical `pg_dump` files on its PVC
@@ -426,7 +426,7 @@ to trigger a restore from a specific dump file.
 
 ### What is **not** backed up by VolSync
 
-- **Media and downloads** (NFS volumes from the NAS at 192.168.1.113).
+- **Media and downloads** (NFS volumes from the NAS at nas.local).
   These are `PersistentVolume` resources backed by NFS shares on the
   Synology NAS. They have their own backup strategy outside of this repo.
 - **The S3 server itself** — it stores Terraform state and all Restic
@@ -511,7 +511,7 @@ You can also list and verify Restic snapshots directly from a one-shot pod:
 
 ```bash
 kubectl run -n default restic-check --image=restic/restic --rm -it --restart=Never \
-  --env=RESTIC_REPOSITORY="s3:http://192.168.1.113:9000/volsync/<app>" \
+  --env=RESTIC_REPOSITORY="s3:http://nas.local:9000/volsync/<app>" \
   --env=RESTIC_PASSWORD="<password>" \
   --env=AWS_ACCESS_KEY_ID="<key>" \
   --env=AWS_SECRET_ACCESS_KEY="<secret>" \
