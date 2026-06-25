@@ -23,6 +23,9 @@ spec:
     service:
       app:
         controller: *app
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: mqtt.egenintres.se
         ports:
           mqtt:
             port: 1883

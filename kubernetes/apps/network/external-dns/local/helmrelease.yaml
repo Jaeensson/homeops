@@ -18,6 +18,7 @@ spec:
       name: pihole
     sources:
       - gateway-httproute
+      - service
     policy: upsert-only
     registry: noop
     domainFilters:
