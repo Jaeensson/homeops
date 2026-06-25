@@ -1,0 +1,115 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: home-assistant-config
+data:
+  configuration.yaml: |-
+    default_config:
+
+    automation: !include automations.yaml
+    script: !include scripts.yaml
+    scene: !include scenes.yaml
+    group: !include groups.yaml
+    template: !include sensor.yaml
+    input_datetime: !include input_datetime.yaml
+
+    homeassistant:
+      name: Hem
+      latitude: !secret homeassistant_latitude
+      longitude: !secret homeassistant_longitude
+      elevation: !secret homeassistant_elevation
+      unit_system: metric
+      temperature_unit: C
+      time_zone: Europe/Stockholm
+      currency: SEK
+      country: SE
+      language: en
+      packages: !include_dir_named include
+
+    auth_oidc:
+      client_id: !secret oidc_client_id
+      client_secret: !secret oidc_client_secret
+      discovery_url: !secret oidc_discovery_url
+      display_name: Authentik
+      roles:
+        admin: Home Assistant Admins
+      features:
+        automatic_user_linking: true
+
+    http:
+      use_x_forwarded_for: true
+      trusted_proxies:
+        - 10.42.0.0/24
+        - 10.43.0.0/16
+
+    frontend:
+      themes: !include_dir_merge_named themes
+
+    recorder:
+      db_url: !secret recorder_db_url
+
+    tts:
+      - platform: google_translate
+
+    google_assistant:
+      service_account: !secret google_service_account
+      project_id: !secret google_assistant_project_id
+      secure_devices_pin: !secret google_assistant_secure_devices_pin
+      report_state: true
+      expose_by_default: true
+      exposed_domains:
+        - light
+        - vacuum
+      entity_config:
+        light.barlampa_1:
+          expose: false
+        light.barlampa_2:
+          expose: false
+        light.barlampa_3:
+          expose: false
+        light.garderob_led_2:
+          expose: false
+        light.garderob_led_3:
+          expose: false
+        light.garderob_led_4:
+          expose: false
+        light.garderob_led_5:
+          expose: false
+        cover.rullgardin:
+          expose: true
+
+    waste_collection_schedule:
+      sources:
+        - name: !secret waste_collection_source_name
+          args:
+            facility_id: !secret waste_collection_facility_id
+
+    mqtt:
+      sensor:
+        - name: Support Energy Heating
+          unit_of_measurement: "kWh"
+          icon: mdi:flash
+          state_topic: "+/HP/5C52"
+          device_class: energy
+          state_class: total_increasing
+        - name: Support Energy Warm Water
+          unit_of_measurement: "kWh"
+          icon: mdi:flash
+          state_topic: "+/HP/5C53"
+          device_class: energy
+          state_class: total_increasing
+        - name: "Huvudentré användare pin"
+          state_topic: "zigbee2mqtt/Huvudentré"
+          value_template: "{{ value_json.users[ states.input_number.anvandar_id_huvudentre.state | int | string ].pin_code }}"
+        - name: "Huvudentré användare status"
+          state_topic: "zigbee2mqtt/Huvudentré"
+          value_template: "{{ value_json.users[ states.input_number.anvandar_id_huvudentre.state | int | string ].status }}"
+
+    notify:
+      - name: all_mobile_devices
+        platform: group
+        services:
+          - service: mobile_app_a063
+          - service: mobile_app_rasmus_nothing
+

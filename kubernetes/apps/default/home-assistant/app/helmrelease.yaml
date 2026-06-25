@@ -31,3 +31,15 @@ spec:
         existingClaim: *app
         globalMounts:
           - path: /config
+      configuration:
+        type: configMap
+        name: home-assistant-config
+        globalMounts:
+          - path: /config/configuration.yaml
+            subPath: configuration.yaml
+      secrets:
+        type: secret
+        name: home-assistant-secret
+        globalMounts:
+          - path: /config/secrets.yaml
+            subPath: secrets.yaml
