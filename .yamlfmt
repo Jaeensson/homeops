@@ -6,6 +6,7 @@ formatter:
   eof_newline: true
   trim_trailing_whitespace: true
   include_document_start: true
+  scan_folded_as_literal: true
 
 continue_on_error: false
 line_ending: lf
