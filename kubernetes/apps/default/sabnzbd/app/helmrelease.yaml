@@ -28,6 +28,8 @@ spec:
             env:
               - name: FIREWALL_OUTBOUND_SUBNETS
                 value: 10.42.0.0/24,10.43.0.0/16
+              - name: BLOCK_MALICIOUS
+                value: "off"
             securityContext:
               capabilities:
                 add:
