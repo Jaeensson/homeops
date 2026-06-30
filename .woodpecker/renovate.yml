@@ -9,6 +9,10 @@ when:
 variables:
   log_level: info
   renovate_args: ''
+
+concurrency:
+  limit: 1
+
 steps:
   - name: generate-token
     image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:1.2.3
