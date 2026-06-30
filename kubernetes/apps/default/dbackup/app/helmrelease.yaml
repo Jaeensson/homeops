@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: ghcr.io/skyfay/dbackup
-              tag: v2.7.2
+              tag: v2.8.0
             env:
               - name: DISABLE_HTTPS
                 value: "true"
