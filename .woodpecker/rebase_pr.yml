@@ -15,16 +15,20 @@ steps:
       PLUGIN_OUTPUT_FILE: .github_token
 
   - name: rebase-renovate-branches
-    image: ghcr.io/cli/cli:latest
+    image: alpine:latest
     environment:
       GITHUB_REPOSITORY: Jaeensson/homeops
       BASE_BRANCH: main
+      GH_APP_NAME:
+        from_secret: gh_app_name
+      GH_APP_EMAIL:
+        from_secret: gh_app_email
     commands:
       - export GH_TOKEN=$(cat .github_token)
-      - apk add --no-cache git jq bash
+      - apk add --no-cache git jq bash github-cli
 
-      - git config --global user.name "renovate-rebase-bot"
-      - git config --global user.email "renovate-rebase-bot@example.com"
+      - git config --global user.name "$${GH_APP_NAME}"
+      - git config --global user.email "$${GH_APP_EMAIL}"
 
       # Authenticate git
       - git remote set-url origin "https://x-access-token:$${GH_TOKEN}@github.com/$${GITHUB_REPOSITORY}.git"
