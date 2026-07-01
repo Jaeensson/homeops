@@ -1,0 +1,70 @@
+when:
+  - event: push
+    branch: main
+
+steps:
+  - name: generate-token
+    image: ghcr.io/yyewolf/woodpecker-plugins/github-app-token:1.2.3
+    environment:
+      PLUGIN_GITHUB_APP_ID:
+        from_secret: renovate_app_id
+      PLUGIN_GITHUB_PRIVATE_KEY_PEM:
+        from_secret: renovate_private_key
+      PLUGIN_GITHUB_INSTALLATION_ID:
+        from_secret: renovate_installation_id
+      PLUGIN_OUTPUT_FILE: .github_token
+
+  - name: rebase-renovate-branches
+    image: ghcr.io/cli/cli:latest
+    environment:
+      GITHUB_REPOSITORY: Jaeensson/homeops
+      BASE_BRANCH: main
+    commands:
+      - export GH_TOKEN=$(cat .github_token)
+      - apk add --no-cache git jq bash
+
+      - git config --global user.name "renovate-rebase-bot"
+      - git config --global user.email "renovate-rebase-bot@example.com"
+
+      # Authenticate git
+      - git remote set-url origin "https://x-access-token:$${GH_TOKEN}@github.com/$${GITHUB_REPOSITORY}.git"
+
+      - git fetch origin "$${BASE_BRANCH}"
+      - git fetch origin '+refs/heads/*:refs/remotes/origin/*'
+
+      # Get ONLY renovate/* branches with open PRs
+      - |
+        gh pr list \
+          --repo "$${GITHUB_REPOSITORY}" \
+          --state open \
+          --base "$${BASE_BRANCH}" \
+          --json headRefName,isDraft \
+          --jq '.[] 
+            | select(.isDraft == false) 
+            | select(.headRefName | startswith("renovate/")) 
+            | .headRefName' \
+          > renovate-branches.txt
+
+      - echo "Renovate branches to process:"
+      - cat renovate-branches.txt || true
+
+      # Rebase each renovate branch
+      - |
+        while read -r branch; do
+          if [ -z "$branch" ]; then
+            continue
+          fi
+
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Rebasing $branch"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+          git checkout -B "$branch" "origin/$branch"
+
+          if git rebase "origin/$BASE_BRANCH"; then
+            git push --force-with-lease origin "$branch"
+          else
+            echo "Rebase failed for $branch, skipping"
+            git rebase --abort || true
+          fi
+        done < renovate-branches.txt
