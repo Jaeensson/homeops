@@ -14,8 +14,8 @@ namespaces:
 
 # Create bootstrap secrets from environment variables
 secrets:
-    envsubst < {{bootstrap_dir}}/secrets.yaml.tpl | kubectl apply -f -
-
+    minijinja-cli "{{bootstrap_dir}}/secrets.yaml.j2" --env -a none | kubectl apply -f -
+    
 # Create CRDs required by apps
 crds:
     helmfile -f "{{ kubernetes_dir }}/bootstrap/helmfile.crds.yaml" template -q | yq ea -e 'select(.kind == "CustomResourceDefinition")' | kubectl apply --server-side --field-manager bootstrap --force-conflicts -f -

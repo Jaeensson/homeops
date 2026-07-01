@@ -20,11 +20,8 @@ Personal homelab infrastructure running a single-node k3s cluster on Proxmox, ma
 Create `.envrc.local` in the project root (gitignored) and set the following:
 
 ```bash
-export GIT_PRIVATE_KEY=""           # Git ssh private key for flux authentication
 export INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=""       # Infisical universal auth client ID
 export INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=""   # Infisical universal auth client secret
-export INFISICAL_PROJECT_ID=""      # Infisical project ID
-export INFISICAL_API_URL=""         # Infisical API URL (e.g. https://eu.infisical.com)
-export AWS_ACCESS_KEY_ID=""         # S3-compatible backend (MinIO) — used by Terraform
-export AWS_SECRET_ACCESS_KEY=""   # S3-compatible backend (MinIO) — used by Terraform
+export INFISICAL_PROJECT_ID=""                     # Infisical project ID
+export INFISICAL_API_URL=""                        # Infisical API URL (e.g. https://eu.infisical.com)
 ```
