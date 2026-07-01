@@ -11,6 +11,15 @@ spec:
     name: kube-prometheus-stack
   values:
     grafana:
+      envFromSecret: grafana
+      grafana.ini:
+        server:
+          root_url: https://grafana.egenintres.se
+        "auth.generic_oauth":
+          enabled: true
+          name: Authentik
+          allow_sign_up: true
+          scopes: openid profile email groups
       admin:
         existingSecret: grafana-admin-creds
         userKey: admin-user
