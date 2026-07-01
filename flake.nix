@@ -45,9 +45,10 @@
             just
             direnv
             yamlfmt
-            envsubst
             renovate
             nodejs
+            infisical
+            minijinja
             (npm-package.lib.${system}.npmPackage {
               name = "pi";
               packageName = "@earendil-works/pi-coding-agent";
@@ -66,6 +67,8 @@
             echo "  direnv     $(direnv version)"
             echo "  renovate   $(renovate --version)"
             echo "  pi         $(pi --version)"
+            echo "  infisical  $(infisical --version)"
+            echo "  minijinja  $(minijinja-cli -V)"
           '';
 
         };
