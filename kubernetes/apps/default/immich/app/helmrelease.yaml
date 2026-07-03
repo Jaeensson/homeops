@@ -21,8 +21,6 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
-            image:
-              tag: v2.7.5
             env:
               # List format to support valueFrom for secrets
               - name: REDIS_HOSTNAME
