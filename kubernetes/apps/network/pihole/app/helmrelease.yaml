@@ -26,6 +26,8 @@ spec:
                 value: "0"
               - name: DNSMASQ_USER
                 value: root
+              - name: FTLCONF_dns_listeningMode
+                value: all
             envFrom:
               - secret: *name
             securityContext:
@@ -54,6 +56,7 @@ spec:
           metallb.io/loadBalancerIPs: 192.168.2.1
         controller: *name
         type: LoadBalancer
+        externalTrafficPolicy: Local
         ports:
           dns-tcp:
             port: 53
