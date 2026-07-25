@@ -16,7 +16,7 @@ steps:
       - yamlfmt -verbose -lint kubernetes/
 
   - name: terraform-lint
-    image: ghcr.io/terraform-linters/tflint:v0.63.1
+    image: ghcr.io/terraform-linters/tflint:v0.64.0
     commands:
       - tflint --chdir terraform --recursive
 
