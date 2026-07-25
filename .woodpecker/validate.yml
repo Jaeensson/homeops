@@ -6,7 +6,7 @@ when:
 
 steps:
   - name: validate-renovate-config
-    image: ghcr.io/renovatebot/renovate:43.280.0
+    image: ghcr.io/renovatebot/renovate:43.280.4
     commands:
       - renovate-config-validator --strict .renovaterc.json5
 
@@ -16,7 +16,7 @@ steps:
       - yamlfmt -verbose -lint kubernetes/
 
   - name: terraform-lint
-    image: ghcr.io/terraform-linters/tflint:v0.63.1
+    image: ghcr.io/terraform-linters/tflint:v0.64.0
     commands:
       - tflint --chdir terraform --recursive
 

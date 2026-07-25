@@ -17,11 +17,11 @@ releases:
   - name: external-secrets
     namespace: external-secrets
     chart: oci://ghcr.io/external-secrets/charts/external-secrets
-    version: 2.7.0
+    version: 2.8.0
   - name: envoy-gateway
     namespace: network
     chart: oci://docker.io/envoyproxy/gateway-helm
-    version: 1.8.2
+    version: 1.8.3
   - name: metallb
     namespace: metallb-system
     chart: oci://quay.io/metallb/chart/metallb
