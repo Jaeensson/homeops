@@ -12,11 +12,17 @@ spec:
   values:
     controllers:
       seerr:
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
             image:
               repository: ghcr.io/seerr-team/seerr
-              tag: v3.3.0
+              tag: v3.4.1
             env:
               - name: TZ
                 value: Europe/Stockholm
