@@ -1,6 +1,16 @@
+---
 when:
   - event: push
     branch: main
+
+# The rebase job needs full history (to compute merge-bases and rebase branches
+# onto main). The default clone is partial (depth=1, --filter=tree:0), which
+# makes `git rebase` find no merge-base and replay the entire branch history.
+clone:
+  - name: git
+    image: woodpeckerci/plugin-git
+    settings:
+      partial: false
 
 steps:
   - name: generate-token
@@ -43,9 +53,9 @@ steps:
           --state open \
           --base "$${BASE_BRANCH}" \
           --json headRefName,isDraft \
-          --jq '.[] 
-            | select(.isDraft == false) 
-            | select(.headRefName | startswith("renovate/")) 
+          --jq '.[]
+            | select(.isDraft == false)
+            | select(.headRefName | startswith("renovate/"))
             | .headRefName' \
           > renovate-branches.txt
 
@@ -53,7 +63,7 @@ steps:
       - cat renovate-branches.txt || true
 
       # Rebase each renovate branch
-      - |
+      - |-
         while read -r branch; do
           if [ -z "$branch" ]; then
             continue
