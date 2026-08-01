@@ -23,5 +23,5 @@ spec:
       APP: sonarr
       VOLSYNC_SCHEDULE: "08 0 * * *"
       VOLSYNC_CAPACITY: 5Gi
-      VOLSYNC_RUNASUSER: "0"
+      VOLSYNC_RUNASUSER: "1000"
 
