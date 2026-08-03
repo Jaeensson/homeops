@@ -18,55 +18,36 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
+    "nix-flate": {
       "inputs": {
-        "systems": "systems_2"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "nix-flux-local": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1781786946,
-        "narHash": "sha256-l5g14WLBXpw914qb+EgSKUFVkzD6ZR6i/iluOhnleXs=",
+        "lastModified": 1785741330,
+        "narHash": "sha256-tZe/HusZLBqv9ZUTqwuI22xSqdebE3J2s57TiRaDpbQ=",
         "owner": "Jaeensson",
-        "repo": "nix-flux-local",
-        "rev": "9e3f5ddd21789e03bb45e7b9b6d258f9b220e214",
+        "repo": "nix-flate",
+        "rev": "b13c3a45de8b4b37e451576fd9029beafdf5c08e",
         "type": "github"
       },
       "original": {
         "owner": "Jaeensson",
-        "repo": "nix-flux-local",
+        "repo": "nix-flate",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1781577229,
-        "narHash": "sha256-lrp67w8AulE9Ks53n27I45ADSzbOCn4H+CNW1Ck8B+8=",
+        "lastModified": 1785602060,
+        "narHash": "sha256-z7D96eESRM4CPV/XtwpwFn8IDdfLAmxz6lVWrGYXvR4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "567a49d1913ce81ac6e9582e3553dd90a955875f",
+        "rev": "a5cbcfe954791221bfffe2307f7d1a1bf61a871e",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -124,27 +105,12 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nix-flux-local": "nix-flux-local",
+        "nix-flate": "nix-flate",
         "nixpkgs": "nixpkgs_2",
         "npm-package": "npm-package"
       }
     },
     "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

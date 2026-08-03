@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    nix-flux-local.url = "github:Jaeensson/nix-flux-local";
+    nix-flate.url = "github:Jaeensson/nix-flate";
     npm-package.url = "github:netbrain/npm-package";
   };
 
@@ -12,7 +12,7 @@
     inputs@{
       nixpkgs,
       flake-utils,
-      nix-flux-local,
+      nix-flate,
       npm-package,
       ...
     }:
@@ -24,7 +24,7 @@
           config.allowUnfree = true;
           overlays = [
             (final: prev: {
-              flux-local = nix-flux-local.packages.${system}.flux-local;
+              flate = nix-flate.packages.${system}.default;
             })
           ];
         };
@@ -33,7 +33,7 @@
         devShells.default = pkgs.mkShell {
 
           packages = with pkgs; [
-            flux-local
+            flate
             terraform
             tflint
             kubectl

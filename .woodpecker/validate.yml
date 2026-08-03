@@ -20,11 +20,7 @@ steps:
     commands:
       - tflint --chdir terraform --recursive
 
-  - name: flux-local-test
-    image: ghcr.io/allenporter/flux-local:v8.4.0
-    environment:
-      GIT_CONFIG_COUNT: 1
-      GIT_CONFIG_KEY_0: safe.directory
-      GIT_CONFIG_VALUE_0: "*"
+  - name: flate-test
+    image: ghcr.io/home-operations/flate:0.4.12
     commands:
-      - flux-local test --path kubernetes/flux/ --all-namespaces -v
+      - flate test all --path kubernetes/flux/

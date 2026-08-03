@@ -18,11 +18,11 @@ delete-ks ns ks:
     just kube render-local-ks "{{ ns }}" "{{ ks }}" | kubectl delete -f /dev/stdin
 
 render-local-ks ns ks:
-    flux-local build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux" "{{ ks }}"
+    flate build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux" "{{ ks }}"
 
 render-local-ns-ks ns:
-    flux-local build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux"
+    flate build ks --namespace "{{ ns }}" --path "{{ kubernetes_dir }}/flux"
 
 test-local:
     cd {{ justfile_dir() }} && \
-    flux-local test --path "{{ kubernetes_dir }}/flux/" --all-namespaces -v
+    flate test all --path "{{ kubernetes_dir }}/flux/"
