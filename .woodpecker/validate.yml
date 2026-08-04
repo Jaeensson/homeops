@@ -21,6 +21,11 @@ steps:
       - tflint --chdir terraform --recursive
 
   - name: flate-test
-    image: ghcr.io/home-operations/flate:0.4.12
+    image: alpine:latest
     commands:
+      - apk add --no-cache curl
+      - |
+        # renovate: datasource=github-releases depName=home-operations/flate
+        FLATE_VERSION="0.4.12"
+        curl -fsSL "https://github.com/home-operations/flate/releases/download/v${FLATE_VERSION}/flate_${FLATE_VERSION}_linux_amd64.tar.gz" | tar xz -C /usr/local/bin
       - flate test all --path kubernetes/flux/
