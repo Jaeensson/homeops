@@ -21,6 +21,9 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
+            image:
+              # renovate: datasource=github-releases depName=immich-app/immich
+              tag: v3.1.0
             env:
               # List format to support valueFrom for secrets
               - name: REDIS_HOSTNAME
