@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/radarr
-              tag: 6.1.1.10360-ls303
+              tag: 6.3.0.10514-ls313
             env:
               - name: TZ
                 value: Europe/Stockholm
