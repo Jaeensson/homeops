@@ -4,7 +4,7 @@
     "github>home-operations/renovate-presets#5.0.0",
     ":timezone(Europe/Stockholm)"
   ],
-  rebaseWhen: "conflicted",
+  rebaseWhen: "behind-base-branch",
   helmfile: {
     managerFilePatterns: [
       "/helmfile\\.(?:apps|crds)\\.yaml$/"
