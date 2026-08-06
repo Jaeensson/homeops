@@ -6,7 +6,7 @@ when:
 
 steps:
   - name: validate-renovate-config
-    image: ghcr.io/renovatebot/renovate:44.11.6
+    image: ghcr.io/renovatebot/renovate:44.14.0
     commands:
       - renovate-config-validator --strict .renovaterc.json5
 
