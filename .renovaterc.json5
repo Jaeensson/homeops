@@ -11,6 +11,12 @@
     ],
   },
   packageRules: [
+    {
+      description: "Linuxserver image versioning fix",
+      matchDatasources: ["docker"],
+      matchPackagePrefixes: ["ghcr.io/linuxserver/"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls(?<revision>\\d+)$"
+    },
     // Auto-merge rules
     {
       description: "Auto-merge high-cadence OCI packages weekly",
