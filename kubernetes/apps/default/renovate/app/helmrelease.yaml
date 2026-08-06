@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: renovate
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: renovate
+  values:
+    fullnameOverride: renovate
+    image:
+      repository: ghcr.io/mend/renovate-ce
+      tag: 15.1.0
+    renovate:
+      mendRnvAcceptTos: "y"
+      mendRnvDiskUsageWarnThreshold: 85
+      mendRnvPlatform: github
+      existingSecret: renovate-secret
+      extraEnvVars:
+        - name: MEND_RNV_GITHUB_BOT_USER_ID
+          valueFrom:
+            secretKeyRef:
+              name: renovate-secret
+              key: mendRnvGithubBotUserId
+    cachePersistence:
+      enabled: true
+      existingClaim: renovate-cache
+    podSecurityContext:
+      fsGroup: 12021
+      fsGroupChangePolicy: OnRootMismatch
