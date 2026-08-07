@@ -5,6 +5,13 @@
     ":timezone(Europe/Stockholm)"
   ],
   rebaseWhen: "behind-base-branch",
+  hostRules: [
+    {
+      description: "Authenticate ghcr.io lookups to avoid anonymous rate limits",
+      matchHost: "ghcr.io",
+      token: "{{ secrets.GITHUB_COM_TOKEN }}",
+    },
+  ],
   helmfile: {
     managerFilePatterns: [
       "/helmfile\\.(?:apps|crds)\\.yaml$/"
@@ -12,10 +19,19 @@
   },
   packageRules: [
     {
-      description: "Linuxserver image versioning fix",
+      description: "Linuxserver image versioning fix (4-segment -ls tags)",
       matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/linuxserver/{/,}**"],
+      matchPackageNames: [
+        "ghcr.io/linuxserver/{/,}**",
+        "!ghcr.io/linuxserver/sabnzbd",
+      ],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls(?<revision>\\d+)$"
+    },
+    {
+      description: "Sabnzbd versioning (3-segment -ls tags, e.g. 5.0.4-ls265)",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/linuxserver/sabnzbd"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls(?<build>\\d+)$"
     },
     // Auto-merge rules
     {

@@ -19,6 +19,12 @@ spec:
       mendRnvDiskUsageWarnThreshold: 85
       mendRnvPlatform: github
       existingSecret: renovate-secret
+      config: |
+        module.exports = {
+          secrets: {
+            GITHUB_COM_TOKEN: process.env.GITHUB_COM_TOKEN,
+          },
+        }
       extraEnvVars:
         - name: MEND_RNV_GITHUB_BOT_USER_ID
           valueFrom:
