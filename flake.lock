@@ -23,11 +23,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1785744219,
-        "narHash": "sha256-cZ9Zh0X1G+r0/D/81mPEq8vWqJkIS0T8VZQUwisEWAY=",
+        "lastModified": 1786182058,
+        "narHash": "sha256-BtzIAxjp3ieMc/iNu02cnW3zYNPisl6q0i8aBpR6jB0=",
         "owner": "Jaeensson",
         "repo": "nix-flate",
-        "rev": "828051b614f1bf761a1727422a1b8dc135fea363",
+        "rev": "cef6ae86c1057f00d3c1c4c7302b4ec54ab0c538",
         "type": "github"
       },
       "original": {

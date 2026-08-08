@@ -16,6 +16,7 @@ spec:
       tag: 15.1.0
     renovate:
       mendRnvAcceptTos: "y"
+      mendRnvCronJobSchedulerAll: "0 */6 * * *"
       mendRnvDiskUsageWarnThreshold: 85
       mendRnvPlatform: github
       existingSecret: renovate-secret
