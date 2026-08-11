@@ -5,13 +5,6 @@
     ":timezone(Europe/Stockholm)"
   ],
   rebaseWhen: "behind-base-branch",
-  hostRules: [
-    {
-      description: "Authenticate ghcr.io lookups to avoid anonymous rate limits",
-      matchHost: "ghcr.io",
-      token: "{{ secrets.GITHUB_COM_TOKEN }}",
-    },
-  ],
   helmfile: {
     managerFilePatterns: [
       "/helmfile\\.(?:apps|crds)\\.yaml$/"
