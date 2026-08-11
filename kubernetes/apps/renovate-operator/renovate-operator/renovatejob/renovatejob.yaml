@@ -15,6 +15,7 @@ spec:
     appIdSecretKey: APP_ID
     installationIdSecretKey: INSTALL_ID
     pemSecretKey: PEM
+  secretRef: renovate-operator-secret
   discoveryFilters:
     - Jaeensson/*
   parallelism: 1

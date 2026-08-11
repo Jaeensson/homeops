@@ -9,7 +9,7 @@
     {
       description: "Authenticate ghcr.io lookups to avoid anonymous rate limits",
       matchHost: "ghcr.io",
-      token: "{{ secrets.RENOVATE_TOKEN }}",
+      token: "{{ secrets.GITHUB_COM_TOKEN }}",
     },
   ],
   helmfile: {
