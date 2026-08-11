@@ -35,5 +35,6 @@ spec:
       fromNamespaces:
         - default
         - monitoring
+        - renovate-operator
         - woodpecker-system
         - longhorn-system

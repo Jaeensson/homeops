@@ -20,5 +20,4 @@ resources:
   - vaultwarden/ks.yaml
   - mealie/ks.yaml
   - searxng/ks.yaml
-  - renovate/ks.yaml
   - securitypolicy.yaml
