@@ -16,6 +16,12 @@ spec:
     installationIdSecretKey: INSTALL_ID
     pemSecretKey: PEM
   secretRef: renovate-operator-secret
+  extraEnv:
+    - name: RENOVATE_SECRET_GITHUB_COM_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: renovate-operator-secret
+          key: GITHUB_COM_TOKEN
   discoveryFilters:
     - Jaeensson/*
   parallelism: 1
