@@ -9,28 +9,6 @@ spec:
   chartRef:
     kind: OCIRepository
     name: jellyfin
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-              name: jellyfin
-            patch: |-
-              apiVersion: apps/v1
-              kind: Deployment
-              metadata:
-                name: jellyfin
-              spec:
-                template:
-                  spec:
-                    securityContext:
-                      devices:
-                        - hostPath: /dev/dri/renderD128
-                          containerPath: /dev/dri/renderD128
-                          permissions: rw
-                        - hostPath: /dev/dri/card1
-                          containerPath: /dev/dri/card1
-                          permissions: rw
   values:
     controllers:
       jellyfin:
@@ -48,6 +26,8 @@ spec:
             image:
               repository: jellyfin/jellyfin
               tag: 10.11.11
+            securityContext:
+              privileged: true
             env:
               - name: TZ
                 value: Europe/Stockholm
