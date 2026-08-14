@@ -27,4 +27,5 @@ steps:
         FLATE_VERSION="0.5.0"
         # $$ escapes envsubst so the shell variable survives Woodpecker's YAML preprocessing
         curl -fsSL "https://github.com/home-operations/flate/releases/download/v$${FLATE_VERSION}/flate_$${FLATE_VERSION}_linux_amd64.tar.gz" | tar xz -C /usr/local/bin
-      - flate test all --path kubernetes/flux/
+      - flate test hr --path kubernetes/flux/
+      - flate test ks --path kubernetes/flux/
