@@ -73,8 +73,13 @@ variable "system_disk_size_gb" {
   type = number
 }
 
-variable "storage_disk_size_gb" {
-  type = number
+variable "extra_disks" {
+  description = "Additional disks attached to the VM (scsi1, scsi2, ...), each mounted at its mount_point"
+  type = list(object({
+    size_gb     = number
+    mount_point = string
+  }))
+  default = []
 }
 
 variable "ssh_private_key_path" {

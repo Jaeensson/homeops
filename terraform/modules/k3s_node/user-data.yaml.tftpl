@@ -5,16 +5,24 @@ disable_root: false
 ssh_deletekeys: false
 ssh_pwauth: false
 ssh_import_id: ['gh:Jaeensson']
+%{ if length(extra_disks) > 0 ~}
 disk_setup:
-  /dev/sdb:
+%{ for disk in extra_disks ~}
+  ${disk.device}:
     table_type: gpt
     layout: true
     overwrite: false
+%{ endfor ~}
 fs_setup:
-  - device: /dev/sdb1
+%{ for disk in extra_disks ~}
+  - device: ${disk.device}1
     filesystem: ext4
+%{ endfor ~}
 mounts:
-  - [/dev/sdb1, /var/lib/rancher/k3s/storage, ext4, "defaults,noatime", "0", "0"]
+%{ for disk in extra_disks ~}
+  - [${disk.device}1, ${disk.mount_point}, ext4, "defaults,noatime", "0", "0"]
+%{ endfor ~}
+%{ endif ~}
 package_reboot_if_required: true
 package_update: true
 package_upgrade: true

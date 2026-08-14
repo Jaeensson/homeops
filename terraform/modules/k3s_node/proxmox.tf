@@ -21,6 +21,12 @@ resource "proxmox_virtual_environment_file" "user_data" {
         ssh_keys  = var.ssh_keys
         node_name = var.node_name
         ip        = var.ip
+        extra_disks = [
+          for i, d in var.extra_disks : {
+            device      = "/dev/sd${element(["b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], i)}"
+            mount_point = d.mount_point
+          }
+        ]
       }
     )
   }
@@ -63,10 +69,13 @@ resource "proxmox_virtual_environment_vm" "vm" {
     size         = var.system_disk_size_gb
   }
 
-  disk {
-    datastore_id = var.proxmox_storage
-    interface    = "scsi1"
-    size         = var.storage_disk_size_gb
+  dynamic "disk" {
+    for_each = { for idx, d in var.extra_disks : "scsi${idx + 1}" => d }
+    content {
+      datastore_id = var.proxmox_storage
+      interface    = disk.key
+      size         = disk.value.size_gb
+    }
   }
 
   network_device {
