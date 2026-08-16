@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nix-flate.url = "github:Jaeensson/nix-flate";
-    npm-package.url = "github:netbrain/npm-package";
+#    npm-package.url = "github:netbrain/npm-package";
   };
 
   outputs =
@@ -13,7 +13,7 @@
       nixpkgs,
       flake-utils,
       nix-flate,
-      npm-package,
+ #     npm-package,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -49,10 +49,10 @@
             nodejs
             infisical
             minijinja
-            (npm-package.lib.${system}.npmPackage {
-              name = "pi";
-              packageName = "@earendil-works/pi-coding-agent";
-            })
+#            (npm-package.lib.${system}.npmPackage {
+#              name = "pi";
+#              packageName = "@earendil-works/pi-coding-agent";
+#            })
           ];
 
           shellHook = ''
@@ -66,7 +66,6 @@
             echo "  yq         $(yq --version)"
             echo "  direnv     $(direnv version)"
             echo "  renovate   $(renovate --version)"
-            echo "  pi         $(pi --version)"
             echo "  infisical  $(infisical --version)"
             echo "  minijinja  $(minijinja-cli -V)"
           '';
