@@ -1,6 +1,6 @@
 ---
 when:
-  - event: pull_request
+  - event: push
 
 steps:
   - name: validate-renovate-config
