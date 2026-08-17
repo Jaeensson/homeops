@@ -9,6 +9,36 @@ spec:
   chartRef:
     kind: OCIRepository
     name: crowdsec
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: DaemonSet
+              name: crowdsec-agent
+            patch: |-
+              apiVersion: apps/v1
+              kind: DaemonSet
+              metadata:
+                name: crowdsec-agent
+              spec:
+                template:
+                  spec:
+                    initContainers:
+                      - name: wait-for-lapi-and-register
+                        command:
+                          - sh
+                          - -c
+                          - >-
+                            if [ -f /tmp_config/local_api_credentials.yaml ]; then
+                            echo "already registered; reusing credentials"; exit 0;
+                            fi;
+                            until nc "$LAPI_HOST" "$LAPI_PORT" -z; do
+                            echo waiting for lapi to start; sleep 5; done;
+                            ln -s /staging/etc/crowdsec /etc/crowdsec &&
+                            cscli lapi register --machine "$USERNAME" -u "$LAPI_URL"
+                            --token "$REGISTRATION_TOKEN" &&
+                            cp /etc/crowdsec/local_api_credentials.yaml
+                            /tmp_config/local_api_credentials.yaml
   values:
     container_runtime: containerd
     agent:
