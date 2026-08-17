@@ -13,12 +13,4 @@ spec:
     namespace: flux-system
   path: ./kubernetes/apps/monitoring/kube-prometheus-stack/app
   prune: true
-  components:
-    - ../../../../components/volsync
-  postBuild:
-    substitute:
-      APP: prometheus-kube-prometheus-stack-data-0
-      VOLSYNC_SCHEDULE: "27 1 * * *"
-      VOLSYNC_CAPACITY: 50Gi
-      VOLSYNC_RUNASUSER: "1000"
 
