@@ -21,7 +21,7 @@ releases:
   - name: envoy-gateway
     namespace: network
     chart: oci://docker.io/envoyproxy/gateway-helm
-    version: 1.8.3
+    version: 1.9.0
   - name: metallb
     namespace: metallb-system
     chart: oci://quay.io/metallb/chart/metallb
