@@ -17,6 +17,10 @@ kubernetes/
   flux/
     ks.yaml                    # Root Flux Kustomization (points to ./kubernetes/apps)
   apps/
+    # No kubernetes/apps/kustomization.yaml needed: Flux auto-generates
+    # one at the root path and picks up each <namespace>/kustomization.yaml
+    # recursively (any subdirectory containing its own kustomization.yaml
+    # is included as a resource).
     <namespace>/
       namespace.yaml           # Namespace resource (labels/annotations live here)
       kustomization.yaml       # Kustomize config, includes namespace.yaml + each app's ks.yaml
