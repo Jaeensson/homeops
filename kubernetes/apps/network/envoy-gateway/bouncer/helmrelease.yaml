@@ -34,6 +34,7 @@ spec:
       create: true
       fromNamespaces:
         - default
+        - external-services
         - monitoring
         - renovate-operator
         - woodpecker-system
