@@ -1,0 +1,17 @@
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: minafordon
+  namespace: external-services
+  labels:
+    kubernetes.io/service-name: minafordon
+addressType: IPv4
+ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+endpoints:
+  - addresses:
+      # External service reachable by IP only (no FQDN yet)
+      - 192.168.1.141

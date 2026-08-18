@@ -1,0 +1,55 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: minafordon-public
+  namespace: external-services
+spec:
+  parentRefs:
+    - name: envoy-gateway-public
+      namespace: network
+      sectionName: https
+  hostnames:
+    - minafordon.egenintres.se
+  rules:
+    - name: rest-v1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /rest/v1/
+      backendRefs:
+        - name: minafordon
+          port: 8000
+    - name: auth-v1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /auth/v1/
+      backendRefs:
+        - name: minafordon
+          port: 8000
+    - name: storage-v1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /storage/v1/
+      backendRefs:
+        - name: minafordon
+          port: 8000
+    - name: realtime-v1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /realtime/v1/
+      backendRefs:
+        - name: minafordon
+          port: 8000
+    - name: functions-v1
+      matches:
+        - path:
+            type: PathPrefix
+            value: /functions/v1/
+      backendRefs:
+        - name: minafordon
+          port: 8000
