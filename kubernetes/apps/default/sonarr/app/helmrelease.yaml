@@ -20,7 +20,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/linuxserver/sonarr
+              repository: linuxserver/sonarr
               tag: 4.0.19.2979-ls321
             env:
               - name: TZ

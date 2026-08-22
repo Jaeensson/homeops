@@ -36,7 +36,7 @@ spec:
                   - NET_ADMIN
           app:
             image:
-              repository: ghcr.io/linuxserver/sabnzbd
+              repository: linuxserver/sabnzbd
               tag: 5.1.1-ls268
             env:
               - name: TZ

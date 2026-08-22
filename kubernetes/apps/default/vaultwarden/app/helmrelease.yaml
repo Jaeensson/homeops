@@ -15,7 +15,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/dani-garcia/vaultwarden
+              repository: vaultwarden/server
               tag: 1.37.2
             env:
               - name: DOMAIN

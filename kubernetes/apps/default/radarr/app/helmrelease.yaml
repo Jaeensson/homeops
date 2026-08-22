@@ -20,7 +20,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/linuxserver/radarr
+              repository: linuxserver/radarr
               tag: 6.3.0.10514-ls313
             env:
               - name: TZ

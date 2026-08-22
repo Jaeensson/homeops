@@ -15,15 +15,15 @@
       description: "Linuxserver image versioning fix (4-segment -ls tags)",
       matchDatasources: ["docker"],
       matchPackageNames: [
-        "ghcr.io/linuxserver/{/,}**",
-        "!ghcr.io/linuxserver/sabnzbd",
+        "linuxserver/{/,}**",
+        "!linuxserver/sabnzbd",
       ],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-ls(?<revision>\\d+)$"
     },
     {
       description: "Sabnzbd versioning (3-segment -ls tags, e.g. 5.0.4-ls265)",
       matchDatasources: ["docker"],
-      matchPackageNames: ["ghcr.io/linuxserver/sabnzbd"],
+      matchPackageNames: ["linuxserver/sabnzbd"],
       versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls(?<build>\\d+)$"
     },
     // Auto-merge rules

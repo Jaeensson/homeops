@@ -15,8 +15,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/pi-hole/pihole
-              tag: 2026.07.2@sha256:f7d1be836e3bc608b56d82fc9904f5a831cdfbc0dc9c6d58f94e4c985c70038b
+              repository: pihole/pihole
+              tag: 2026.07.2
             env:
               - name: TZ
                 value: Europe/Stockholm

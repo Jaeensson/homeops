@@ -15,7 +15,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/koenkk/zigbee2mqtt
+              repository: koenkk/zigbee2mqtt
               tag: 2.13.0
             env:
               - name: TZ

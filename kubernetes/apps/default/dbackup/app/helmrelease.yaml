@@ -15,7 +15,7 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/skyfay/dbackup
+              repository: skyfay/dbackup
               tag: v3.3.0
             env:
               - name: DISABLE_HTTPS
