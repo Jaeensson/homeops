@@ -7,6 +7,9 @@ metadata:
   namespace: external-services
 spec:
   parentRefs:
+    - name: envoy-gateway-local
+      namespace: network
+      sectionName: https
     - name: envoy-gateway-public
       namespace: network
       sectionName: https

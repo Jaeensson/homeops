@@ -26,6 +26,9 @@ spec:
         hostnames:
           - renovate-wh.egenintres.se
         parentRefs:
+          - name: envoy-gateway-local
+            namespace: network
+            sectionName: https
           - name: envoy-gateway-public
             namespace: network
             sectionName: https
