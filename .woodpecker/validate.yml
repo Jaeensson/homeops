@@ -20,6 +20,11 @@ steps:
 
   - name: flate-test
     image: alpine:latest
+    # woodpecker-cache PVC: persists flate's on-disk cache (OCI chart blobs,
+    # git mirrors, helm render output) across runs so ghcr is not re-fetched
+    # on every push (avoids shared-egress-IP rate limiting)
+    volumes:
+      - woodpecker-cache:/cache
     commands:
       - apk add --no-cache curl
       - |
@@ -27,4 +32,4 @@ steps:
         FLATE_VERSION="0.6.0"
         # $$ escapes envsubst so the shell variable survives Woodpecker's YAML preprocessing
         curl -fsSL "https://github.com/home-operations/flate/releases/download/v$${FLATE_VERSION}/flate_$${FLATE_VERSION}_linux_amd64.tar.gz" | tar xz -C /usr/local/bin
-      - flate test ks --path kubernetes/flux/
+      - flate test ks --path kubernetes/flux/ --cache-dir /cache/flate
