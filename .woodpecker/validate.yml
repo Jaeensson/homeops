@@ -29,7 +29,7 @@ steps:
       - apk add --no-cache curl
       - |
         # renovate: datasource=github-releases depName=home-operations/flate
-        FLATE_VERSION="0.6.0"
+        FLATE_VERSION="0.6.1"
         # $$ escapes envsubst so the shell variable survives Woodpecker's YAML preprocessing
         curl -fsSL "https://github.com/home-operations/flate/releases/download/v$${FLATE_VERSION}/flate_$${FLATE_VERSION}_linux_amd64.tar.gz" | tar xz -C /usr/local/bin
       - flate test ks --path kubernetes/flux/ --cache-dir /cache/flate
