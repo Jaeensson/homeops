@@ -78,6 +78,26 @@ spec:
         - name: ENROLL_TAGS
           value: "k8s linux prod"
     config:
+      profiles.yaml: |-
+        name: escalating_ip_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Ip"
+        decisions:
+          - type: ban
+            # 0 prior decisions -> 24h, 1 -> 7d, 2 -> 14d, 3+ -> 30d
+            duration_expr: >-
+              GetDecisionsCount(Alert.GetValue()) == 0 ? '24h' :
+              GetDecisionsCount(Alert.GetValue()) == 1 ? '168h' :
+              GetDecisionsCount(Alert.GetValue()) == 2 ? '336h' : '720h'
+        on_success: break
+        ---
+        name: default_range_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Range"
+        decisions:
+          - type: ban
+            duration: 4h
+        on_success: break
       config.yaml.local: |-
         api:
           client:
