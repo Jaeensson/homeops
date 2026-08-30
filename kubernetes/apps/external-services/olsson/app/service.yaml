@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: olsson
+  namespace: external-services
+spec:
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8088

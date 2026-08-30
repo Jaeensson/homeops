@@ -13,6 +13,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: minafordon-local
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: olsson-public
   extAuth:
     grpc:
       backendRefs:
