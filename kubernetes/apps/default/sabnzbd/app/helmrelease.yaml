@@ -37,7 +37,7 @@ spec:
           app:
             image:
               repository: linuxserver/sabnzbd
-              tag: 5.1.2-ls270
+              tag: 5.1.2-ls271
             env:
               - name: TZ
                 value: Europe/Stockholm
