@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: koenkk/zigbee2mqtt
-              tag: 2.14.0
+              tag: 2.14.1
             env:
               - name: TZ
                 value: Europe/Stockholm
