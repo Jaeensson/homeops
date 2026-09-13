@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: skyfay/dbackup
-              tag: v3.3.0
+              tag: v3.3.1
             env:
               - name: DISABLE_HTTPS
                 value: "true"
