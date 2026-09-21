@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: linuxserver/radarr
-              tag: 6.4.4.10685-ls317
+              tag: 6.4.4.10685-ls318
             env:
               - name: TZ
                 value: Europe/Stockholm
