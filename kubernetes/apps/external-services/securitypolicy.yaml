@@ -16,6 +16,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: olsson-public
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: landskap-public
   extAuth:
     grpc:
       backendRefs:
