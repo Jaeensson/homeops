@@ -23,7 +23,7 @@ spec:
           main:
             image:
               # renovate: datasource=github-releases depName=immich-app/immich
-              tag: v3.2.2
+              tag: v3.2.4
             env:
               # List format to support valueFrom for secrets
               - name: REDIS_HOSTNAME
