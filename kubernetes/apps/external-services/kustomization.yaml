@@ -6,4 +6,5 @@ resources:
   - landskap/ks.yaml
   - minafordon/ks.yaml
   - olsson/ks.yaml
+  - alfred/ks.yaml
   - securitypolicy.yaml
