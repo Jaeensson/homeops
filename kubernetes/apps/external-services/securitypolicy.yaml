@@ -21,7 +21,7 @@ spec:
       name: landskap-public
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: alfred-local
+      name: alfred-public
   extAuth:
     grpc:
       backendRefs:

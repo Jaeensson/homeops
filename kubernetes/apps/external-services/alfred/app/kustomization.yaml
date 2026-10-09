@@ -5,4 +5,4 @@ namespace: external-services
 resources:
   - service.yaml
   - endpointslice.yaml
-  - httproute-local.yaml
+  - httproute-public.yaml
