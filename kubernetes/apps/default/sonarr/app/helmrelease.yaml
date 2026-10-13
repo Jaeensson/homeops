@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: linuxserver/sonarr
-              tag: 4.0.20.3014-ls327
+              tag: 4.0.20.3014-ls328
             env:
               - name: TZ
                 value: Europe/Stockholm
