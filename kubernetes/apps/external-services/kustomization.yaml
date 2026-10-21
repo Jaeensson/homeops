@@ -7,4 +7,5 @@ resources:
   - minafordon/ks.yaml
   - olsson/ks.yaml
   - alfred/ks.yaml
+  - aperta/ks.yaml
   - securitypolicy.yaml
