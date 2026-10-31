@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: pihole/pihole
-              tag: 2026.10.0
+              tag: 2026.10.1
             env:
               - name: TZ
                 value: Europe/Stockholm
