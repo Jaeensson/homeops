@@ -25,6 +25,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: aperta-public
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: prattle-local
   extAuth:
     grpc:
       backendRefs:

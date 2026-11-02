@@ -8,4 +8,5 @@ resources:
   - olsson/ks.yaml
   - alfred/ks.yaml
   - aperta/ks.yaml
+  - prattle/ks.yaml
   - securitypolicy.yaml
