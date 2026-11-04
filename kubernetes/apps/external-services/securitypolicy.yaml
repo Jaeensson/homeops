@@ -24,7 +24,7 @@ spec:
       name: alfred-public
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: aperta-public
+      name: aperta-local
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: prattle-local
