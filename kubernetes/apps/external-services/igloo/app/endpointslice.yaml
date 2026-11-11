@@ -2,10 +2,10 @@
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: prattle
+  name: igloo
   namespace: external-services
   labels:
-    kubernetes.io/service-name: prattle
+    kubernetes.io/service-name: igloo
 addressType: IPv4
 ports:
   - name: http

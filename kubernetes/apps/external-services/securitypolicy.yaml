@@ -27,7 +27,7 @@ spec:
       name: aperta-local
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: prattle-local
+      name: igloo-public
   extAuth:
     grpc:
       backendRefs:
