@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
+# Envoy's 15s default route timeout would abort clones/pushes mid-packfile.
+# The gateway-wide default-http-timeouts policy only targets envoy-gateway-local,
+# so the relay route (public gateway) needs its own policy.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: igloo-relay-timeouts
+  namespace: external-services
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: igloo-relay
+  timeout:
+    http:
+      requestTimeout: "0s"
+      streamIdleTimeout: "1h"

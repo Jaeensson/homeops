@@ -1,0 +1,17 @@
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: igloo-relay
+  namespace: external-services
+  labels:
+    kubernetes.io/service-name: igloo-relay
+addressType: IPv4
+ports:
+  - name: http
+    port: 8090
+    protocol: TCP
+endpoints:
+  - addresses:
+      # aperture host, relay container published on 8090 (8080 is taken there)
+      - 192.168.1.141

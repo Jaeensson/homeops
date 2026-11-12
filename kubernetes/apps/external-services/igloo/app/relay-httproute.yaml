@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.networking.k8s.io/httproute_v1.json
+# Git relay for igloo, mounted as a path on the existing igloo hostname so it
+# needs no DNS record or certificate of its own. Sandboxes only reach PUBLIC
+# destinations (the egress gateway refuses private IPs), so the relay must be
+# reachable through the normal Cloudflare -> Envoy public path.
+#
+# IGLOO_RELAY_URL=https://igloo.egenintres.se/relay and relayCloneUrl()
+# preserves that path, producing
+#   https://igloo:<jwt>@igloo.egenintres.se/relay/<project>/<repo>.git
+# The relay's routes are anchored at "/", so the prefix is stripped here.
+# Deliberately NOT targeted by the crowdsec-bouncer SecurityPolicy: git
+# clients cannot complete the browser auth flow; the relay's own JWT is the
+# access control.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: igloo-relay
+  namespace: external-services
+spec:
+  parentRefs:
+    - name: envoy-gateway-public
+      namespace: network
+      sectionName: https
+  hostnames:
+    - igloo.egenintres.se
+  rules:
+    - name: relay
+      matches:
+        - path:
+            type: PathPrefix
+            value: /relay
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: igloo-relay
+          port: 8090
