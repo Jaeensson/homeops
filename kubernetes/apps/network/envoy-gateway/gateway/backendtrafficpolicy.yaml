@@ -3,9 +3,9 @@
 # Envoy's default route timeout is 15s, spanning from the end of the request
 # until the complete response. That caps long-lived SSE responses (e.g. aperta's
 # GET /api/arenden/{id}/handelser, whose EventSource otherwise reconnects every
-# 15s), so disable it for the whole gateway instead of per HTTPRoute. A route
-# that wants a timeout can still set spec.rules[].timeouts itself: the gateway
-# API timeout always wins over this policy.
+# 15s), so disable it for both gateways (local and public) instead of per
+# HTTPRoute. A route that wants a timeout can still set spec.rules[].timeouts
+# itself: the gateway API timeout always wins over this policy.
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: BackendTrafficPolicy
 metadata:
@@ -16,6 +16,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: envoy-gateway-local
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway-public
   timeout:
     http:
       # 0s disables the route timeout entirely.
