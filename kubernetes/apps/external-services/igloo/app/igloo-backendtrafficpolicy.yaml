@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
+# Envoy's 15s default route timeout aborts the SSE transcript stream
+# (GET /api/sessions/:id/events) after 15 seconds. EventSource then reconnects,
+# is aborted again, and the UI flaps between "connected" and "reconnecting".
+# The gateway-wide default-http-timeouts policy would cover this, but its
+# Kustomization (network/envoy-gateway-gateway) is currently blocked, so this
+# route gets the same explicit policy as the relay route.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: igloo-public-timeouts
+  namespace: external-services
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: igloo-public
+  timeout:
+    http:
+      # 0s disables the route timeout entirely.
+      requestTimeout: "0s"
+      # Safety net: with requestTimeout disabled Envoy Gateway also disables the
+      # per-route stream idle timeout; 15s SSE heartbeats stay well within this.
+      streamIdleTimeout: "1h"

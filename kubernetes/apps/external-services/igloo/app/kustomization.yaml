@@ -6,6 +6,7 @@ resources:
   - service.yaml
   - endpointslice.yaml
   - httproute-public.yaml
+  - igloo-backendtrafficpolicy.yaml
   - relay-service.yaml
   - relay-endpointslice.yaml
   - relay-httproute.yaml
