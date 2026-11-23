@@ -17,6 +17,10 @@ spec:
     storageClassName: ${VOLSYNC_STORAGECLASS:=longhorn}
     moverSecurityContext:
       runAsUser: ${VOLSYNC_RUNASUSER:=0}
+      # Match the restic cache PVC's ownership to the mover user. Without this the
+      # mover cannot write /cache (CACHEDIR.TAG) when runAsUser is non-root, and
+      # every sync fails with "unable to open cache: permission denied".
+      fsGroup: ${VOLSYNC_RUNASUSER:=0}
     pruneIntervalDays: 7
     volumeSnapshotClassName: ${VOLSYNC_VOLUMESNAPSHOTCLASS:=longhorn}
     retain:
