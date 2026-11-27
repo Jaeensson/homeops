@@ -19,7 +19,11 @@ module "k3s_node" {
 
   usb_devices = [
     {
-      host = "0658:0200"
+      # Bind the Aeotec Z-Stick by physical port (bus 3, port 4) instead of
+      # 0658:0200. The stick re-enumerates under a new device number every few
+      # weeks, and QEMU keeps the stale bus.device handle, silently detaching it
+      # from the VM (seen Oct 27, Nov 3, Nov 10, Nov 11 2026).
+      host = "3-4"
       usb3 = false
     },
     {
