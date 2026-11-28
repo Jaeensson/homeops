@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: homeassistant/home-assistant
-              tag: 2026.11.2
+              tag: 2026.11.3
             env:
               - name: TZ
                 value: Europe/Stockholm
